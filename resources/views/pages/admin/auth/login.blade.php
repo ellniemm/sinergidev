@@ -40,8 +40,7 @@
 
     @vite(['resources/js/app.js'])
 
-<script type="module">
-    import axios from '../resources/js/axios-config.js';
+<script>
     
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
