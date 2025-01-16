@@ -11,7 +11,7 @@
     };
 
     try {
-        const response = await fetch('http://localhost:8000/api/register', {
+        const response = await fetch('https://sinergi.xazif.my.id/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

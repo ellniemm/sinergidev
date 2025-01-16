@@ -98,6 +98,9 @@
                     if (result.message === 'Email verified successfully.') {
                         document.getElementById('successMessage').classList.remove('hidden');
                         document.getElementById('failedMessage').classList.add('hidden');
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 5000);
                     } else {
                         document.getElementById('failedMessage').classList.remove('hidden');
                         document.getElementById('successMessage').classList.add('hidden');
