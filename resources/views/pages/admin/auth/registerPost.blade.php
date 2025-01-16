@@ -1,4 +1,5 @@
 <script>
+    
     document.getElementById('registerButton').addEventListener('click', async () => {
     const form = document.getElementById('registerForm');
 
@@ -10,11 +11,14 @@
     };
 
     try {
-        const response = await fetch('https://sinergi.xazif.my.id/api/register', {
+        const response = await fetch('http://localhost:8000/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json',
+
             },
+            withCredentials: true,
             body: JSON.stringify(formData),
         });
 
@@ -60,10 +64,10 @@ function showAlert(type, message) {
     alertContainer.classList.remove('hidden');
 
     // Auto-hide the alert after 5 seconds
-    setTimeout(() => {
-        alertContainer.innerHTML = '';
-        alertContainer.classList.add('hidden');
-    }, 5000);
+    // setTimeout(() => {
+    //     alertContainer.innerHTML = '';
+    //     alertContainer.classList.add('hidden');
+    // }, 5000);
 }
 
 </script>
