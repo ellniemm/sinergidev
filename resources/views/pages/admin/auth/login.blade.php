@@ -3,9 +3,11 @@
 @section('title', 'Login')
 
 @section('main')
+
 <div class="flex flex-col items-center justify-center h-screen">
     <div class="card w-96 bg-white/20 backdrop-blur-lg shadow-lg p-6 rounded-lg">
         <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
+        <div id="alertContainer" class="mb-4"></div>
         <form id="loginForm" class="space-y-4">
             <!-- Input Email -->
             <div class="form-control">
@@ -39,11 +41,9 @@
 </div>
 
 <script>
-    // Menangani pengiriman formulir login
-    document.getElementById('loginForm').addEventListener('submit', async function (e) {
-        e.preventDefault(); // Mencegah reload halaman saat form dikirim
-
-        const form = e.target;
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = document.getElementById('loginForm');
 
         const formData = {
             email: form.email.value,
@@ -51,39 +51,74 @@
         };
 
         try {
-            // Fetch API untuk mengirim request ke server
-            const response = await fetch('https://sinergi.xazif.my.id/api/login', {
+            console.log('Sending login request...');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            const response = await fetch('http://sinergi.xazif.my.id/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(formData)
             });
 
+            console.log('Response received:', response);
             const result = await response.json();
+            console.log('Result:', result);
+
+            let alertContainer = document.getElementById('alertContainer');
+            if (!alertContainer) {
+                alertContainer = document.createElement('div');
+                alertContainer.id = 'alertContainer';
+                alertContainer.className = 'mb-4';
+                form.parentNode.insertBefore(alertContainer, form);
+            }
 
             if (response.ok) {
-                alert(`Welcome, ${result.user.name}!`);
+                // Success alert with DaisyUI
+                alertContainer.innerHTML = `
+                    <div role="alert" class="alert alert-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Welcome, ${result.user.name}!</span>
+                    </div>
+                `;
                 console.log('Token:', result.token);
-
-                // Simpan token ke localStorage (jika perlu digunakan di masa mendatang)
                 localStorage.setItem('authToken', result.token);
-
-                // Redirect ke halaman utama atau dashboard
-                window.location.href = '/dashboard';
+                // setTimeout(() => {
+                //     window.location.href = '/dashboard';
+                // }, 2000);
             } else {
-                // Tampilkan pesan kesalahan
-                alert(result.message || 'Failed to login. Please try again.');
+                // Error alert with DaisyUI
+                alertContainer.innerHTML = `
+                    <div role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>${result.message || 'Failed to login. Please try again.'}</span>
+                    </div>
+                `;
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An unexpected error occurred. Please try again later.');
+            let alertContainer = document.getElementById('alertContainer');
+            if (!alertContainer) {
+                alertContainer = document.createElement('div');
+                alertContainer.id = 'alertContainer';
+                alertContainer.className = 'mb-4';
+                form.parentNode.insertBefore(alertContainer, form);
+            }
+            alertContainer.innerHTML = `
+                <div role="alert" class="alert alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>An unexpected error occurred. Please try again later.</span>
+                </div>
+            `;
         }
     });
 </script>
-
-
-    
-
-
 @endsection
