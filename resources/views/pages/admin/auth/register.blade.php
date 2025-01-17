@@ -75,6 +75,6 @@
     </div>
 </div>
 
-@include('pages.admin.auth.registerPost')
+@include('api.registerPost')
 
 @endsection
