@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PagesController;
@@ -24,3 +25,4 @@ Route::get('/service', [ServiceController::class, 'service'])->name('service.ind
 Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.create');
 
 Route::get('/blog', [BlogController::class, 'blog'])->name('blog.index');
+Route::get('/about', [AboutController::class, 'about'])->name('about.index');

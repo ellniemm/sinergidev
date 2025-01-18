@@ -1,30 +1,35 @@
 <script>
+    // fungsi ambil token 
+    function getTokenCookie() {
+        const value =` ; ${document.cookie}`;
+        const parts = value.split(`; authToken=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
     // Menangani logout
     document.getElementById('logoutButton').addEventListener('click', async () => {
         try {
-            // Ambil token dari localStorage
-            const token = localStorage.getItem('authToken');
+            // Ambil token dari cookie
+            const token = getTokenCookie('authToken');
             if (!token) {
                 alert('You are not logged in!');
                 return;
             }
 
             // Kirim request ke endpoint logout
-            const response = await fetch('https://sinergi.xazif.my.id/api/logout', {
+            const response = await fetch('http://localhost:8000/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Sertakan token di header Authorization
+                    'Authorization': `Bearer ${token} `// Sertakan token di header Authorization
                 }
             });
 
             if (response.ok) {
-                // Hapus token dari localStorage
-                localStorage.removeItem('authToken');
-
-                alert('You have successfully logged out.');
-                // Redirect ke halaman login
-                window.location.href = '/login';
+                // Hapus token dari cookie
+                document.cookie =` authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1000);
             } else {
                 const result = await response.json();
                 alert(result.message || 'Failed to logout. Please try again.');
