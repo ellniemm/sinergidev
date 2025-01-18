@@ -45,9 +45,9 @@
                 `;
                 console.log('Token:', result.token);
                 localStorage.setItem('authToken', result.token);
-                // setTimeout(() => {
-                //     window.location.href = '/dashboard';
-                // }, 2000);
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 2000);
             } else {
                 // Error alert with DaisyUI
                 alertContainer.innerHTML = `

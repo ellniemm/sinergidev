@@ -24,3 +24,6 @@ Route::get('/service', [ServiceController::class, 'service'])->name('service.ind
 Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.create');
 
 Route::get('/blog', [BlogController::class, 'blog'])->name('blog.index');
+Route::get('/blog/create', [BlogController::class, 'blogCreate'])->name('blog.create');
+
+Route::get('/about-us', [PagesController::class, 'aboutUs'])->name('about.index');
