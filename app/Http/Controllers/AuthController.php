@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\Http;
 class AuthController extends Controller
 {
     public function login() {
-        return view('pages.admin.auth.login');
+        return view('pages.auth.login');
     }
     public function loginPost(Request $request) {
 
     }
     public function register() {
-        return view('pages.admin.auth.register');
+        return view('pages.auth.register');
     }
     public function registerPost(Request $request) {
 
     }
     public function verifyEmail(){
-        return view('pages.admin.auth.verifyEmail');
+        return view('pages.auth.verifyEmail');
     }
 
     public function verifyEmailPost(Request $request){
