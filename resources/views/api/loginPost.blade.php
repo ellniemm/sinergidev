@@ -11,7 +11,7 @@
         try {
             console.log('Sending login request...');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-            const response = await fetch('https://sinergi.xazif.my.id/api/login', {
+            const response = await fetch('http://localhost:8000/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +23,6 @@
 
             console.log('Response received:', response);
             const result = await response.json();
-            console.log('Result:', result);
 
             let alertContainer = document.getElementById('alertContainer');
             if (!alertContainer) {
@@ -43,19 +42,23 @@
                         <span>Welcome, ${result.user.name}!</span>
                     </div>
                 `;
-                console.log('Token:', result.token);
-                localStorage.setItem('authToken', result.token);
-                // setTimeout(() => {
-                //     window.location.href = '/dashboard';
-                // }, 2000);
+                document.cookie = `authToken=${result.token}; path=/; secure; samesite=strict`;
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 1000);
             } else {
                 // Error alert with DaisyUI
+                if (response.status === 422) {
+                    errorMessage = 'Incorrect Email or Password!';
+                } else {
+                    errorMessage = 'Failed to login. Please try again.';
+                }
                 alertContainer.innerHTML = `
                     <div role="alert" class="alert alert-error">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>${result.message || 'Failed to login. Please try again.'}</span>
+                        <span>${errorMessage}</span>
                     </div>
                 `;
             }
