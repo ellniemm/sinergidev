@@ -16,13 +16,15 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
 
-Route::get('/dashboard', [PagesController::class, 'index'])->name('dashboard');
+Route::middleware(['checkToken'])->group( function (){
+    Route::get('/dashboard', [PagesController::class, 'index'])->name('dashboard');
 
-Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
-
-Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
-Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.create');
-
-Route::get('/blog', [BlogController::class, 'blog'])->name('blog.index');
-Route::get('/about', [AboutController::class, 'about'])->name('about.index');
+    Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+    
+    Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
+    Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.create');
+    
+    Route::get('/blog', [BlogController::class, 'blog'])->name('blog.index');
+    Route::get('/about', [AboutController::class, 'about'])->name('about.index');
+});
