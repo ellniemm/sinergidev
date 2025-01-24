@@ -1,17 +1,23 @@
 <?php
 
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\PagesController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\admin\AboutController;
+use App\Http\Controllers\admin\BlogController;
+use App\Http\Controllers\admin\PagesController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\ServiceController;
+use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\user\PagesController as UserPagesController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('pages.auth.login');
+    return view('pages.user.home');
 });
+Route::get('/home', [UserPagesController::class, 'index'])->name('home');
+Route::get('/services', [UserPagesController::class, 'services'])->name('services');
+Route::get('/about-us', [UserPagesController::class, 'aboutUs'])->name('about-us');
+Route::get('/products', [UserPagesController::class, 'products'])->name('products');
+
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
