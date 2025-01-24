@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -28,22 +29,22 @@ class AuthController extends Controller
         $email = $request->query('email');
 
         try{
-            $response = Http::post('http://sinergi.xazif.my.id/api/verify-email', [
+            $response = Http::post('https://sinergi.dev.ybgee.my.id/api/verify-email', [
                 'token' => $token,
                 'email' => $email,
             ]);
             if($response->successfull()){
-                return view('pages.admin.auth.verifyEmailSuccess', [
+                return view('pages.auth.verifyEmailSuccess', [
                     'status' => 'success',
                     'message' => 'Email verified successfully',
                 ]);
             }
-            return view('pages.admin.auth.verifyEmail', [
+            return view('pages.auth.verifyEmail', [
                 'status' => 'error',
                 'message' => 'Email verification failed',
             ]);
         } catch (\Exception $e){
-            return view('pages.admin.auth.verifyEmail', [
+            return view('pages.auth.verifyEmail', [
                 'status' => 'error',
                 'message' => 'Email process error',
             ]);

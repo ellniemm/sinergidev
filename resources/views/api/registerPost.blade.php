@@ -11,7 +11,7 @@
     };
 
     try {
-        const response = await fetch('http://sinergi.xazif.my.id/api/register', {
+        const response = await fetch('https://sinergi.dev.ybgee.my.id/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
