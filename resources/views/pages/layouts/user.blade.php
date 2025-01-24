@@ -25,5 +25,6 @@
         @yield('content')
     </main>
     @include('pages.components.footer')
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script> <!-- Flowbite -->
 </body>
 </html>

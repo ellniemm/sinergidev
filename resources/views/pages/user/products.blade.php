@@ -56,89 +56,32 @@
                 </div>
             </div>
         </div>
-        {{-- <svg class=" hidden md:block -mb-40 2xl:-mb-52  z-0" viewBox="0 0 1728 768" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M-286.59 529.419C-296.758 525.103 -301.501 513.362 -297.185 503.194L-88.86 12.4101C-84.5441 2.24254 -72.8029 -2.50126 -62.6352 1.81464L384.249 191.506C394.417 195.822 399.161 207.563 394.845 217.731L186.519 708.514C182.203 718.682 170.462 723.426 160.294 719.11L-286.59 529.419Z"
-                fill="white" fillOpacity="0.5" />
-            <path
-                d="M-407.59 576.419C-417.758 572.103 -422.501 560.362 -418.185 550.194L-209.86 59.4101C-205.544 49.2425 -193.803 44.4987 -183.635 48.8146L263.249 238.506C273.417 242.822 278.161 254.563 273.845 264.731L65.5192 755.514C61.2033 765.682 49.4621 770.426 39.2945 766.11L-407.59 576.419Z"
-                fill="white" fillOpacity="0.5" />
-            <rect x="1" y="115" width="1728" height="496" fill="url(#paint2_linear_491_77)" />
-            <defs>
-                <linearGradient id="paint0_linear_491_77" x1="-193.023" y1="257.802" x2="290.682" y2="463.122"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stopColor="white" stopOpacity="0" />
-                    <stop offset="1" stopColor="white" stopOpacity="0.5" />
-                </linearGradient>
-                <linearGradient id="paint1_linear_491_77" x1="-314.023" y1="304.802" x2="169.682" y2="510.122"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stopColor="white" stopOpacity="0" />
-                    <stop offset="1" stopColor="white" stopOpacity="0.5" />
-                </linearGradient>
-                <linearGradient id="paint2_linear_491_77" x1="865" y1="479" x2="865" y2="183"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stopColor="white" />
-                    <stop offset="1" stopColor="#999999" stopOpacity="0" />
-                </linearGradient>
-            </defs>
-        </svg> --}}
-        <svg class="hidden md:block -mb-40 2xl:-mb-52 z-0" viewBox="0 0 1728 768" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+        <svg class=" hidden md:block -mb-40 2xl:-mb-52  z-0" viewBox="0 0 1728 768" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M-286.59 529.418C-296.758 525.102 -301.501 513.361 -297.185 503.193L-88.86 12.4095C-84.5441 2.24193 -72.8029 -2.50187 -62.6352 1.81403L384.249 191.505C394.417 195.821 399.161 207.562 394.845 217.73L186.519 708.514C182.203 718.681 170.462 723.425 160.294 719.109L-286.59 529.418Z"
-                fill="url(#paint0_linear_491_77)" />
+                fill="url(#paint3_linear_491_77)" />
             <path
                 d="M-407.59 576.418C-417.758 572.102 -422.501 560.361 -418.185 550.193L-209.86 59.4095C-205.544 49.2419 -193.803 44.4981 -183.635 48.814L263.249 238.505C273.417 242.821 278.161 254.562 273.845 264.73L65.5192 755.514C61.2033 765.681 49.4621 770.425 39.2945 766.109L-407.59 576.418Z"
-                fill="url(#paint1_linear_491_77)" />
-            <rect x="1" y="115" width="1728" height="496" fill="url(#paint2_linear_491_77)" />
+                fill="url(#paint4_linear_491_77)" />
+            <rect x="1" y="115" width="1728" height="496" fill="url(#paint5_linear_491_77)" />
             <defs>
-                <linearGradient id="paint0_linear_491_77" x1="-193.023" y1="257.801" x2="290.682" y2="463.122"
+                <linearGradient id="paint3_linear_491_77" x1="-193.023" y1="257.801" x2="290.682" y2="463.122"
                     gradientUnits="userSpaceOnUse">
                     <stop stop-color="white" stop-opacity="0" />
-                    <stop offset="1" stop-color="white" stop-opacity="0.5" />
+                    <stop offset="1" stop-color="white" stop-opacity="1" />
                 </linearGradient>
-                <linearGradient id="paint1_linear_491_77" x1="-314.023" y1="304.801" x2="169.682" y2="510.122"
+                <linearGradient id="paint4_linear_491_77" x1="-314.023" y1="304.801" x2="169.682" y2="510.122"
                     gradientUnits="userSpaceOnUse">
                     <stop stop-color="white" stop-opacity="0" />
-                    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.5" />
+                    <stop offset="1" stop-color="white" stop-opacity="1" />
                 </linearGradient>
-                <linearGradient id="paint2_linear_491_77" x1="865" y1="479" x2="865" y2="183"
+                <linearGradient id="paint5_linear_491_77" x1="865" y1="479" x2="865" y2="183"
                     gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#FFFFFF" />
-                    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0" />
+                    <stop stop-color="white" />
+                    <stop offset="1" stop-color="white" stop-opacity="0" />
                 </linearGradient>
             </defs>
         </svg>
-
-        {{-- <svg width="1728" height="768" viewBox="0 0 1728 768" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M-286.59 529.418C-296.758 525.102 -301.501 513.361 -297.185 503.193L-88.86 12.4095C-84.5441 2.24193 -72.8029 -2.50187 -62.6352 1.81403L384.249 191.505C394.417 195.821 399.161 207.562 394.845 217.73L186.519 708.514C182.203 718.681 170.462 723.425 160.294 719.109L-286.59 529.418Z"
-                fill="url(#paint0_linear_491_77)" />
-            <path
-                d="M-407.59 576.418C-417.758 572.102 -422.501 560.361 -418.185 550.193L-209.86 59.4095C-205.544 49.2419 -193.803 44.4981 -183.635 48.814L263.249 238.505C273.417 242.821 278.161 254.562 273.845 264.73L65.5192 755.514C61.2033 765.681 49.4621 770.425 39.2945 766.109L-407.59 576.418Z"
-                fill="url(#paint1_linear_491_77)" />
-            <rect x="1" y="115" width="1728" height="496" fill="url(#paint2_linear_491_77)" />
-            <defs>
-                <linearGradient id="paint0_linear_491_77" x1="-193.023" y1="257.801" x2="290.682" y2="463.122"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stop-color="white" stop-opacity="0" />
-                    <stop offset="1" stop-color="white" stop-opacity="0.5" />
-                </linearGradient>
-                <linearGradient id="paint1_linear_491_77" x1="-314.023" y1="304.801" x2="169.682" y2="510.122"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stop-color="white" stop-opacity="0" />
-                    <stop offset="1" stop-color="white" stop-opacity="0.5" />
-                </linearGradient>
-                <linearGradient id="paint2_linear_491_77" x1="865" y1="479" x2="865" y2="183"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#F8F8F8" />
-                    <stop offset="1" stop-color="#999999" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-        </svg> --}}
-
-
     </header>
     <section class="bg-white text-black w-full h-auto z-10 relative">
         <div class="container mx-auto px-7 lg:px-4 md:px-6 py-10">
@@ -163,25 +106,27 @@
                             kebutuhan bisnis, memberikan solusi digital
                             yang efektif dan berkelanjutan.
                         </div>
-                        <Link href=""
+                        <a href=""
                             class="border-2 border-black rounded-full 2xl:text-lg px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
                         View More
-                        </Link>
+                        </a>
                     </div>
 
-                    {{-- Right Side: Image  --}}
+                    {{-- Right Side: img  --}}
                     <div class="w-full lg:w-auto">
-                        <Image src="/placeholder300.png" width={300} height={300} alt="Web Development"
-                            class="rounded-lg w-full lg:w-[300px] h-auto object-cover" />
+                        {{-- <img src="/placeholder300.png" width={300} height={300} alt="Web Development"
+                            class="rounded-lg w-full lg:w-[300px] h-auto object-cover" /> --}}
+                            <div class="rounded-lg bg-gray-400 w-[300px] h-[300px]"></div>
                     </div>
                 </div>
 
                 {{-- === Project Card 2 ===  --}}
                 <div class="w-full lg:w-3/4 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-                    {{-- Right Side: Image  --}}
+                    {{-- Right Side: img  --}}
                     <div class="w-full lg:w-auto">
-                        <Image src="/placeholder300.png" width={300} height={300} alt="Web Development"
-                            class="rounded-lg w-full lg:w-[300px] h-auto object-cover" />
+                        {{-- <img src="/placeholder300.png" width={300} height={300} alt="Web Development"
+                            class="rounded-lg w-full lg:w-[300px] h-auto object-cover" /> --}}
+                            <div class="rounded-lg bg-gray-400 w-[300px] h-[300px]"></div>
                     </div>
 
                     {{-- Left Side: Title, Description, Button  --}}
@@ -198,10 +143,10 @@
                             hati-hati agar memberikan keseruan yang
                             maksimal.
                         </div>
-                        <Link href="/products/kelas-malam"
+                        <a href="/products/kelas-malam"
                             class="border-2 border-black rounded-full 2xl:text-lg px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
                         View More
-                        </Link>
+                        </a>
                     </div>
                 </div>
 
@@ -222,16 +167,17 @@
                             menarik secara visual, tetapi juga cepat,
                             aman, dan mudah digunakan.
                         </div>
-                        <Link href=""
+                        <a href=""
                             class="border-2 border-black rounded-full 2xl:text-lg px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
                         View More
-                        </Link>
+                        </a>
                     </div>
 
-                    {{-- Right Side: Image  --}}
+                    {{-- Right Side: img  --}}
                     <div class="w-full lg:w-auto">
-                        <Image src="/placeholder300.png" width={300} height={300} alt="Web Development"
-                            class="rounded-lg w-full lg:w-[300px] h-auto object-cover" />
+                        {{-- <img src="/placeholder300.png" width={300} height={300} alt="Web Development"
+                            class="rounded-lg w-full lg:w-[300px] h-auto object-cover" /> --}}
+                            <div class="rounded-lg bg-gray-400 w-[300px] h-[300px]"></div>
                     </div>
                 </div>
             </div>

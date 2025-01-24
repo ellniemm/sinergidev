@@ -19,4 +19,7 @@ class PagesController extends Controller
     public function products(){
         return view('pages.user.products');
     }
+    public function contactUs(){
+        return view('pages.user.contact-us');
+    }
 }

@@ -1,3 +1,5 @@
+import daisyui from 'daisyui';
+import flowbite from 'flowbite/plugin';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
@@ -8,6 +10,7 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
+        "./node_modules/flowbite/**/*.js"
     ],
     theme: {
         extend: {
@@ -16,5 +19,5 @@ export default {
             },
         },
     },
-    plugins: [require('daisyui')],
+    plugins: [daisyui, flowbite,], 
 };
