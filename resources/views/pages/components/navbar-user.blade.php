@@ -32,7 +32,7 @@
             </div>
 
             <div class="flex items-center space-x-2">
-                <a href="#" class="flex items-center gap-1 py-2 px-3 rounded-xl bg-gray-400 bg-opacity-20">
+                <a href="{{route('contact-us')}}" class="flex items-center gap-1 py-2 px-3 rounded-xl bg-gray-400 bg-opacity-20">
                     <img src="{{ asset('img/contactus.png') }}" width="24" height="24" alt="contactus" class="block">
                     <span class="hidden md:inline-flex text-white font-medium">Contact Us</span>
                 </a>

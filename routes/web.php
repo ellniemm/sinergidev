@@ -17,6 +17,7 @@ Route::get('/home', [UserPagesController::class, 'index'])->name('home');
 Route::get('/services', [UserPagesController::class, 'services'])->name('services');
 Route::get('/about-us', [UserPagesController::class, 'aboutUs'])->name('about-us');
 Route::get('/products', [UserPagesController::class, 'products'])->name('products');
+Route::get('/contact-us', [UserPagesController::class, 'contactUs'])->name('contact-us');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
