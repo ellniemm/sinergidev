@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.user.home');
+    // return view('pages.admin.service.index');
 });
 Route::get('/home', [UserPagesController::class, 'index'])->name('home');
 Route::get('/services', [UserPagesController::class, 'services'])->name('services');
@@ -22,6 +23,7 @@ Route::get('/contact-us', [UserPagesController::class, 'contactUs'])->name('cont
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
+// Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
 
 Route::middleware(['checkToken'])->group( function (){
     Route::get('/dashboard', [PagesController::class, 'index'])->name('dashboard');

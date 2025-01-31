@@ -16,7 +16,7 @@
             }
 
             // Kirim request ke endpoint logout
-            const response = await fetch('https://sinergi.dev.ybgee.my.id/api/logout', {
+            const response = await fetch('http://localhost:8000/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
