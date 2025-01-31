@@ -11,7 +11,7 @@
         try {
             console.log('Sending login request...');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-            const response = await fetch('http://localhost:8000/api/login', {
+            const response = await fetch('https://sinergi.dev.ybgee.my.id/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
