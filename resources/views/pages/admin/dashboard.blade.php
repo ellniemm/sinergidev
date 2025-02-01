@@ -1,5 +1,5 @@
 @extends('pages.layouts.layout')
-@include('pages.components.navbar')
+@include('pages.components.navbarAdmin')
 
 @section('title', 'Dashboard')
 <div class="">
