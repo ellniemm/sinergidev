@@ -61,5 +61,5 @@
             <p id="loadingMessage" class="text-slate-400 text-center">Verifying your email, please wait...</p>
         </div>
     </div>
-
+@include('api.verifEmailPost')
 @endsection

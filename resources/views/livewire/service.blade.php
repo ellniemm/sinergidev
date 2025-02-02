@@ -14,26 +14,32 @@
                 </ul>
             </div>
         @endif
-            
+
         {{-- Form Section --}}
         <div class="my-3 p-3 bg-gray-200 rounded-lg shadow-sm">
             <form wire:submit.prevent="store" enctype="multipart/form-data">
                 <div class="mb-3 grid grid-cols-12 items-center gap-4">
                     <label for="nama" class="col-span-2">Service Name</label>
                     <div class="col-span-5">
-                        <input type="text" class="form-control w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" wire:model='serviceName'>
+                        <input type="text"
+                            class="form-control w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                            wire:model='serviceName'>
                     </div>
                 </div>
                 <div class="mb-3 grid grid-cols-12 items-center gap-4">
                     <label for="email" class="col-span-2">Service Description</label>
                     <div class="col-span-5">
-                        <input type="text" class="form-control w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" wire:model='serviceDescription'>
+                        <input type="text"
+                            class="form-control w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                            wire:model='serviceDescription'>
                     </div>
                 </div>
                 <div class="mb-3 grid grid-cols-12 items-center gap-4">
                     <label for="alamat" class="col-span-2">Service Image</label>
                     <div class="col-span-5">
-                        <input type="file" class="form-control w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" wire:model='serviceImage'>
+                        <input type="file"
+                            class="form-control w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                            wire:model='serviceImage'>
                     </div>
                 </div>
                 <div class="mb-3 grid grid-cols-12 items-center gap-4">
@@ -45,7 +51,7 @@
         </div>
 
         {{-- Table Section with wire:poll for real-time updates --}}
-        <div class="my-3 p-3 bg-gray-200 rounded-lg shadow-sm" wire:poll.5s>
+        <div class="my-3 p-3 bg-gray-200 rounded-lg shadow-sm">
             <h1 class="text-2xl font-bold mb-4">Data Services</h1>
             <div class="overflow-x-auto">
                 <table class="w-full table-auto">
@@ -55,25 +61,45 @@
                             <th class="px-6 py-3 text-left">Service Name</th>
                             <th class="px-6 py-3 text-left">Service Description</th>
                             <th class="px-6 py-3 text-left">Service Image</th>
+                            <th class="px-6 py-3 text-left">Preview</th>
                             <th class="px-6 py-3 text-left">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @foreach ($services as $index => $service)
-                        <tr>
-                            <td class="px-6 py-4">{{ $index + 1 }}</td>
-                            <td class="px-6 py-4">{{ $service['service_name'] }}</td>
-                            <td class="px-6 py-4">{{ $service['service_desc'] }}</td>
-                            <td class="px-6 py-4">{{ $service['service_img'] }}</td>
-                            <td class="px-6 py-4">
-                                <button class="px-3 py-1 btn btn-warning text-white rounded mr-2">Edit</button>
-                                <button class="px-3 py-1 btn btn-error text-white rounded">Del</button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <!-- Perbaiki nomor urut agar tetap berlanjut di setiap halaman -->
+                                <td class="px-6 py-4">{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td>
+                                <td class="px-6 py-4">{{ $service['service_name'] }}</td>
+                                <td class="px-6 py-4">{{ $service['service_desc'] }}</td>
+                                <td class="px-6 py-4">{{ $service['service_img'] }}</td>
+                                <td class="px-6 py-4">
+                                    <img src="https://sinergi.dev.ybgee.my.id/img/service/{{ $service['service_img'] }}"
+                                        alt="{{ $service['service_name'] }}" class="w-20 h-20 object-cover rounded-md">
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="px-3 py-1 btn btn-warning text-white rounded mr-2">Edit</button>
+                                    <button class="px-3 py-1 btn btn-error text-white rounded">Delete</button>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
+
                 </table>
             </div>
+            <div class="flex justify-between items-center mt-4">
+                @if ($prevPageUrl)
+                    <button wire:click="prevPage" class="px-4 py-2 bg-gray-300 rounded">Previous</button>
+                @endif
+
+                <span>Page {{ $currentPage }} of {{ $lastPage }}</span>
+
+                @if ($nextPageUrl)
+                    <button wire:click="nextPage" class="px-4 py-2 bg-gray-300 rounded">Next</button>
+                @endif
+            </div>
+
+
         </div>
     </div>
 </div>

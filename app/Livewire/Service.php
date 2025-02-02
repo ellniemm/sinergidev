@@ -16,16 +16,49 @@ class Service extends Component
     public $services = [];
     public $message;
 
-    public function mount(){
+    public $currentPage = 1;
+    public $lastPage;
+    public $nextPageUrl;
+    public $prevPageUrl;
+    public $perPage = 3; // Atur jumlah item per halaman
+
+    public function mount()
+    {
         $this->fetchServices();
     }
 
-    public function fetchServices(){
-        $response = Http::get('http://localhost:8000/api/service');
+    public function fetchServices($page = 1) // Default ke halaman 1 jika tidak ada parameter
+    {
+
+        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/service?page={$page}&per_page={$this->perPage}");
+
         if ($response->successful()) {
-            $this->services = $response->json()['data'];
+            $responseData = $response->json();
+
+            if (isset($responseData['data'])) {
+                $this->services = $responseData['data']['data'];
+                $this->currentPage = $responseData['data']['current_page'];
+                $this->lastPage = $responseData['data']['last_page'];
+                $this->nextPageUrl = $responseData['data']['next_page_url'];
+                $this->prevPageUrl = $responseData['data']['prev_page_url'];
+            }
         }
     }
+
+    public function nextPage()
+    {
+        if ($this->currentPage < $this->lastPage) {
+            $this->fetchServices($this->currentPage + 1);
+        }
+    }
+
+    public function prevPage()
+    {
+        if ($this->currentPage > 1) {
+            $this->fetchServices($this->currentPage - 1);
+        }
+    }
+
 
     public function render()
     {
@@ -36,7 +69,7 @@ class Service extends Component
     {
         try {
             $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
-    
+
             if ($this->serviceImage) {
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
@@ -45,7 +78,7 @@ class Service extends Component
                     'service_img',
                     file_get_contents($this->serviceImage->path()),
                     $this->serviceImage->getClientOriginalName()
-                )->post('http://localhost:8000/api/service', [
+                )->post('https://sinergi.dev.ybgee.my.id/api/service', [
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
                 ]);
@@ -53,12 +86,12 @@ class Service extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
-                ])->post('http://localhost:8000/api/service', [
+                ])->post('https://sinergi.dev.ybgee.my.id/api/service', [
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
                 ]);
             }
-    
+
             if ($response->successful()) {
                 $this->message = 'Service created successfully!';
                 $this->errors = []; // Clear any existing errors
@@ -79,5 +112,4 @@ class Service extends Component
             $this->errors = ['connection' => 'Failed to connect to server'];
         }
     }
-    
 }
