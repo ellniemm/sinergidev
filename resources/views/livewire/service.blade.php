@@ -44,7 +44,12 @@
                 </div>
                 <div class="mb-3 grid grid-cols-12 items-center gap-4">
                     <div class="col-start-3 col-span-5">
-                        <button type="submit" class="px-4 py-2 btn btn-primary text-white rounded-lg">SIMPAN</button>
+                        @if (!$updateData)
+                            <button type="submit" class="px-4 py-2 btn btn-primary text-white rounded-lg">SAVE</button>
+                        @else
+                            <button wire:click='update()' type="button"
+                                class="px-4 py-2 btn btn-primary text-white rounded-lg">UPDATE</button>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -58,11 +63,28 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left">No</th>
-                            <th class="px-6 py-3 text-left">Service Name</th>
+                            <th class="px-6 py-3 text-left flex gap-4 items-center">Service Name
+                                <button wire:click="sortBy('service_name')" class="px-2 py-1 btn-ghost rounded-md">
+                                    @if($sortField === 'service_name')
+                                        {{ $sortDirection === 'asc' ? '↑ A-Z' : '↓ Z-A' }}
+                                    @else
+                                        Sort
+                                    @endif
+                                </button>
+                            </th>
                             <th class="px-6 py-3 text-left">Service Description</th>
                             <th class="px-6 py-3 text-left">Service Image</th>
                             <th class="px-6 py-3 text-left">Preview</th>
-                            <th class="px-6 py-3 text-left">Aksi</th>
+                            <th class="px-6 py-3 text-left">Created At
+                                <button wire:click="sortBy('created_at')" class="px-2 py-1 btn-ghost rounded-md">
+                                    @if($sortField === 'created_at')
+                                        {{ $sortDirection === 'asc' ? '↑ Oldest' : '↓ Newest' }}
+                                    @else
+                                        Sort
+                                    @endif
+                                </button>
+                            </th>
+                            <th class="px-6 py-3 text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -71,14 +93,29 @@
                                 <!-- Perbaiki nomor urut agar tetap berlanjut di setiap halaman -->
                                 <td class="px-6 py-4">{{ ($currentPage - 1) * $perPage + $loop->iteration }}</td>
                                 <td class="px-6 py-4">{{ $service['service_name'] }}</td>
-                                <td class="px-6 py-4">{{ $service['service_desc'] }}</td>
-                                <td class="px-6 py-4">{{ $service['service_img'] }}</td>
                                 <td class="px-6 py-4">
-                                    <img src="https://sinergi.dev.ybgee.my.id/img/service/{{ $service['service_img'] }}"
-                                        alt="{{ $service['service_name'] }}" class="w-20 h-20 object-cover rounded-md">
+                                    {{-- {{ $service['service_desc'] }} --}}
+                                    <div class="max-w-[200px]">
+                                        <span>{{ Str::limit($service['service_desc'], 35, '...') }}</span>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button class="px-3 py-1 btn btn-warning text-white rounded mr-2">Edit</button>
+                                    {{-- {{ $service['service_img'] }} --}}
+                                    <div class="max-w-[200px]">
+                                        <span class="truncate block"
+                                            title="{{ $service['service_img'] }}">{{ Str::limit($service['service_img'], 25, '...') }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <img src="https://sinergi.dev.ybgee.my.id/img/service/{{ $service['service_img'] }}"
+                                    alt="{{ $service['service_name'] }}" class="w-20 h-20 object-cover rounded-md">
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ \Carbon\Carbon::parse($service['created_at'])->format('Y-m-d ') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button wire:click='edit({{ $service['id'] }})'
+                                        class="px-3 py-1 btn btn-warning text-white rounded mr-2">Edit</button>
                                     <button class="px-3 py-1 btn btn-error text-white rounded">Delete</button>
                                 </td>
                             </tr>

@@ -20,7 +20,7 @@
         }
     </style>
 <body>
-    @include('pages.components.navbar-user')
+    @include('pages.components.navbarUser')
     <main>
         @yield('content')
     </main>
