@@ -114,7 +114,7 @@
                                     {{ \Carbon\Carbon::parse($service['created_at'])->format('Y-m-d ') }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button wire:click='edit({{ $service['id'] }})'
+                                    <button wire:click='edit({{ $service['service_id'] }})'
                                         class="px-3 py-1 btn btn-warning text-white rounded mr-2">Edit</button>
                                     <button class="px-3 py-1 btn btn-error text-white rounded">Delete</button>
                                 </td>

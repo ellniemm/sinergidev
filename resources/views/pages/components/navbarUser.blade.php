@@ -36,9 +36,9 @@
                     <img src="{{ asset('img/contactus.png') }}" width="24" height="24" alt="contactus" class="block">
                     <span class="hidden md:inline-flex text-white font-medium">Contact Us</span>
                 </a>
-                {{-- <div class="lg:hidden">
-                    @include('components.mobileMenu')
-                </div> --}}
+                <div class="lg:hidden">
+                    @include('pages.components.mobileMenuUser')
+                </div>
             </div>
         </nav>
     </div>
