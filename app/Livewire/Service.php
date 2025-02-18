@@ -27,18 +27,7 @@ class Service extends Component
     public $service_id;
     public $sortField = 'service_name';
 
-    // public function sortServices()
-    // {
-    //     if ($this->sortDirection === 'asc') {
-    //         usort($this->services, function ($a, $b) {
-    //             return strcmp($a['service_name'], $b['service_name']);
-    //         });
-    //     } else {
-    //         usort($this->services, function ($a, $b) {
-    //             return strcmp($b['service_name'], $a['service_name']);
-    //         });
-    //     }
-    // }
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -50,11 +39,7 @@ class Service extends Component
 
         $this->fetchServices(1);
     }
-    // public function toggleSort()
-    // {
-    //     $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-    //     $this->sortServices();
-    // }
+
 
     public function mount()
     {
@@ -62,25 +47,25 @@ class Service extends Component
     }
 
     public function fetchServices($page = 1)
-{
-    $response = Http::get("https://sinergi.dev.ybgee.my.id/api/service", [
-        'page' => $page,
-        'per_page' => $this->perPage,
-        'order_by' => $this->sortField,
-        'sort_by' => $this->sortDirection
-    ]);
+    {
+        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/service", [
+            'page' => $page,
+            'per_page' => $this->perPage,
+            'order_by' => $this->sortField,
+            'sort_by' => $this->sortDirection
+        ]);
 
-    if ($response->successful()) {
-        $responseData = $response->json();
-        if (isset($responseData['data'])) {
-            $this->services = $responseData['data']['data'];
-            $this->currentPage = $responseData['data']['current_page'];
-            $this->lastPage = $responseData['data']['last_page'];
-            $this->nextPageUrl = $responseData['data']['next_page_url'];
-            $this->prevPageUrl = $responseData['data']['prev_page_url'];
+        if ($response->successful()) {
+            $responseData = $response->json();
+            if (isset($responseData['data'])) {
+                $this->services = $responseData['data']['data'];
+                $this->currentPage = $responseData['data']['current_page'];
+                $this->lastPage = $responseData['data']['last_page'];
+                $this->nextPageUrl = $responseData['data']['next_page_url'];
+                $this->prevPageUrl = $responseData['data']['prev_page_url'];
+            }
         }
     }
-}
     public function nextPage()
     {
         if ($this->currentPage < $this->lastPage) {
@@ -95,6 +80,10 @@ class Service extends Component
         }
     }
 
+    public function resetForm(){
+        $this->reset(['serviceName', 'serviceDescription', 'serviceImage']);
+        $this->updateData = false;
+    }
 
     public function render()
     {
@@ -151,15 +140,26 @@ class Service extends Component
     public function edit($id)
     {
         $this->service_id = $id;
-        $data = Http::get("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
-        $data = $data->json();
+        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-        $this->serviceName = $data['data']['service_name'];
-        $this->serviceDescription = $data['data']['service_desc'];
-        $this->serviceImage = $data['data']['service_img'];
+        // Force fresh data fetch first
+        $this->fetchServices($this->currentPage);
 
-        $this->updateData = true;
+        // Get latest data directly from the services array
+        $currentService = collect($this->services)->first(function ($service) use ($id) {
+            return $service['service_id'] === $id;
+        });
+
+        if ($currentService) {
+            $this->reset(['serviceName', 'serviceDescription', 'serviceImage']);
+            $this->serviceName = $currentService['service_name'];
+            $this->serviceDescription = $currentService['service_desc'];
+            $this->serviceImage = $currentService['service_img'];
+            $this->updateData = true;
+        }
     }
+
+
 
     public function update()
     {
@@ -193,6 +193,7 @@ class Service extends Component
                 $this->message = 'Service updated successfully!';
                 $this->errors = []; // Clear any existing errors
                 $this->reset(['serviceName', 'serviceDescription', 'serviceImage']);
+                $this->updateData = false;
                 $this->fetchServices();
             } else {
                 $this->message = ''; // Clear success message
@@ -206,6 +207,40 @@ class Service extends Component
             }
         } catch (\Exception $e) {
             $this->message = ''; // Clear success message
+            $this->errors = ['connection' => 'Failed to connect to server'];
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ])->delete("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
+
+            if ($response->successful()) {
+                $this->message = 'Service deleted successfully!';
+                $this->errors = [];
+
+                // Check if current page has only one item
+                if (count($this->services) === 1 && $this->currentPage > 1) {
+                    $this->fetchServices($this->currentPage - 1);
+                } else {
+                    $this->fetchServices($this->currentPage);
+                }
+            } else {
+                $this->message = '';
+                if ($response->status() === 401) {
+                    $this->errors = ['auth' => 'Please login first'];
+                } else {
+                    $this->errors = ['server' => 'Something went wrong'];
+                }
+            }
+        } catch (\Exception $e) {
+            $this->message = '';
             $this->errors = ['connection' => 'Failed to connect to server'];
         }
     }

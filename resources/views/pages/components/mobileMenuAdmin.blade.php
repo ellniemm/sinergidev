@@ -17,12 +17,13 @@
         <ul class="menu bg-base-200 text-base-content min-h-full w-50 md:w-60 p-4">
             <h1 class="font-bold text-xl py-5 px-5">Menu</h1>
             @foreach($navLinks as $link)
-                <a href="{{ $link['href'] }}" 
-                   class="font-semibold text-lg mb-1 px-5 
-                   {{ request()->path() === ltrim($link['href'], '/') ? 'text-blue-300 bg-blue-950 rounded-md' : 'text-gray-400 hover:text-blue-300' }}">
+                <a href="{{ route($link['href']) }}"
+                    class="font-semibold relative cursor-pointer hover:text-blue-300 transition-colors duration-200">
                     {{ $link['name'] }}
+                    <span
+                        class="absolute -bottom-2 left-0 w-full h-[2px] bg-blue-300 transform origin-left transition-transform duration-200 ease-out scale-x-0"></span>
                 </a>
-            @endforeach
+                @endforeach
         </ul>
     </div>
 </div>

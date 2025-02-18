@@ -1,6 +1,6 @@
 @extends('pages.layouts.layout')
-@section('title', 'Service')
+@section('title', 'Products')
     
 @section('main')
-@livewire('service')
+@livewire('product')
 @endsection
