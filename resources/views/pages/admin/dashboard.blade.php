@@ -1,11 +1,8 @@
 @extends('pages.layouts.layout')
-@include('pages.components.navbarAdmin')
 
 @section('title', 'Dashboard')
-<div class="">
+@section('main')
+<div class=" container min-h-screen">
     <h1>Ini Dashboard</h1>
 </div>
-
-@section('main')
-    
 @endsection

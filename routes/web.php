@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\admin\AboutController;
 use App\Http\Controllers\admin\BlogController;
+use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\PagesController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ServiceController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\user\PagesController as UserPagesController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +30,7 @@ Route::get('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('
 Route::middleware(['checkToken'])->group( function (){
     Route::get('/dashboard', [PagesController::class, 'index'])->name('dashboard');
 
-    Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/product', [ProductController::class, 'product'])->name('product.index');
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
     
     Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
@@ -36,4 +38,10 @@ Route::middleware(['checkToken'])->group( function (){
     
     Route::get('/blog', [BlogController::class, 'blog'])->name('blog.index');
     Route::get('/about', [AboutController::class, 'about'])->name('about.index');
+
+    
+     Route::get('/users', [UserController::class, 'user'])->name('user.index');
+     Route::get('/category', [CategoryController::class, 'category'])->name('category.index');
+    //  Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+    //  Route::get('/category/{id}/delete', [CategoryController::class, 'delete'])->name('category.delete');
 });
