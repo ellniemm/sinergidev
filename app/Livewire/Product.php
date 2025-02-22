@@ -46,7 +46,8 @@ class Product extends Component
 
     public function fetchProducts($page = 1)
     {
-        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product", [
+        // $response = Http::get("http://localhost:8000/api/product", [
+            $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product", [
             'page' => $page,
             'per_page' => $this->perPage,
             'order_by' => $this->sortField,
@@ -56,11 +57,11 @@ class Product extends Component
         if ($response->successful()) {
             $responseData = $response->json();
             if (isset($responseData['data'])) {
-                $this->products = $responseData['data']['data'];
-                $this->currentPage = $responseData['data']['current_page'];
-                $this->lastPage = $responseData['data']['last_page'];
-                $this->nextPageUrl = $responseData['data']['next_page_url'];
-                $this->prevPageUrl = $responseData['data']['prev_page_url'];
+                $this->products = $responseData['data']['products'];
+                $this->currentPage = $responseData['data']['pagination']['current_page'];
+                $this->lastPage = $responseData['data']['pagination']['last_page'];
+                $this->nextPageUrl = $responseData['data']['pagination']['next_page_url'];
+                $this->prevPageUrl = $responseData['data']['pagination']['prev_page_url'];
             }
         }
     }
@@ -97,7 +98,8 @@ class Product extends Component
                     'product_img',
                     file_get_contents($this->productImage->path()),
                     $this->productImage->getClientOriginalName()
-                )->post('https://sinergi.dev.ybgee.my.id/api/product', [
+                // )->post('http://localhost:8000/api/product', [
+                    )->post('https://sinergi.dev.ybgee.my.id/api/product', [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
@@ -105,7 +107,8 @@ class Product extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
-                ])->post('https://sinergi.dev.ybgee.my.id/api/product', [
+                // ])->post('http://localhost:8000/api/product', [
+                    ])->post('https://sinergi.dev.ybgee.my.id/api/product', [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
@@ -193,26 +196,29 @@ class Product extends Component
     //     }
     // }
     public function edit($id)
-    {
-        $this->product_id = $id;
-        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+{
+    $this->product_id = $id;
+    $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-        // Force fresh data fetch first
-        $this->fetchproducts($this->currentPage);
+    // Fetch latest product data
+    $this->fetchproducts($this->currentPage);
 
-        // Get latest data directly from the products array
-        $currentproduct = collect($this->products)->first(function ($product) use ($id) {
-            return $product['product_id'] === $id;
-        });
+    // Ambil data produk berdasarkan ID
+    $currentProduct = collect($this->products)->first(function ($product) use ($id) {
+        return $product['product_id'] === $id;
+    });
 
-        if ($currentproduct) {
-            $this->reset(['productName', 'productDescription', 'productImage']);
-            $this->productName = $currentproduct['product_name'];
-            $this->productDescription = $currentproduct['product_desc'];
-            $this->productImage = $currentproduct['product_img'];
-            $this->updateData = true;
-        }
+    if ($currentProduct) {
+        // Reset data inputan
+        $this->reset(['productName', 'productDescription', 'productImage']);
+
+        $this->productName = $currentProduct['product_name'];
+        $this->productDescription = $currentProduct['product_desc'];
+        $this->productImage = $currentProduct['product_img']; // Menyimpan URL gambar dari API
+
+        $this->updateData = true;
     }
+}
 
     public function update()
     {
@@ -227,7 +233,8 @@ class Product extends Component
                     'product_img',
                     file_get_contents($this->productImage->path()),
                     $this->productImage->getClientOriginalName()
-                )->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
+                // )->patch("http://localhost:8000/api/product/{$this->product_id}", [
+                    )->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
@@ -235,7 +242,8 @@ class Product extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
-                ])->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
+                // ])->patch("http://localhost:8000/api/product/{$this->product_id}", [
+                    ])->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
@@ -272,6 +280,7 @@ class Product extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
+            // ])->delete("http://localhost:8000/api/product/{$id}");
             ])->delete("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
 
             if ($response->successful()) {

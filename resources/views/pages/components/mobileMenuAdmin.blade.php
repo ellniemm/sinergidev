@@ -12,18 +12,19 @@
         </label>
     </div>
     
+    
     <div class="drawer-side">
         <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
-        <ul class="menu bg-base-200 text-base-content min-h-full w-50 md:w-60 p-4">
-            <h1 class="font-bold text-xl py-5 px-5">Menu</h1>
+        <ul class="menu bg-base-200 text-base-content w-40 md:w-60 p-3 rounded-lg shadow-lg h-auto">
+            <li class="menu-title text-gray-400 text-sm md:text-base">Menu</li>
             @foreach($navLinks as $link)
                 <a href="{{ route($link['href']) }}"
-                    class="font-semibold relative cursor-pointer hover:text-blue-300 transition-colors duration-200">
+                    class="text-sm md:text-base font-semibold relative cursor-pointer hover:text-blue-300 transition-all duration-200 px-2 py-1
+                    {{ request()->is(ltrim($link['href'], '/')) ? 'active text-blue-300 bg-blue-950 rounded-md' : 'text-gray-300 hover:text-blue-300' }}">
                     {{ $link['name'] }}
-                    <span
-                        class="absolute -bottom-2 left-0 w-full h-[2px] bg-blue-300 transform origin-left transition-transform duration-200 ease-out scale-x-0"></span>
+                    <span class="absolute -bottom-1 left-0 w-full h-[2px] bg-blue-300 transform origin-left transition-transform duration-200 ease-out scale-x-0"></span>
                 </a>
-                @endforeach
+            @endforeach
         </ul>
     </div>
 </div>

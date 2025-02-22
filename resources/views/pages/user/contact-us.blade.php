@@ -29,19 +29,19 @@
         </svg>
 
 
-        <div class="text-center mb-28 relative z-10">
+        <div class="text-center mb-20 md:mb-28 relative z-10">
             <h1
-                class="text-4xl 2xl:text-7xl font-medium inline-block border-b-2 2xl:border-b-4 w-2/6 pb-3 2xl:pb-6 mb-2 2xl:mb-4">
+                class="text-3xl 2xl:text-7xl font-medium inline-block border-b-2 2xl:border-b-4 md:w-2/6 pb-3 2xl:pb-6 mb-2 2xl:mb-4">
                 Contact
                 <span class=" bg-gradient-to-r from-[#4796A3] to-[#25427C]  bg-clip-text text text-transparent">
                     Us
                 </span>
             </h1>
-            <h1 class="text-5xl 2xl:text-8xl font-semibold">Let's Meet & Collaborate</h1>
+            <h1 class="text-4xl 2xl:text-8xl font-semibold">Let's Meet & Collaborate</h1>
         </div>
 
-        <div class=" w-11/12 mx-auto relative py-10 z-10">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 2xl:gap-20 pt-10 2xl:pt-32">
+        <div class=" w-11/12 mx-auto relative py-5 md:py-10 z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10 2xl:gap-20 pt-10 2xl:pt-32">
                 <div class="flex  bg-white py-5 px-5 text-black rounded-xl items-center space-x-10">
                     <div class=" ">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] h-[30px] 2xl:w-[52px] 2xl:h-[52px]"
@@ -109,19 +109,19 @@
     <section class="bg-[#E8E8F4] text-black py-10 ">
         <div class="container mx-auto px-5 2xl:px-0 md:px-20">
             <div class="md:flex justify-between gap-5">
-                <div class="md:w-2/3 2xl:w-3/4  py-20">
-                    <h1 class=" text-5xl 2xl:text-7xl font-bold mb-5">Let's Work Together</h1>
-                    <div class="text-lg 2xl:text-2xl whitespace-pre-line font-semibold text-gray-500">
+                <div class="md:w-2/3 2xl:w-3/4 py-10 md:py-20">
+                    <h1 class=" text-3xl md:text-5xl 2xl:text-7xl font-bold mb-5">Let's Work Together</h1>
+                    <div class="text-base md:text-lg 2xl:text-2xl md:whitespace-pre-line font-semibold text-gray-500">
                         Share your vision for your next project
                         with us now. Please Contact us for
                         basic questions we're habe to help!
                     </div>
                 </div>
-                <div class="md:w-1/2 flex flex-col bg-[#F8F8F8] py-10 px-10 text-black rounded-xl">
-                    <h1 class="text-3xl 2xl:text-5xl font-bold mb-3 2xl:mb-6">
+                <div class="md:w-1/2 flex flex-col bg-[#F8F8F8] py-5 md:py-10 px-3 md:px-10 text-black rounded-xl">
+                    <h1 class="text-2xl md:text-3xl 2xl:text-5xl font-bold mb-3 2xl:mb-6">
                         Get In Touch
                     </h1>
-                    <h1 class="text-lg 2xl:text-2xl font-semibold text-gray-500 mb-2 2xl:mb-4">
+                    <h1 class="text-base md:text-lg 2xl:text-2xl font-semibold text-gray-500 mb-2 2xl:mb-4">
                         You can contact us anytime
                     </h1>
                     <form>
@@ -174,7 +174,7 @@
                                 Feedback or Questions
                             </label>
                             <textarea id="message" name="message" rows={3}
-                                class="shadow appearance-none border rounded-lg w-full py-2 px-3 2xl:py-3 2xl:px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                                class="shadow appearance-none border rounded-lg w-full py-3 px-4 2xl:py-3 2xl:px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                         </div>
                         <button type="submit"
                             class="bg-[#25427C] w-full hover:bg-black text-white font-medium text-sm py-2 px-4 rounded-md focus:outline-none focus:shadow-outline 2xl:text-md">
@@ -187,7 +187,7 @@
     </section>
     <section class="bg-white py-20 2xl:py-40">
         <div class="container mx-auto px-5 md:px-24">
-            <h1 class="text-4xl 2xl:text-6xl text-center font-bold mb-10 text-black">
+            <h1 class="text-2xl md:text-4xl 2xl:text-6xl text-center font-bold mb-5 md:mb-10 text-black">
                 FAQs
             </h1>
             <div id="accordion-open" data-accordion="open">

@@ -1,0 +1,130 @@
+@extends('pages.layouts.layout')
+@section('title', 'Blog')
+
+@section('main')
+
+<div class="bg-gray-50">
+    <div class="text-black bg-white rounded-md shadow-md mx-auto p-6">
+        <h1 class="text-2xl font-bold mb-6">Blog Posts</h1>
+          <!-- Alert Messages -->
+          @if(session('success'))
+          <div class="alert alert-success bg-green-100 text-green-800 px-4 py-2 rounded-lg mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {{ session('success') }}
+          </div>
+          @endif
+  
+          @if(session('error'))
+          <div class="alert alert-error bg-red-100 text-red-800 px-4 py-2 rounded-lg mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {{ session('error') }}
+          </div>
+          @endif
+  
+
+        <a href="{{route('blog.create')}}" class="btn btn-primary mb-4">
+            Create New Blog Post
+        </a>
+
+        <div class="overflow-x-auto">
+            <table class="table w-full">
+                <thead>
+                    <tr class="text-black">
+                        <th>Title</th>
+                        <th>Deskripsi</th>
+                        <th>Thumbnail</th>
+                        <th>Slug</th>
+                        <th>Status</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Published At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($blogs as $blog)
+                    <tr class="text-black">
+                        <td class="max-w-[200px] overflow-hidden" title="{{ $blog['blog_name'] }}">
+                            <div class="truncate">
+                                {{ Str::words($blog['blog_name'], 2, '...') }}
+                            </div>
+                        </td>
+                        <td class="hover:whitespace-normal" title="{{preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])) }}">
+                                {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])), 6, '...') }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <img src="https://sinergi.dev.ybgee.my.id/img/blog/{{ $blog['blog_thumbnail'] }}"
+                                alt="{{ $blog['blog_name'] }}" class="w-40 h-20 object-cover rounded-md">
+                        </td>
+                        <td class="max-w-[200px] overflow-hidden" title="{{ $blog['slug'] }}">
+                            <div class="truncate">
+                                {{ Str::limit($blog['slug'], 20, '...') }}
+                            </div>
+                        </td>
+                        <td>{{ $blog['status'] }}</td>
+                        <td>{{ $blog['user_name'] }}</td>
+                        <td>{{ $blog['category_name'] }}</td>
+
+                        <td>{{ \Carbon\Carbon::parse($blog['created_at'])->format('d M Y') }}</td>
+                        <td>
+                            <a href="{{ route('blog.edit', $blog['slug']) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('blog.destroy', $blog['slug']) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-error"
+                                    onclick="return confirm('Apakah Anda yakin ingin menghapus blog ini?')">
+                                    Delete
+                                </button>
+                            </form>
+                            
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <div class="text-black flex justify-between items-center mt-4">
+                @if (count($blogs) > 0)
+                @if ($prevPageUrl)
+                <a href="{{ url()->current() . '?page=' . ($currentPage - 1) }}"
+                    class="px-4 py-2 bg-gray-300 rounded flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#000"
+                            d="M8.293 12.707a1 1 0 0 1 0-1.414l5.657-5.657a1 1 0 1 1 1.414 1.414L10.414 12l4.95 4.95a1 1 0 0 1-1.414 1.414z" />
+                    </svg>
+                    Previous
+                </a>
+                @endif
+
+                <span>Page {{ $currentPage }} of {{ $lastPage }}</span>
+
+                @if ($nextPageUrl)
+                <a href="{{ url()->current() . '?page=' . ($currentPage + 1) }}"
+                    class="px-4 py-2 bg-gray-300 rounded flex items-center">
+                    Next
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#000"
+                            d="M9.31 6.71a.996.996 0 0 0 0 1.41L13.19 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.72 6.7c-.38-.38-1.02-.38-1.41.01" />
+                    </svg>
+                </a>
+                @endif
+                @endif
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+@endsection

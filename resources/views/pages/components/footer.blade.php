@@ -1,5 +1,5 @@
-<footer class="bg-[#0D192F] text-white py-28 w-full">
-    <div class="w-3/4 mx-auto">
+<footer class="bg-[#0D192F] text-white py-20 w-full">
+    <div class="px-6 mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 justify-between">
             <!-- About Section - Larger width -->
             <div class="lg:col-span-6">

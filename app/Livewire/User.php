@@ -31,6 +31,7 @@ class User extends Component
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
+        // ])->get("http://localhost:8000/api/user", [
         ])->get("https://sinergi.dev.ybgee.my.id/api/user", [
             'page' => $page,
             'per_page' => $this->perPage,
@@ -41,13 +42,14 @@ class User extends Component
       
 
         if ($response->successful()) {
+            // dd($response->json());
             $responseData = $response->json();
             if (isset($responseData['data'])) {
-                $this->users = $responseData['data']['data'];
-                $this->currentPage = $responseData['data']['current_page'];
-                $this->lastPage = $responseData['data']['last_page'];
-                $this->nextPageUrl = $responseData['data']['next_page_url'];
-                $this->prevPageUrl = $responseData['data']['prev_page_url'];
+                $this->users = $responseData['data']['users'];
+                $this->currentPage = $responseData['data']['pagination']['current_page'];
+                $this->lastPage = $responseData['data']['pagination']['last_page'];
+                $this->nextPageUrl = $responseData['data']['pagination']['next_page_url'];
+                $this->prevPageUrl = $responseData['data']['pagination']['prev_page_url'];
             }
         }
     }
@@ -61,6 +63,7 @@ class User extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
+            // ])->patch("http://localhost:8000/api/user/{$id}/status", [
             ])->patch("https://sinergi.dev.ybgee.my.id/api/user/{$id}/status", [
                 'status' => $status
             ]);

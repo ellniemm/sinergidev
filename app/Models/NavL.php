@@ -8,7 +8,7 @@ class NavL extends Model
 {
     public static function getUserNavLinks(){
         return[
-            ['id' => 1, 'name' => 'Home', 'href' => '/'],
+            ['id' => 1, 'name' => 'Home', 'href' => '/home'],
             ['id' => 2, 'name' => 'Services', 'href' => '/services'],
             ['id' => 3, 'name' => 'About Us', 'href' => '/about-us'],
             ['id' => 4, 'name' => 'Products', 'href' => '/products'],

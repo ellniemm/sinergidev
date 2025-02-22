@@ -20,7 +20,7 @@ class Service extends Component
     public $lastPage;
     public $nextPageUrl;
     public $prevPageUrl;
-    public $perPage = 3; // Atur jumlah item per halaman
+    public $perPage = 2; // Atur jumlah item per halaman
 
     public $sortDirection = 'desc';
     public $updateData = false;
@@ -48,6 +48,7 @@ class Service extends Component
 
     public function fetchServices($page = 1)
     {
+        // $response = Http::get("http://localhost:8000/api/service", [
         $response = Http::get("https://sinergi.dev.ybgee.my.id/api/service", [
             'page' => $page,
             'per_page' => $this->perPage,
@@ -56,13 +57,14 @@ class Service extends Component
         ]);
 
         if ($response->successful()) {
+            // dd($response->json());
             $responseData = $response->json();
             if (isset($responseData['data'])) {
-                $this->services = $responseData['data']['data'];
-                $this->currentPage = $responseData['data']['current_page'];
-                $this->lastPage = $responseData['data']['last_page'];
-                $this->nextPageUrl = $responseData['data']['next_page_url'];
-                $this->prevPageUrl = $responseData['data']['prev_page_url'];
+                $this->services = $responseData['data']['services'];
+                $this->currentPage = $responseData['data']['pagination']['current_page'];
+                $this->lastPage = $responseData['data']['pagination']['last_page'];
+                $this->nextPageUrl = $responseData['data']['pagination']['next_page_url'];
+                $this->prevPageUrl = $responseData['data']['pagination']['prev_page_url'];
             }
         }
     }
@@ -174,6 +176,7 @@ class Service extends Component
                     'service_img',
                     file_get_contents($this->serviceImage->path()),
                     $this->serviceImage->getClientOriginalName()
+                // )->patch("http://localhost:8000/api/service/{$this->service_id}", [
                 )->patch("https://sinergi.dev.ybgee.my.id/api/service/{$this->service_id}", [
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
@@ -182,6 +185,7 @@ class Service extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
+                // ])->patch("http://localhost:8000/api/service/{$this->service_id}", [
                 ])->patch("https://sinergi.dev.ybgee.my.id/api/service/{$this->service_id}", [
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
