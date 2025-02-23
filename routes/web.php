@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('pages.user.home');
+    return redirect()->route('home');
     // return view('pages.admin.service.index');
 });
 Route::get('/home', [UserPagesController::class, 'index'])->name('home');
@@ -27,21 +27,27 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
 // Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
 
-Route::middleware(['checkToken'])->group( function (){
+Route::middleware(['checkToken'])->group(function () {
     Route::get('/dashboard', [PagesController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductController::class, 'product'])->name('product.index');
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
-    
+
     Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
     Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.create');
-    
-    Route::get('/blog', [BlogController::class, 'blog'])->name('blog.index');
+
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
+    Route::post('/blog/create', [BlogController::class, 'store'])->name('blog.store');
+    Route::get('/blog/edit/{slug}', [BlogController::class, 'edit'])->name('blog.edit');
+    Route::patch('/blog/update/{slug}', [BlogController::class, 'update'])->name('blog.update');
+    Route::delete('/blog/delete/{slug}', [BlogController::class, 'destroy'])->name('blog.destroy');
+
+
+
     Route::get('/about', [AboutController::class, 'about'])->name('about.index');
 
-    
-     Route::get('/users', [UserController::class, 'user'])->name('user.index');
-     Route::get('/category', [CategoryController::class, 'category'])->name('category.index');
-    //  Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-    //  Route::get('/category/{id}/delete', [CategoryController::class, 'delete'])->name('category.delete');
+
+    Route::get('/users', [UserController::class, 'user'])->name('user.index');
+    Route::get('/category', [CategoryController::class, 'category'])->name('category.index');
 });

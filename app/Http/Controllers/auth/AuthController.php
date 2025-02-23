@@ -29,7 +29,8 @@ class AuthController extends Controller
         $email = $request->query('email');
 
         try{
-            $response = Http::post('https://sinergi.dev.ybgee.my.id/api/verify-email', [
+            $response = Http::post('http://localhost:8000/api/verify-email', [
+            // $response = Http::post('https://sinergi.dev.ybgee.my.id/api/verify-email', [
                 'token' => $token,
                 'email' => $email,
             ]);

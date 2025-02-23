@@ -1,6 +1,6 @@
 <div class="bg-[#0D192F] sticky top-0 w-full shadow-md z-30">
-    <div class="overflow-x-hidden px-1 mx-auto sm:px-10">
-        <nav class="text-white mx-auto py-5 flex justify-between items-center">
+    <div class="overflow-x-hidden px-4 mx-auto sm:px-10">
+        <nav class="text-white mx-auto py-5  flex justify-between items-center">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-x-2 text-xl font-bold">
                 <img src="{{ asset('img/logotefa1.png') }}" width="35" height="35" alt="logo">
                 <div class="flex items-center">

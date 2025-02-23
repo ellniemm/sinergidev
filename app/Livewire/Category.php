@@ -33,6 +33,7 @@ class Category extends Component
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
+        // ])->get("http://localhost:8000/api/category", [
         ])->get("https://sinergi.dev.ybgee.my.id/api/category", [
             'page' => $page,
             'per_page' => $this->perPage,
@@ -41,13 +42,14 @@ class Category extends Component
         ]);
 
         if ($response->successful()) {
+            // dd($response->json());
             $responseData = $response->json();
             if (isset($responseData['data'])) {
-                $this->categories = $responseData['data']['data'];
-                $this->currentPage = $responseData['data']['current_page'];
-                $this->lastPage = $responseData['data']['last_page'];
-                $this->nextPageUrl = $responseData['data']['next_page_url'];
-                $this->prevPageUrl = $responseData['data']['prev_page_url'];
+                $this->categories = $responseData['data']['categories'];
+                $this->currentPage = $responseData['data']['pagination']['current_page'];
+                $this->lastPage = $responseData['data']['pagination']['last_page'];
+                $this->nextPageUrl = $responseData['data']['pagination']['next_page_url'];
+                $this->prevPageUrl = $responseData['data']['pagination']['prev_page_url'];
             }
         }
     }
@@ -60,6 +62,7 @@ class Category extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
+            // ])->post('http://localhost:8000/api/category', [
             ])->post('https://sinergi.dev.ybgee.my.id/api/category', [
                 'category_name' => $this->categoryName
             ]);
@@ -113,6 +116,7 @@ class Category extends Component
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
+        // ])->patch("http://localhost:8000/api/category/{$this->category_id}", [
         ])->patch("https://sinergi.dev.ybgee.my.id/api/category/{$this->category_id}", [
             'category_name' => $this->categoryName,
         ]);
@@ -148,6 +152,7 @@ class Category extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
+            // ])->delete("http://localhost:8000/api/category/{$id}");
             ])->delete("https://sinergi.dev.ybgee.my.id/api/category/{$id}");
 
             if ($response->successful()) {

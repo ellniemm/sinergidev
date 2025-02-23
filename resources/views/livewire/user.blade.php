@@ -28,13 +28,18 @@
                             <td class="px-6 py-4">{{ $user['email'] }}</td>
                             <td class="px-6 py-4">
                                 <select wire:change="updateStatus('{{ $user['id'] }}', $event.target.value)"
-                                    class="rounded border-gray-300">
-                                    <option value="pending" {{ $user['status']==='pending' ? 'selected' : '' }}>Pending
+                                    class="select select-primary bg-white rounded-md ">
+                                    <option value="pending" {{ $user['status']==='pending' ? 'selected disabled' : ''
+                                        }}>
+                                        Pending
                                     </option>
-                                    <option value="active" {{ $user['status']==='active' ? 'selected' : '' }}>Active
+                                    <option value="active" {{ $user['status']==='active' ? 'selected disabled' : '' }}>
+                                        Active
                                     </option>
-                                    <option value="suspended" {{ $user['status']==='suspended' ? 'selected' : '' }}>
-                                        Suspended</option>
+                                    <option value="suspended" {{ $user['status']==='suspended' ? 'selected disabled'
+                                        : '' }}>
+                                        Suspended
+                                    </option>
                                 </select>
                             </td>
                             <td class="px-6 py-4">{{ \Carbon\Carbon::parse($user['created_at'])->format('Y-m-d') }}</td>
