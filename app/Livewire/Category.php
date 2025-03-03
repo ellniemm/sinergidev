@@ -11,11 +11,6 @@ class Category extends Component
     public $categoryName;
     public $message;
     public $errors = [];
-    public $currentPage = 1;
-    public $lastPage;
-    public $nextPageUrl;
-    public $prevPageUrl;
-    public $perPage = 10;
     public $sortField = 'category_name';
     public $sortDirection = 'asc';
     public $updateData = false;
@@ -26,33 +21,48 @@ class Category extends Component
         $this->fetchCategories();
     }
 
-    public function fetchCategories($page = 1)
-    {
-        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+    // public function fetchCategories($page = 1)
+    // {
+    //     $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
-        // ])->get("http://localhost:8000/api/category", [
-        ])->get("https://sinergi.dev.ybgee.my.id/api/category", [
-            'page' => $page,
-            'per_page' => $this->perPage,
-            'order_by' => $this->sortField,
-            'sort_by' => $this->sortDirection
-        ]);
+    //     $response = Http::withHeaders([
+    //         'Accept' => 'application/json',
+    //         'Authorization' => 'Bearer ' . $token
+    //     // ])->get("http://localhost:8000/api/category", [
+    //     ])->get("https://sinergi.dev.ybgee.my.id/api/category", [
+    //         'page' => $page,
+    //         'order_by' => $this->sortField,
+    //         'sort_by' => $this->sortDirection
+    //     ]);
 
-        if ($response->successful()) {
-            // dd($response->json());
-            $responseData = $response->json();
-            if (isset($responseData['data'])) {
-                $this->categories = $responseData['data']['categories'];
-                $this->currentPage = $responseData['data']['pagination']['current_page'];
-                $this->lastPage = $responseData['data']['pagination']['last_page'];
-                $this->nextPageUrl = $responseData['data']['pagination']['next_page_url'];
-                $this->prevPageUrl = $responseData['data']['pagination']['prev_page_url'];
-            }
+    //     if ($response->successful()) {
+    //         // dd($response->json());
+    //         $responseData = $response->json();
+    //         if (isset($responseData['data'])) {
+    //             $this->categories = $responseData['data'];
+    //         }
+    //     }
+    // }
+    public function fetchCategories()
+{
+    $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+
+    $response = Http::withHeaders([
+        'Accept' => 'application/json',
+        'Authorization' => 'Bearer ' . $token
+    ])->get("https://sinergi.dev.ybgee.my.id/api/category", [
+        'order_by' => $this->sortField,
+        'sort_by' => $this->sortDirection
+    ]);
+
+    if ($response->successful()) {
+        $responseData = $response->json();
+        if (isset($responseData['data'])) {
+            $this->categories = $responseData['data'];
         }
     }
+}
+
 
     public function store()
     {
@@ -94,7 +104,7 @@ class Category extends Component
         $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
         // Force fresh data fetch first
-        $this->fetchCategories($this->currentPage);
+        $this->fetchCategories();
 
         // Get latest data directly from the categories array
         $currentcategory = collect($this->categories)->first(function ($categories) use ($id) {
@@ -158,13 +168,7 @@ class Category extends Component
             if ($response->successful()) {
                 $this->message = 'Category deleted successfully!';
                 $this->errors = [];
-
-                // Check if current page has only one item
-                if (count($this->categories) === 1 && $this->currentPage > 1) {
-                    $this->fetchCategories($this->currentPage - 1);
-                } else {
-                    $this->fetchCategories($this->currentPage);
-                }
+                $this->fetchCategories();
             } else {
                 $this->message = '';
                 if ($response->status() === 401) {

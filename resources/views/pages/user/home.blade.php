@@ -4,11 +4,12 @@
 <!-- === Hero Section === -->
 <section class="bg-[#0D192F] text-white w-full">
     <div class="space-x-3 flex text-left items-center mx-auto md:gap-16 justify-between">
-        <div class="w-full md:w-3/5 2xl:w-10/12 px-4 2xl:px-24 py-10 2xl:py-10">
-            <h3 class="text-3xl md:text-5xl 2xl:text-8xl font-bold mb-10">
-                Kreativitas Digital & Inovatif Bersama Sinergi
+        <div class="w-full lg:w-3/5 2xl:w-10/12 px-6 md:px-10 2xl:px-24 py-10 2xl:py-10">
+            <h3 class="text-3xl md:text-5xl 2xl:text-7xl 2xl:whitespace-pre-line font-bold mb-10 lg:mb-7">
+                Kreativitas Digital & 
+                Inovatif Bersama Sinergi
             </h3>
-            <div class="text-gray-400 mb-10 md:whitespace-pre-line font-normal md:font-medium text-lg 2xl:text-3xl">
+            <div class="text-gray-400 mb-10 md:whitespace-pre-line font-normal md:font-medium text-lg 2xl:text-2xl">
                 Selamat datang di Sinergi.Studio, solusi lengkap untuk kebutuhan
                 digital Anda. Kami menyediakan jasa pembuatan website, aplikasi,
                 mobile, pengembangan game, dan pemasaran digital yang dirancang
@@ -46,7 +47,7 @@
 </section>
 <!-- === Project Section === -->
 <section class="bg-[#0D192F] text-white w-full h-auto">
-    <div class="container mx-auto px-4 md:px-6 py-10">
+    <div class="container mx-auto px-6 md:px-6 py-10">
         <h1 class="w-full lg:w-3/4 2xl:w-5/6  mx-auto  text-2xl md:text-4xl 2xl:text-6xl font-bold">
             Projek
             <span class="bg-gradient-to-r from-[#4796A3] to-[#163981] bg-clip-text text-transparent"> Kami</span>
@@ -92,10 +93,10 @@
                     </h3>
                     <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
                         Pengembangan aplikasi mobile dengan berbagai
-                        platform, memastikan pengalaman pengguna yang
-                        lancar dan tampilan yang menarik. Kami membuat
-                        aplikasi yang disesuaikan dengan kebutuhan
-                        bisnis yang berkembang.
+                        platform, memastikan pengalaman pengguna 
+                        yang lancar dan tampilan yang menarik. Kami 
+                        membuat aplikasi yang disesuaikan dengan 
+                        kebutuhan bisnis yang berkembang.
                     </div>
                     <a href=""
                         class="2xl:text-lg  border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
@@ -110,8 +111,8 @@
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
                     <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5 ">UI/UX Design</h3>
                     <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
-                        Desain antarmuka dan pengalaman pengguna yang
-                        intuitif dan menarik. Kami berfokus pada
+                        Desain antarmuka dan pengalaman pengguna 
+                        yang intuitif dan menarik. Kami berfokus pada
                         menciptakan desain yang sesuai dengan tujuan
                         bisnis dan memberikan pengalaman yang memuaskan.
                     </div>

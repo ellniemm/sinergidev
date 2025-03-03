@@ -112,12 +112,16 @@
     }
 
     .trumbowyg-box {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 200px);
         margin: 0;
     }
 
     .trumbowyg-button-pane {
         position: sticky !important;
-        top: 0 !important;
+        top: 80px !important;
+        z-index: 20;
 
 
     }
@@ -128,13 +132,74 @@
 
     .trumbowyg-editor {
         padding-top: 10px !important;
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0 !important;
     }
+
+    /* Mengubah warna teks di modal upload */
+    .trumbowyg-modal-box {
+        color: #000000 !important;
+    }
+
+    .trumbowyg-modal-box label {
+        color: #000000 !important;
+    }
+
+    .trumbowyg-modal-box .trumbowyg-modal-title {
+        color: #000000 !important;
+    }
+
+    /* Mengubah warna teks input file */
+    .trumbowyg-modal-box input[type="file"] {
+        color: #000000 !important;
+    }
+
+    /* Mengubah warna teks description */
+    .trumbowyg-modal-box .trumbowyg-modal-description {
+        color: #000000 !important;
+    }
+
+    .trumbowyg-dropdown {
+        z-index: 30 !important;
+    }
+
+    /* Fullscreen mode */
+    .trumbowyg-fullscreen {
+        background: #fff;
+        height: 100vh !important;
+        width: 100vw !important;
+        overflow: hidden !important;
+    }
+
+    .trumbowyg-fullscreen .trumbowyg-box {
+        height: 100vh !important;
+        width: 100vw !important;
+        overflow: hidden !important;
+    }
+
+    .trumbowyg-fullscreen .trumbowyg-button-pane {
+        position: relative !important;
+        top: 0 !important;
+        left: 0;
+        width: 100%;
+        z-index: 99999;
+    }
+
+    /* 
+.trumbowyg-fullscreen .trumbowyg-editor,
+.trumbowyg-fullscreen .trumbowyg-textarea {
+    margin-top: 37px !important;    
+    height: calc(100vh - 37px) !important;
+    overflow: hidden !important;
+    overflow-y: auto !important;
+} */
 </style>
 
 
 
 @section('main')
-<div class="bg-gray-50 min-h-screen flex justify-center">
+<div class="bg-gray-50 min-h-screen justify-center">
     <div class="text-black bg-white rounded-md shadow-md mx-auto p-6 w-full max-w-7xl">
         <h1 class="text-2xl font-bold mb-6 text-center md:text-left">
             {{ isset($blog) ? 'Update' : 'Create' }} Blog Post
@@ -243,7 +308,7 @@
 
                                     <div id="imagePreview"
                                         class="mt-4 border-t-2 border-primary pt-4 {{ isset($blog) ? '' : 'hidden' }}">
-                                        <img src="{{ isset($blog) ? 'https://sinergi.dev.ybgee.my.id/img/blog/'.$blog['blog_thumbnail'] : '' }}"
+                                        <img src="{{ isset($blog) ? 'https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/'.$blog['blog_thumbnail'] : '' }}"
                                             alt="Thumbnail Preview"
                                             class="w-full h-32 md:h-40 xl:h-48 object-cover rounded-lg">
                                     </div>
@@ -257,11 +322,19 @@
             <!-- Buttons -->
             <div class="flex justify-end space-x-2 mt-6">
                 <a href="{{ route('blog.index') }}" class="btn btn-ghost">Cancel</a>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary text-white">
                     {{ isset($blog) ? 'Update' : 'Create' }} Blog
                 </button>
             </div>
         </form>
+
+
+    </div>
+    <div class="text-black bg-white rounded-md shadow-md mx-auto w-full">
+        <div class="mt-10 px-4 border rounded-lg bg-white shadow-md">
+            <h3 id="preview-title" class="text-2xl font-bold mb-2"></h3>
+            <p id="preview-content" class="prose max-w-none"></p>
+        </div>
     </div>
 </div>
 
@@ -301,13 +374,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/upload/trumbowyg.upload.min.js"></script>
 <!-- Colors Plugin JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/colors/trumbowyg.colors.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/fontfamily/trumbowyg.fontfamily.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/history/trumbowyg.history.min.js"></script>
 
 <script>
     $(document).ready(function () {
-if (!$.trumbowyg) {
-    console.error("Trumbowyg belum dimuat!");
-    return;
-}
+    if (!$.trumbowyg) {
+        console.error("Trumbowyg belum dimuat!");
+        return;
+    }
     // Initialize Trumbowyg
     $("#blog_desc").trumbowyg({
         btnsDef: {
@@ -321,8 +397,8 @@ if (!$.trumbowyg) {
             ["undo", "redo"],
             ["indent", "outdent"],
             ["formatting"],
-            ["fontsize"],
-            ["strong", "em", "del" , "underline"],
+            ["fontsize","fontfamily","foreColor", "backColor"],
+            ["strong", "em", "del", "underline"],
             ["superscript", "subscript"],
             ["link"],
             ["image"],
@@ -330,36 +406,46 @@ if (!$.trumbowyg) {
             ["unorderedList", "orderedList"],
             ["horizontalRule"],
             ["removeformat"],
-            ["foreColor", "backColor"],
             ["table"],
             ["tableCellBackgroundColor"],
             ["emoji"],
+            ['fullscreen']
         ],
         plugins: {
-    //         upload: {
-    //     serverPath: '/upload/image',
-    //     fileFieldName: 'image',
-    //     data: [
-    //         {name: '_token', value: $('input[name="_token"]').val()}
-    //     ],
-    //     urlPropertyName: 'url',
-    //     dropZone: true,
-    //     pasteImage: true
-    // }
+            upload: {
+                serverPath: "/upload-image", // Ganti dengan endpoint API Anda
+                fileFieldName: "image", // Nama field untuk file gambar
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    Authorization: "Bearer " + getCookie("authToken"), // Sertakan token
+                    Accept: "application/json",
+                },
+                urlPropertyName: "url", // Properti di response JSON yang berisi URL gambar
+                dropZone: true,
+                pasteImage: true,
+                xhrFields: {
+                    withCredentials: true,  
+                }
+            },
 
             resizimg: { minSize: 64, step: 16 },
-            fontsize: {
-                sizeList: ["12px", "14px", "16px", "18px", "20px", "24px", "28px"],
-            },
             table: true,
             color: {
+                
                 allowCustom: true,
             },
             cleanPaste: {
                 keepNewLines: true,
                 removeStyles: true,
                 removeEmptyTags: true,
-            }
+            },
+            history: {
+            deleteInterval: 250,
+            maxStack: 100,
+            delay: 1000,
+            redoStackLimit: 50,
+            redoStateDelay: 800
+        },
         },
         semantic: true,
         removeformatPasted: true,
@@ -381,16 +467,16 @@ if (!$.trumbowyg) {
         // },
         tabToIndent: true,
     });
-    
-// Add word counter
-$(".trumbowyg-box").append(
-    '<div class="word-counter">Words: <span>0</span></div>'
-);
 
-// Add counter styles
-$("<style>")
-    .text(
-    `
+    // Add word counter
+    $(".trumbowyg-box").append(
+        '<div class="word-counter">Words: <span>0</span></div>',
+    );
+
+    // Add counter styles
+    $("<style>")
+        .text(
+            `
     .word-counter {
         padding: 8px 15px;
         background: #2d3436;
@@ -398,142 +484,154 @@ $("<style>")
         font-size: 14px;
         color: white;
     }
-`
-    )
-    .appendTo("head");
+`,
+        )
+        .appendTo("head");
 
-// Initial word count
-function countWords() {
-    var text = $("#blog_desc").trumbowyg("html");
-    var tempDiv = document.createElement("div");
-    tempDiv.innerHTML = text;
+    // Initial word count
+    function countWords() {
+        var text = $("#blog_desc").trumbowyg("html");
+        var tempDiv = document.createElement("div");
+        tempDiv.innerHTML = text;
 
-    tempDiv.querySelectorAll("script, style, img").forEach((el) => el.remove());
-    let cleanText = tempDiv.textContent || tempDiv.innerText || "";
+        tempDiv
+            .querySelectorAll("script, style, img")
+            .forEach((el) => el.remove());
+        let cleanText = tempDiv.textContent || tempDiv.innerText || "";
 
-    let words = cleanText
-    .replace(/[\n\r]+/g, " ")
-    .replace(/\s+/g, " ")
-    .match(/\b\w+\b/g);
+        let words = cleanText
+            .replace(/[\n\r]+/g, " ")
+            .replace(/\s+/g, " ")
+            .match(/\b\w+\b/g);
 
-    let wordCount = words ? words.length : 0;
-    $(".word-counter span").text(wordCount);
-}
-
-// Count words on load
-countWords();
-
-// Count words on changes
-$("#blog_desc").on("tbwchange tbwpaste input keyup", countWords);
-
-function wrapAndAlignImages() {
-    $("#blog_desc img").each(function () {
-    let img = $(this);
-    let parent = img.parent();
-
-    if (!parent.is("p")) {
-        img.wrap('<p style="text-align: left;"></p>');
-    } else if (!parent.attr("style")) {
-        parent.attr("style", "text-align: left;");
+        let wordCount = words ? words.length : 0;
+        $(".word-counter span").text(wordCount);
     }
+
+    // Count words on load
+    countWords();
+
+    // Count words on changes
+    $("#blog_desc").on("tbwchange tbwpaste input keyup", countWords);
+
+    function wrapAndAlignImages() {
+        $("#blog_desc img").each(function () {
+            let img = $(this);
+            let parent = img.parent();
+
+            if (!parent.is("p")) {
+                img.wrap('<p style="text-align: left;"></p>');
+            } else if (!parent.attr("style")) {
+                parent.attr("style", "text-align: left;");
+            }
+        });
+    }
+
+    function fixImageAlignment() {
+        $("#blog_desc p:has(img)").each(function () {
+            let p = $(this);
+            if (!p.attr("style")) {
+                p.css("text-align", "left");
+            }
+        });
+    }
+
+    $("#blog_desc").on("tbwimageupload", function () {
+        setTimeout(wrapAndAlignImages, 100);
     });
-}
+    $("#blog_name").on("input", function () {
+            $("#preview-title").text($(this).val());
+        });
 
-function fixImageAlignment() {
-    $("#blog_desc p:has(img)").each(function () {
-    let p = $(this);
-    if (!p.attr("style")) {
-        p.css("text-align", "left");
-    }
+    $("#blog_desc").on("tbwchange tbwpaste input keyup", function () {
+        wrapAndAlignImages();
+        fixImageAlignment();
+        fixTableStyles();
+        $("#preview-content").html($(this).trumbowyg("html"));
+        //     var content = $(this).trumbowyg('html');
+        // $('img[src^="data:image"]', content).each(function() {
+        //     var base64Data = $(this).attr('src');
+        //     $.ajax({
+        //         url: '/convert-base64',
+        //         method: 'POST',
+        //         data: {
+        //             image: base64Data,
+        //             _token: $('input[name="_token"]').val()
+        //         },
+        //         success: function(response) {
+        //             $(this).attr('src', response.url);
+        //         }
+        //     });
+        // });
     });
-}
 
-$("#blog_desc").on("tbwimageupload", function () {
-    setTimeout(wrapAndAlignImages, 100);
-});
+    function applyAlignment(alignment) {
+        let selection = document.getSelection();
+        if (!selection.rangeCount) return;
 
-$("#blog_desc").on("tbwchange tbwpaste input keyup", function () {
-    wrapAndAlignImages();
-    fixImageAlignment();
-    fixTableStyles();
-//     var content = $(this).trumbowyg('html');
-// $('img[src^="data:image"]', content).each(function() {
-//     var base64Data = $(this).attr('src');
-//     $.ajax({
-//         url: '/convert-base64',
-//         method: 'POST',
-//         data: {
-//             image: base64Data,
-//             _token: $('input[name="_token"]').val()
-//         },
-//         success: function(response) {
-//             $(this).attr('src', response.url);
-//         }
-//     });
-// });
-});
+        let range = selection.getRangeAt(0);
+        let parent = $(range.commonAncestorContainer).closest("p");
 
-function applyAlignment(alignment) {
-    let selection = document.getSelection();
-    if (!selection.rangeCount) return;
-
-    let range = selection.getRangeAt(0);
-    let parent = $(range.commonAncestorContainer).closest("p");
-
-    if (parent.length) {
-    parent.css("text-align", alignment);
-    }
-}
-
-function fixTableStyles() {
-    $(".trumbowyg-editor table")
-    .css({
-        width: "100%",
-        "border-collapse": "collapse",
-    })
-    .each(function () {
-        // Add colgroup if not exists
-        if (!$(this).find("colgroup").length) {
-        var colCount = $(this).find("tr:first td, tr:first th").length;
-        var colgroup = $("<colgroup>");
-        for (var i = 0; i < colCount; i++) {
-            colgroup.append($("<col>"));
+        if (parent.length) {
+            parent.css("text-align", alignment);
         }
-        $(this).prepend(colgroup);
+    }
+
+    function fixTableStyles() {
+        $(".trumbowyg-editor table")
+            .css({
+                width: "100%",
+                "border-collapse": "collapse",
+            })
+            .each(function () {
+                // Add colgroup if not exists
+                if (!$(this).find("colgroup").length) {
+                    var colCount = $(this).find(
+                        "tr:first td, tr:first th",
+                    ).length;
+                    var colgroup = $("<colgroup>");
+                    for (var i = 0; i < colCount; i++) {
+                        colgroup.append($("<col>"));
+                    }
+                    $(this).prepend(colgroup);
+                }
+            });
+    }
+
+    $(".trumbowyg-button-group").on("click", "button", function () {
+        let buttonClass = $(this).attr("class");
+
+        if (buttonClass.includes("trumbowyg-justifyLeft-button")) {
+            applyAlignment("left");
+        } else if (buttonClass.includes("trumbowyg-justifyCenter-button")) {
+            applyAlignment("center");
+        } else if (buttonClass.includes("trumbowyg-justifyRight-button")) {
+            applyAlignment("right");
+        } else if (buttonClass.includes("trumbowyg-justifyFull-button")) {
+            applyAlignment("justify");
         }
     });
-}
-
-$(".trumbowyg-button-group").on("click", "button", function () {
-    let buttonClass = $(this).attr("class");
-
-    if (buttonClass.includes("trumbowyg-justifyLeft-button")) {
-    applyAlignment("left");
-    } else if (buttonClass.includes("trumbowyg-justifyCenter-button")) {
-    applyAlignment("center");
-    } else if (buttonClass.includes("trumbowyg-justifyRight-button")) {
-    applyAlignment("right");
-    } else if (buttonClass.includes("trumbowyg-justifyFull-button")) {
-    applyAlignment("justify");
-    }
-});
 });
 
 function previewImage(input) {
-    const preview = document.getElementById('imagePreview');
-    const image = preview.querySelector('img');
-    
+    const preview = document.getElementById("imagePreview");
+    const image = preview.querySelector("img");
+
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-        
-        reader.onload = function(e) {
+
+        reader.onload = function (e) {
             image.src = e.target.result;
-            preview.classList.remove('hidden');
-        }
-        
+            preview.classList.remove("hidden");
+        };
+
         reader.readAsDataURL(input.files[0]);
     }
 }
-
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
 </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -20,12 +21,14 @@ class Product extends Component
     public $lastPage;
     public $nextPageUrl;
     public $prevPageUrl;
-    public $perPage = 3;
+    public $perPage = 10;
 
     public $sortDirection = 'desc';
     public $updateData = false;
     public $product_id;
     public $sortField = 'product_name';
+
+    protected $listeners = ['resetForm',];
 
     public function sortBy($field)
     {
@@ -47,7 +50,7 @@ class Product extends Component
     public function fetchProducts($page = 1)
     {
         // $response = Http::get("http://localhost:8000/api/product", [
-            $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product", [
+        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product", [
             'page' => $page,
             'per_page' => $this->perPage,
             'order_by' => $this->sortField,
@@ -55,6 +58,7 @@ class Product extends Component
         ]);
 
         if ($response->successful()) {
+            // dd($response->json());
             $responseData = $response->json();
             if (isset($responseData['data'])) {
                 $this->products = $responseData['data']['products'];
@@ -87,6 +91,7 @@ class Product extends Component
 
     public function store()
     {
+        $this->errors = [];
         try {
             $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
@@ -98,8 +103,8 @@ class Product extends Component
                     'product_img',
                     file_get_contents($this->productImage->path()),
                     $this->productImage->getClientOriginalName()
-                // )->post('http://localhost:8000/api/product', [
-                    )->post('https://sinergi.dev.ybgee.my.id/api/product', [
+                    // )->post('http://localhost:8000/api/product', [
+                )->post('https://sinergi.dev.ybgee.my.id/api/product', [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
@@ -107,31 +112,35 @@ class Product extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
-                // ])->post('http://localhost:8000/api/product', [
-                    ])->post('https://sinergi.dev.ybgee.my.id/api/product', [
+                    // ])->post('http://localhost:8000/api/product', [
+                ])->post('https://sinergi.dev.ybgee.my.id/api/product', [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
             }
 
             if ($response->successful()) {
-                $this->message = 'Product created successfully!';
-                $this->errors = [];
-                $this->reset(['productName', 'productDescription', 'productImage']);
+                $this->resetForm();
                 $this->fetchProducts();
+                Log::info('Dispatching toast', [
+                    'message' => 'Data berhasil ditambahkan!',
+                    'type' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'Data berhasil ditambahkan!', 
+                    'type' => 'success'
+                ]);
+
+                $this->dispatch('reset');
             } else {
-                $this->message = '';
-                if ($response->status() === 422) {
-                    $this->errors = $response->json()['errors'];
-                } else if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
+               // Tangani error dengan lebih detail
+               $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
-            $this->message = '';
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
+                'type' => 'error'
+            ]);
         }
     }
 
@@ -197,31 +206,49 @@ class Product extends Component
     // }
     public function edit($id)
 {
-    $this->product_id = $id;
-    $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+    // Pertama, refresh data produk dengan fetchProducts
+    $this->fetchProducts();
 
-    // Fetch latest product data
-    $this->fetchproducts($this->currentPage);
+    // Cari produk yang baru saja diupdate dari daftar produk
+    $updatedProduct = collect($this->products)
+        ->first(function ($product) use ($id) {
+            return $product['product_id'] == $id;
+        });
 
-    // Ambil data produk berdasarkan ID
-    $currentProduct = collect($this->products)->first(function ($product) use ($id) {
-        return $product['product_id'] === $id;
-    });
-
-    if ($currentProduct) {
-        // Reset data inputan
-        $this->reset(['productName', 'productDescription', 'productImage']);
-
-        $this->productName = $currentProduct['product_name'];
-        $this->productDescription = $currentProduct['product_desc'];
-        $this->productImage = $currentProduct['product_img']; // Menyimpan URL gambar dari API
-
+    if ($updatedProduct) {
+        // Set data produk terbaru
+        $this->product_id = $id;
+        $this->productName = $updatedProduct['product_name'] ?? '';
+        $this->productDescription = $updatedProduct['product_desc'] ?? '';
+        $this->productImage = $updatedProduct['product_img'] ?? '';
         $this->updateData = true;
+
+        // Log untuk debugging
+        Log::info('Edit method - Updated Product Data', [
+            'product_id' => $this->product_id,
+            'productName' => $this->productName,
+            'productDescription' => $this->productDescription,
+            'productImage' => $this->productImage
+        ]);
+    } else {
+        // Tangani jika produk tidak ditemukan
+        Log::warning('Product not found in updated list', [
+            'searched_id' => $id
+        ]);
+
+        $this->dispatch('showToast', [
+            'message' => 'Produk tidak ditemukan', 
+            'type' => 'error'
+        ]);
     }
 }
 
+
+
     public function update()
     {
+         // Reset errors sebelum operasi
+         $this->errors = [];
         try {
             $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
@@ -233,8 +260,8 @@ class Product extends Component
                     'product_img',
                     file_get_contents($this->productImage->path()),
                     $this->productImage->getClientOriginalName()
-                // )->patch("http://localhost:8000/api/product/{$this->product_id}", [
-                    )->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
+                    // )->patch("http://localhost:8000/api/product/{$this->product_id}", [
+                )->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
@@ -242,8 +269,8 @@ class Product extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
-                // ])->patch("http://localhost:8000/api/product/{$this->product_id}", [
-                    ])->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
+                    // ])->patch("http://localhost:8000/api/product/{$this->product_id}", [
+                ])->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
                 ]);
@@ -251,20 +278,21 @@ class Product extends Component
 
 
             if ($response->successful()) {
-                $this->message = 'Product updated successfully!';
-                $this->errors = []; // Clear any existing errors
-                $this->reset(['productName', 'productDescription', 'productImage']);
+                $this->resetForm();
                 $this->updateData = false;
-                $this->fetchproducts();
+                $this->fetchProducts();
+                Log::info('Dispatching toast', [
+                    'message' => 'Data berhasil diupdate!',
+                    'type' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'Data berhasil diupdate!', 
+                    'type' => 'success'
+                ]);
+                
             } else {
-                $this->message = ''; // Clear success message
-                if ($response->status() === 422) {
-                    $this->errors = $response->json()['errors'];
-                } else if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
+                // Tangani error dengan lebih detail
+                $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
             $this->message = ''; // Clear success message
@@ -280,12 +308,20 @@ class Product extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
-            // ])->delete("http://localhost:8000/api/product/{$id}");
+                // ])->delete("http://localhost:8000/api/product/{$id}");
             ])->delete("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
 
             if ($response->successful()) {
-                $this->message = 'Product deleted successfully!';
-                $this->errors = [];
+
+                Log::info('Dispatching toast', [
+                    'message' => 'Data berhasil dihapus!',
+                    'type' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'Data berhasil dihapus!', 
+                    'type' => 'success'
+                ]);
+                
 
                 // Check if current page has only one item
                 if (count($this->products) === 1 && $this->currentPage > 1) {
@@ -294,12 +330,8 @@ class Product extends Component
                     $this->fetchproducts($this->currentPage);
                 }
             } else {
-                $this->message = '';
-                if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
+                // Tangani error dengan lebih detail
+                $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
             $this->message = '';
@@ -308,7 +340,34 @@ class Product extends Component
     }
     public function resetForm()
     {
-        $this->reset(['productName', 'productDescription', 'productImage']);
+
+        $this->reset([
+            'productName', 
+            'productDescription', 
+            'productImage', 
+            'updateData', 
+            'product_id',
+            'errors'
+        ]);
         $this->updateData = false;
+    }
+
+    private function handleErrorResponse($response)
+    {
+        $errorMessage = 'Terjadi kesalahan';
+        $errorType = 'error';
+
+        if ($response->status() === 422) {
+            $errorMessage = 'Validasi gagal. Periksa kembali input Anda.';
+            $this->errors = $response->json()['errors'] ?? [];
+        } elseif ($response->status() === 401) {
+            $errorMessage = 'Anda harus login terlebih dahulu';
+            $errorType = 'warning';
+        }
+
+        $this->dispatch('showToast', [
+            'message' => $errorMessage, 
+            'type' => $errorType
+        ]);
     }
 }

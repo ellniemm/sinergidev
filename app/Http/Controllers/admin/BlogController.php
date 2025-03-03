@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
@@ -20,7 +21,7 @@ class BlogController extends Controller
             'Authorization' => 'Bearer ' . $token
         ])->get('https://sinergi.dev.ybgee.my.id/api/blog/admin', [
             'page' => $currentPage,
-            'per_page' => 2
+            'per_page' => 10
         ]);
 
         if ($response->successful()) {
@@ -55,7 +56,7 @@ class BlogController extends Controller
 
             $categories = [];
             if ($categoryREsponse->successful()) {
-                $categories = $categoryREsponse->json('data.categories');
+                $categories = $categoryREsponse->json('data');
             }
             $statuses = ['draft', 'publish'];
             return view('pages.admin.blog.create', compact('categories', 'statuses'));
@@ -83,6 +84,7 @@ class BlogController extends Controller
         }
 
         $file = $request->file('blog_thumbnail');
+        $status = $request->status === 'publish' ? 'published' : $request->status;
 
         $response = Http::withHeaders([
             'Accept' => 'application/json',
@@ -95,7 +97,7 @@ class BlogController extends Controller
             'blog_name' => $request->blog_name,
             'blog_desc' => $request->blog_desc,
             'category_id' => $request->category_name,
-            'status' => $request->status,
+            'status' => $status,
         ]);
 
         Log::info('API Response:', ['status' => $response->status(), 'body' => $response->json()]);
@@ -138,6 +140,7 @@ class BlogController extends Controller
             }
     
             $blog = $response->json()['data'];
+            $blog['status'] = $blog['status'] === 'published' ? 'publish' : $blog['status'];
             
             // Ambil kategori
             $categoryResponse = Http::withHeaders([
@@ -146,7 +149,7 @@ class BlogController extends Controller
             ])->get('https://sinergi.dev.ybgee.my.id/api/category');
     
             if ($categoryResponse->successful()) {
-                $categories = $categoryResponse->json()['data']['categories'];
+                $categories = $categoryResponse->json()['data'];
                 $statuses = ['draft', 'publish'];
                 return view('pages.admin.blog.create', compact('blog', 'categories', 'statuses'));
             } else {
@@ -168,11 +171,12 @@ class BlogController extends Controller
         Log::info("Data yang diterima:", $request->all());
 
         try {
+            $status = $request->status === 'publish' ? 'published' : $request->status;
             $data = [
                 'blog_name' => $request->blog_name,
                 'blog_desc' => $request->blog_desc,
                 'category_id' => $request->category_name,
-                'status' => $request->status,
+                'status' => $status,
             ];
 
             $response = Http::withHeaders([
@@ -227,5 +231,20 @@ class BlogController extends Controller
         return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus blog.');
     }
 }
+
+public function uploadImage(Request $request)
+{if ($request->hasFile('image')) {
+    $image = $request->file('image');
+    $filename = time() . '.' . $image->getClientOriginalExtension();
+    $path = $image->storeAs('blog-image', $filename, 'public');
+
+    return response()->json([
+        'success' => true, 
+        'url' => asset('storage/' . $path)
+    ]);
+}
+return response()->json(['success' => false]);
+}
+
 
 }

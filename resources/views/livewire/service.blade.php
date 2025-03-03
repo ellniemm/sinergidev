@@ -28,7 +28,7 @@
                     wire:model="serviceImage" accept="image/*" onchange="previewImage(this)">
 
                 {{-- Preview Gambar --}}
-                <div id="imagePreview" class="mt-4 border-t-2 border-primary pt-4 {{ $serviceImage ? '' : 'hidden' }}">
+                <div id="imagePreview" class="mt-4 border-t-2 border-primary pt-4 relative">
 
                     @if ($serviceImage)
                     @if (is_string($serviceImage))
@@ -40,19 +40,33 @@
                     <img src="{{ $serviceImage->temporaryUrl() }}" id="previewImg" alt="Thumbnail Preview"
                         class="max-w-[250px] h-auto object-cover rounded-lg mx-auto">
                     @endif
+                    @else
+                    <div wire:loading wire:target="serviceImage">
+                        <div
+                            class="absolute inset-0 bg-gray-200 opacity-75 flex items-center justify-center rounded-lg">
+                            <div class="text-center">Uploading...</div>
+                            <span class="loading loading-spinner text-primary"></span>
+                        </div>
+                    </div>
                     @endif
+                    <div wire:loading wire:target="update, serviceImage">
+                        <div class="absolute inset-0 bg-gray-200 opacity-75 flex items-center justify-center rounded-lg">
+                            <div class="text-center">Uploading...</div>
+                            <span class="loading loading-spinner text-primary"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="flex space-x-3">
                 @if (!$updateData)
                 <button type="submit"
-                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700">SAVE</button>
+                    class="btn btn-primary text-white" wire:loading.attr="disabled" wire:target="serviceImage">Save</button>
                 @else
                 <button wire:click='update()' type="button"
-                    class="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow-md hover:bg-yellow-600">UPDATE</button>
+                    class="btn btn-warning text-white" wire:loading.attr="disabled" wire:target="serviceImage, update">Update</button>
                 <button wire:click="resetForm" type="button"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-md">Cancel</button>
+                    class="btn btn-ghost" wire:loading.attr="disabled" wire:target="serviceImage, update">Cancel</button>
                 @endif
             </div>
         </form>
@@ -87,9 +101,9 @@
                         <td class="px-4 py-2">{{ \Carbon\Carbon::parse($service['created_at'])->format('Y-m-d') }}</td>
                         <td class="px-4 py-2 space-x-2">
                             <button wire:click="edit('{{ $service['service_id'] }}')"
-                                class="px-3 py-1 bg-yellow-500 text-white rounded shadow hover:bg-yellow-600">Edit</button>
+                                class="btn btn-warning text-white">Edit</button>
                             <button wire:click="delete('{{ $service['service_id'] }}')"
-                                class="px-3 py-1 bg-red-500 text-white rounded shadow hover:bg-red-600">Delete</button>
+                                class="btn btn-error text-white">Delete</button>
                         </td>
                     </tr>
                     @endforeach
@@ -99,11 +113,25 @@
 
         <div class="flex justify-between items-center mt-4">
             @if ($prevPageUrl)
-            <button wire:click="prevPage" class="px-4 py-2 bg-gray-300 rounded">Previous</button>
+            <button wire:click="prevPage" class="btn btn-neutral text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" viewBox="0 0 24 24">
+                    <g fill="none" fill-rule="evenodd">
+                        <path
+                            d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                        <path fill="#fff"
+                            d="M8.293 12.707a1 1 0 0 1 0-1.414l5.657-5.657a1 1 0 1 1 1.414 1.414L10.414 12l4.95 4.95a1 1 0 0 1-1.414 1.414z" />
+                    </g>
+                </svg>
+                Previous</button>
             @endif
             <span>Page {{ $currentPage }} of {{ $lastPage }}</span>
             @if ($nextPageUrl)
-            <button wire:click="nextPage" class="px-4 py-2 bg-gray-300 rounded">Next</button>
+            <button wire:click="nextPage" class="btn btn-neutral text-white">Next
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="#fff" d="M9.31 6.71a.996.996 0 0 0 0 1.41L13.19 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.72 6.7c-.38-.38-1.02-.38-1.41.01" />
+                </svg>
+            </button>
             @endif
         </div>
     </div>
