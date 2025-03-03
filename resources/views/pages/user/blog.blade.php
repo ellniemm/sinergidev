@@ -1,0 +1,336 @@
+@extends('pages.layouts.user')
+
+@section('content')
+{{-- @if(session('success'))
+<div class="alert alert-success bg-green-100 text-green-800 px-4 py-2 rounded-lg mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    {{ session('success') }}
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-error bg-red-100 text-red-800 px-4 py-2 rounded-lg mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    {{ session('error') }}
+</div>
+@endif --}}
+{{-- <div class="bg-white  text-black max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold text-center mb-12">Latest Blog Posts</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @foreach($blogs as $blog)
+        <article class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img src="https://sinergi.dev.ybgee.my.id/img/blog/{{ $blog['blog_thumbnail'] }}"
+                alt="{{ $blog['blog_name'] }}" class="w-full h-48 object-cover">
+
+            <div class="p-6">
+                <h2 class="text-xl font-semibold mb-2">
+                    <a href="{{ route('blog.user', $blog['slug']) }}"
+                        class="text-gray-900 hover:text-primary transition">
+                        {{ $blog['blog_name'] }}
+                    </a>
+                </h2>
+
+                <div class="text-sm text-gray-500 mb-4">
+                    {{ \Carbon\Carbon::parse($blog['created_at'])->format('M d, Y') }}
+                </div>
+
+                <p class="text-gray-600 mb-4">
+                    {{ Str::limit(strip_tags($blog['blog_desc']), 150) }}
+                </p>
+
+                <a href="{{ route('blog.user', $blog['slug']) }}"
+                    class="inline-flex items-center text-primary hover:text-primary-dark">
+                    Read More
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </article>
+        @endforeach
+    </div>
+
+    <!-- Pagination -->
+    @if($lastPage > 1)
+    <div class="mt-12 flex justify-center gap-2">
+        @if($prevPageUrl)
+        <a href="?page={{ $currentPage - 1 }}" class="px-4 py-2 bg-white border rounded-md hover:bg-gray-50">
+            Previous
+        </a>
+        @endif
+
+        @if($nextPageUrl)
+        <a href="?page={{ $currentPage + 1 }}" class="px-4 py-2 bg-white border rounded-md hover:bg-gray-50">
+            Next
+        </a>
+        @endif
+    </div>
+    @endif
+</div> --}}
+<header class="bg-[#0D192F] relative text-white w-full">
+    <div class="space-x-3 mb-0 flex items-start mx-auto justify-between">
+        <div class="px-5 md:px-10 py-20 md:py-32 2xl:px-20 2xl:py-44 ">
+            <h1 class="text-3xl md:text-5xl 2xl:text-7xl font-bold mb-2">
+                Sinergi
+                <span class="bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
+                    Blog
+                </span>
+            </h1>
+            <p class="text-sm font-medium md:text-lg 2xl:text-3xl text-white">
+                Artikel seputar Lorem, ipsum dolor.
+            </p>
+        </div>
+        <div class=" md:py-20">
+            {{-- <svg width="374" height="600" viewBox="0 0 574 800"
+                class="self-center w-[150px] h-[350px] md:w-[374px] md:h-[600px] 2xl:w-[450px] 2xl:h-[800px]"
+                fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M314 538.57C314 549.616 322.954 558.57 334 558.57H771.849C782.895 558.57 791.849 549.616 791.849 538.57V152C791.849 140.954 782.895 132 771.849 132H334C322.954 132 314 140.954 314 152V538.57Z"
+                    fill="url(#paint0_linear_491_77)" />
+                <path
+                    d="M240 779.57C240 790.616 248.954 799.57 260 799.57H697.849C708.895 799.57 717.849 790.616 717.849 779.57V393C717.849 381.954 708.895 373 697.849 373H260C248.954 373 240 381.954 240 393L240 779.57Z"
+                    fill="url(#paint1_linear_491_77)" />
+                <path
+                    d="M163 406.57C163 417.616 171.954 426.57 183 426.57H620.849C631.895 426.57 640.849 417.616 640.849 406.57V20C640.849 8.95432 631.895 5.05746e-06 620.849 5.05746e-06H183C171.954 5.05746e-06 163 8.95432 163 20L163 406.57Z"
+                    fill="url(#paint2_linear_491_77)" />
+                <path
+                    d="M0 648.57C0 659.616 8.9543 668.57 20 668.57H457.849C468.895 668.57 477.849 659.616 477.849 648.57V262C477.849 250.954 468.895 242 457.849 242H20C8.95428 242 0 250.954 0 262L0 648.57Z"
+                    fill="url(#paint3_linear_491_77)" />
+                <defs>
+                    <linearGradient id="paint0_linear_491_77" x1="552.925" y1="558.57" x2="552.925" y2="132"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stopColor="white" stopOpacity="0" />
+                        <stop offset="1" stopColor="white" stopOpacity="0.7" />
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_491_77" x1="478.925" y1="799.57" x2="478.925" y2="373"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stopColor="white" stopOpacity="0" />
+                        <stop offset="1" stopColor="white" stopOpacity="0.7" />
+                    </linearGradient>
+                    <linearGradient id="paint2_linear_491_77" x1="401.925" y1="426.57" x2="401.925" y2="5.05746e-06"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stopColor="white" stopOpacity="0" />
+                        <stop offset="1" stopColor="white" stopOpacity="0.7" />
+                    </linearGradient>
+                    <linearGradient id="paint3_linear_491_77" x1="238.925" y1="668.57" x2="238.925" y2="242"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stopColor="white" stopOpacity="0" />
+                        <stop offset="1" stopColor="white" stopOpacity="0.7" />
+                    </linearGradient>
+                </defs>
+            </svg> --}}
+            <svg width="374" height="600" viewBox="0 0 574 800"
+                class="self-center w-[150px] h-[350px] md:w-[374px] md:h-[600px] 2xl:w-[450px] 2xl:h-[800px]"
+                fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M314 538.57C314 549.616 322.954 558.57 334 558.57H771.849C782.895 558.57 791.849 549.616 791.849 538.57V152C791.849 140.955 782.895 132 771.849 132H334C322.954 132 314 140.955 314 152V538.57Z"
+                    fill="url(#paint0_linear_491_77)" />
+                <path
+                    d="M240 779.57C240 790.616 248.954 799.57 260 799.57H697.849C708.895 799.57 717.849 790.616 717.849 779.57V393C717.849 381.955 708.895 373 697.849 373H260C248.954 373 240 381.955 240 393L240 779.57Z"
+                    fill="url(#paint1_linear_491_77)" />
+                <path
+                    d="M163 406.57C163 417.616 171.954 426.57 183 426.57H620.849C631.895 426.57 640.849 417.616 640.849 406.57V20.0004C640.849 8.95474 631.895 0.000432304 620.849 0.000432304H183C171.954 0.000432304 163 8.95474 163 20.0004L163 406.57Z"
+                    fill="url(#paint2_linear_491_77)" />
+                <path
+                    d="M0 648.57C0 659.616 8.9543 668.57 20 668.57H457.849C468.895 668.57 477.849 659.616 477.849 648.57V262C477.849 250.955 468.895 242 457.849 242H20C8.95428 242 0 250.955 0 262L0 648.57Z"
+                    fill="url(#paint3_linear_491_77)" />
+                <defs>
+                    <linearGradient id="paint0_linear_491_77" x1="552.925" y1="558.57" x2="552.925" y2="132"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white" stop-opacity="0" />
+                        <stop offset="1" stop-color="white" stop-opacity="0.5" />
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_491_77" x1="478.925" y1="799.57" x2="478.925" y2="373"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white" stop-opacity="0" />
+                        <stop offset="1" stop-color="white" stop-opacity="0.5" />
+                    </linearGradient>
+                    <linearGradient id="paint2_linear_491_77" x1="401.925" y1="426.57" x2="401.925" y2="0.000432304"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white" stop-opacity="0" />
+                        <stop offset="1" stop-color="white" stop-opacity="0.5" />
+                    </linearGradient>
+                    <linearGradient id="paint3_linear_491_77" x1="238.925" y1="668.57" x2="238.925" y2="242"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white" stop-opacity="0" />
+                        <stop offset="1" stop-color="white" stop-opacity="0.5" />
+                    </linearGradient>
+                </defs>
+            </svg>
+
+        </div>
+    </div>
+    <div class="relative ">
+        {{-- <svg viewBox="0 0 1728 400" fill="none"
+            class="absolute bottom-0 left-0 right-0 w-screen h-auto md:w-auto md:h-auto"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect width="1729" height="410" fill="url(#paint0_linear_2111_514)" />
+            <defs>
+                <linearGradient id="paint0_linear_2111_514" x1="864.5" y1="364" x2="864.5" y2="20"
+                    gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#FFFFFF" />
+                    <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+                </linearGradient>
+            </defs>
+        </svg> --}}
+        <svg class="absolute bottom-0 left-0 right-0 w-screen h-auto md:w-auto md:h-auto" viewBox="0 0 1728 400"
+            fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1729" height="410" fill="url(#paint0_linear_2117_2666)" />
+            <defs>
+                <linearGradient id="paint0_linear_2117_2666" x1="864.5" y1="364" x2="864.5" y2="68"
+                    gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FFFFFF" />
+                    <stop offset="1" stop-color="#999999" stop-opacity="0" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+    </div>
+</header>
+<div class="bg-white text-black font-semibold w-full">
+    <div class="container flex items-center mx-auto justify-between py-4 px-6">
+        <nav class="flex-1">
+            <ul class="flex text-xs md:text-xl 2xl:text-2xl justify-start md:justify-center space-x-4 md:space-x-8">
+                <li>
+                    <a href="#">Tips & Trick</a>
+                </li>
+                <li>
+                    <a href="#">Frontend</a>
+                </li>
+                <li>
+                    <a href="#">Kategori</a>
+                </li>
+                <li>
+                    <a href="#">Kategori</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="ml-auto">
+            <button>
+                {{-- <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-[24px] h-[24px] md:w-[32px] md:h-[32px] 2xl:w-[40px] 2xl:h-[40px]" viewBox="0 0 24 24">
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style=stopColor: "#4796A3" , stopOpacity: 1 />
+                            <stop offset="100%" style=stopColor: "#34668f" , stopOpacity: 1 />
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#gradient1)"
+                        d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14">
+                    </path>
+                </svg> --}}
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-[24px] h-[24px] md:w-[32px] md:h-[32px] 2xl:w-[40px] 2xl:h-[40px]" viewBox="0 0 24 24"
+                    width="24" height="24" viewBox="0 0 24 24">
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color: #4796A3; stop-opacity: 1;" />
+                            <stop offset="100%" style="stop-color: #34668f; stop-opacity: 1;" />
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#gradient1)"
+                        d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
+                </svg>
+
+            </button>
+        </div>
+    </div>
+
+    <div class="px-5 md:px-28 py-10 md:py-16">
+        <h1 class="text-2xl md:text-4xl 2xl:text-5xl font-semibold mb-7">Latest <span
+                class="bg-gradient-to-r from-[#4796A3] to-[#142737] bg-clip-text text-transparent">Post</span></h1>
+        @if ($bigCard)
+        {{-- Big Card --}}
+        {{-- {{ dd($bigCard) }} --}}
+        <a href="{{ route('blog.detail', $bigCard['slug']) }}">
+            <div class="card px-5 py-6 bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full mb-5">
+                <div class="md:flex h-full gap-10">
+                    <div class="relative md:w-3/4">
+                        {{-- Blog Thumbail --}}
+
+                        {{--
+                        <Image src="/placeholder500x300.png" width={500} height={300} alt="post-1"
+                            class="rounded-xl w-full object-cover" /> --}}
+                        {{-- <div class=" rounded-xl w-full h-[300px]">{{ $bigCard['blog_thumbnail'] }}</div> --}}
+                        <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $bigCard['blog_thumbnail'] }}"
+                            class=" rounded-xl w-full h-[300px] object-cover" alt="{{ $bigCard['blog_name'] }}">
+
+
+                        <div
+                            class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full ">
+                            {{ $bigCard['category_name']}}
+                        </div>
+                        <div
+                            class="absolute bottom-4 left-3 bg-gray-500 font-semibold text-white text-sm md:text-base 2xl:text-lg px-4 py-1 rounded-full">
+                            {{ \Carbon\Carbon::parse($bigCard['created_at'])->format('d M Y') }}
+                        </div>
+                    </div>
+                    <div class="md:w-2/4 2xl:w-2/3 md:flex md:flex-col justify-between">
+                        <div class="2xl:px-5 ">
+                            <h2 class="font-semibold text-lg md:text-2xl 2xl:text-4xl mb-8 pt-5 md:pt-0">
+                                {{$bigCard['blog_name']}}
+                            </h2>
+                            <p class="text-[#6A6A6A] 2xl:text-xl font-medium">
+                                {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($bigCard['blog_desc'])), 6,
+                                '...') }}
+                            </p>
+                        </div>
+                        <p class="mt-4 2xl:text-xl font-semibold">Sinergi Studio</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        @endif
+        {{-- Grid Card --}}
+        <div class="md:grid grid-cols-3 gap-8">
+            @foreach ($gridCard as $blog)
+            <a href="{{ route('blog.detail', $blog['slug']) }}">
+                <div
+                    class="card bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full h-full flex flex-col justify-between p-5">
+
+                    <!-- Gambar -->
+                    <div class="relative w-full">
+                        <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $blog['blog_thumbnail'] }}"
+                            class="bg-gray-300 rounded-xl w-full h-[200px] object-cover" alt="{{ $blog['blog_name'] }}">
+                        <div
+                            class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full">
+                            {{ $blog['category_name'] }}
+                        </div>
+                    </div>
+
+                    <!-- Konten -->
+                    <div class="flex flex-col flex-grow justify-between mt-4">
+                        <div>
+                            <h2 class="font-semibold text-lg 2xl:text-2xl mb-5 pt-2 md:pt-0x">
+                                {{ $blog['blog_name'] }}
+                            </h2>
+                            <p class="text-[#6A6A6A] 2xl:text-xl font-medium">
+                                {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])), 20, '...')
+                                }}
+                            </p>
+                        </div>
+                        <p class="mt-4 text-base 2xl:text-xl font-semibold">
+                            Sinergi Studio • {{ \Carbon\Carbon::parse($blog['created_at'])->format('d M Y') }}
+                        </p>
+                    </div>
+
+                </div>
+            </a>
+            @endforeach
+        </div>
+    </div>
+</div>
+{{-- <div class="bg-white text-black  mx-auto">
+    <h1 class="text-center text-3xl font-bold ">Sebentar ya</h1>
+</div> --}}
+
+@endsection

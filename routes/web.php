@@ -21,6 +21,8 @@ Route::get('/services', [UserPagesController::class, 'services'])->name('service
 Route::get('/about-us', [UserPagesController::class, 'aboutUs'])->name('about-us');
 Route::get('/products', [UserPagesController::class, 'products'])->name('products');
 Route::get('/contact-us', [UserPagesController::class, 'contactUs'])->name('contact-us');
+Route::get('/blogs', [UserPagesController::class, 'blog'])->name('blog.user');
+Route::get('/blogs/{slug}', [UserPagesController::class, 'blogDetail'])->name('blog.detail');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
@@ -42,6 +44,7 @@ Route::middleware(['checkToken'])->group(function () {
     Route::get('/blog/edit/{slug}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::patch('/blog/update/{slug}', [BlogController::class, 'update'])->name('blog.update');
     Route::delete('/blog/delete/{slug}', [BlogController::class, 'destroy'])->name('blog.destroy');
+    Route::post('/upload-image', [BlogController::class, 'uploadImage']);
 
 
 

@@ -1,21 +1,18 @@
-<footer class="bg-[#0D192F] text-white py-20 w-full">
+<footer class="bg-[#0D192F] text-white lg:px-10 2xl:px-16 py-20 w-full">
     <div class="px-6 mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 justify-between">
             <!-- About Section - Larger width -->
             <div class="lg:col-span-6">
-                <h3 class="text-3xl font-bold mb-2">Sinergi.Studio</h3>
-                <p class="text-gray-300 leading-relaxed pr-8 text-md">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas
-                    esse placeat non ex excepturi! Maiores excepturi fugiat tempora
-                    nihil quibusdam eligendi officia officiis numquam omnis
-                    praesentium cupiditate, velit, soluta facilis.
+                <h3 class="text-2xl 2xl:text-4xl font-bold mb-2">Sinergi.Studio</h3>
+                <p class="text-gray-300 leading-relaxed pr-8 text-md 2xl:text-2xl">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas esse placeat non ex excepturi! Maiores excepturi fugiat tempora nihil quibusdam eligendi officia officiis numquam omnis praesentium cupiditate, velit, soluta facilis.
                 </p>
             </div>
 
             <!-- Pages Links -->
             <div class="lg:col-span-2 space-y-4 lg:px-10">
-                <h3 class="text-lg font-semibold">Pages</h3>
-                <ul class="space-y-2 text-sm text-gray-300">
+                <h3 class="text-lg 2xl:text-2xl font-semibold">Pages</h3>
+                <ul class="space-y-2 text-sm 2xl:text-xl text-gray-300">
                     <li>
                         <a href="{{ route('home') }}" class="hover:text-blue-400 transition duration-200">
                             Home
@@ -36,8 +33,8 @@
 
             <!-- Know More Links -->
             <div class="lg:col-span-2 space-y-4">
-                <h3 class="text-lg font-semibold">Know More</h3>
-                <ul class="space-y-2 text-sm text-gray-300">
+                <h3 class="text-lg 2xl:text-2xl font-semibold">Know More</h3>
+                <ul class="space-y-2 text-sm 2xl:text-xl text-gray-300">
                     <li>
                         <a href="{{ route('about-us') }}" class="hover:text-blue-400 transition duration-200">
                             About Us
@@ -58,11 +55,10 @@
 
             <!-- Social Links -->
             <div class="lg:col-span-2 space-y-4 overflow-visible">
-                <h3 class="text-lg font-semibold">Social Media</h3>
-                <div class="space-y-2 text-md font-medium">
+                <h3 class="text-lg 2xl:text-2xl font-semibold">Social Media</h3>
+                <div class="space-y-2 text-md 2xl:text-xl font-medium">
                     <!-- Social Media Item 1 -->
-                    <a href="https://www.instagram.com/sinergi.studio"
-                        class="hover:text-blue-400 transition duration-200">
+                    <a href="https://www.instagram.com/sinergi.studio" class="hover:text-blue-400 transition duration-200">
                         <div class="flex items-center gap-1">
                             <!-- Icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
@@ -72,7 +68,7 @@
                                 <circle cx="11.994" cy="11.979" r="3.003" fill="white"></circle>
                             </svg>
                             <!-- Link Text -->
-                            <h1 class="text-sm">tefa.crtvespace</h1>
+                            <h1 class="text-sm 2xl:text-lg">tefa.crtvespace</h1>
                         </div>
                     </a>
                 </div>
@@ -81,7 +77,7 @@
     </div>
     <!-- Divider and Copyright -->
     <div class="flex justify-center mt-8">
-        <div class="container w-8/12 border-t border-gray-300 pt-4 text-center text-sm text-gray-300">
+        <div class="container w-8/12 border-t border-gray-300 pt-4 text-center text-sm 2xl:text-lg text-gray-300">
             © {{ date('Y') }} Sinergi.Studio. All Rights Reserved
         </div>
     </div>

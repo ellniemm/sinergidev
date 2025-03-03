@@ -30,7 +30,7 @@
           @endif
   
 
-        <a href="{{route('blog.create')}}" class="btn btn-primary mb-4">
+        <a href="{{route('blog.create')}}" class="btn btn-primary mb-4 text-white">
             Create New Blog Post
         </a>
 
@@ -61,7 +61,7 @@
                                 {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])), 6, '...') }}
                         </td>
                         <td class="px-6 py-4">
-                            <img src="https://sinergi.dev.ybgee.my.id/img/blog/{{ $blog['blog_thumbnail'] }}"
+                            <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $blog['blog_thumbnail'] }}"
                                 alt="{{ $blog['blog_name'] }}" class="w-40 h-20 object-cover rounded-md">
                         </td>
                         <td class="max-w-[200px] overflow-hidden" title="{{ $blog['slug'] }}">
@@ -70,16 +70,16 @@
                             </div>
                         </td>
                         <td>{{ $blog['status'] }}</td>
-                        <td>{{ $blog['user_name'] }}</td>
+                        <td>{{ $blog['username'] }}</td>
                         <td>{{ $blog['category_name'] }}</td>
 
                         <td>{{ \Carbon\Carbon::parse($blog['created_at'])->format('d M Y') }}</td>
                         <td>
-                            <a href="{{ route('blog.edit', $blog['slug']) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ route('blog.edit', $blog['slug']) }}" class="btn btn-warning text-white">Edit</a>
                             <form action="{{ route('blog.destroy', $blog['slug']) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-error"
+                                <button type="submit" class="btn btn-error text-white"
                                     onclick="return confirm('Apakah Anda yakin ingin menghapus blog ini?')">
                                     Delete
                                 </button>
@@ -95,10 +95,12 @@
                 @if (count($blogs) > 0)
                 @if ($prevPageUrl)
                 <a href="{{ url()->current() . '?page=' . ($currentPage - 1) }}"
-                    class="px-4 py-2 bg-gray-300 rounded flex items-center">
+                    class="btn btn-neutral text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#000"
-                            d="M8.293 12.707a1 1 0 0 1 0-1.414l5.657-5.657a1 1 0 1 1 1.414 1.414L10.414 12l4.95 4.95a1 1 0 0 1-1.414 1.414z" />
+                        <g fill="none" fill-rule="evenodd">
+                            <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                            <path fill="#fff" d="M8.293 12.707a1 1 0 0 1 0-1.414l5.657-5.657a1 1 0 1 1 1.414 1.414L10.414 12l4.95 4.95a1 1 0 0 1-1.414 1.414z" />
+                        </g>
                     </svg>
                     Previous
                 </a>
@@ -108,11 +110,10 @@
 
                 @if ($nextPageUrl)
                 <a href="{{ url()->current() . '?page=' . ($currentPage + 1) }}"
-                    class="px-4 py-2 bg-gray-300 rounded flex items-center">
+                    class="btn btn-neutral text-white">
                     Next
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#000"
-                            d="M9.31 6.71a.996.996 0 0 0 0 1.41L13.19 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.72 6.7c-.38-.38-1.02-.38-1.41.01" />
+                        <path fill="#fff" d="M9.31 6.71a.996.996 0 0 0 0 1.41L13.19 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.72 6.7c-.38-.38-1.02-.38-1.41.01" />
                     </svg>
                 </a>
                 @endif

@@ -1,43 +1,61 @@
 <script>
     // fungsi ambil token 
     function getTokenCookie() {
-        const value =` ; ${document.cookie}`;
+        const value = `; ${document.cookie}`;
         const parts = value.split(`; authToken=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
+
+    // Fungsi untuk menghapus token cookie
+    function clearTokenCookie() {
+        document.cookie = `authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Strict`;
+    }
+
     // Menangani logout
     document.getElementById('logoutButton').addEventListener('click', async () => {
+        const token = getTokenCookie('authToken');
+        
         try {
-            // Ambil token dari cookie
-            const token = getTokenCookie('authToken');
             if (!token) {
-                alert('You are not logged in!');
+                // Jika tidak ada token, langsung redirect ke login
+                window.location.href = '/login';
                 return;
             }
 
             // Kirim request ke endpoint logout
-            // const response = await fetch('http://localhost:8000/api/logout', {
             const response = await fetch('https://sinergi.dev.ybgee.my.id/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token} `// Sertakan token di header Authorization
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
+            // Hapus token apapun hasilnya (berhasil atau gagal)
+            clearTokenCookie();
+
             if (response.ok) {
-                // Hapus token dari cookie
-                document.cookie =` authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
-                setTimeout(() => {
-                    window.location.href = '/login';
-                }, 1000);
+                // Logout berhasil dari sisi server
+                window.location.href = '/login';
             } else {
-                const result = await response.json();
-                alert(result.message || 'Failed to logout. Please try again.');
+                // Jika response tidak ok (termasuk token kadaluarsa)
+                try {
+                    const result = await response.json();
+                    console.error('Logout failed:', result.message);
+                } catch (parseError) {
+                    console.error('Failed to parse error response');
+                }
+                
+                // Tetap redirect ke halaman login
+                window.location.href = '/login';
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('An unexpected error occurred. Please try again later.');
+            // Tangani error koneksi atau server
+            console.error('Logout error:', error);
+            
+            // Hapus token dan redirect
+            clearTokenCookie();
+            window.location.href = '/login';
         }
     });
 </script>

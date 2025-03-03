@@ -2,19 +2,6 @@
 
 @section('content')
     <header class="bg-[#0D192F] pt-28 2xl:pt-40 relative ">
-        {{-- <svg class="absolute  top-40 left-16 transform -translate-x-1/4 -translate-y-1/4" width="257" height="616"
-            viewBox="0 0 257 616" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M-122.083 608.261C-115.224 616.918 -102.645 618.377 -93.987 611.518L249.213 339.624C257.871 332.765 259.329 320.186 252.47 311.528L12.4194 8.52282C5.56028 -0.135121 -7.01877 -1.5934 -15.6767 5.26572L-358.876 277.159C-367.534 284.018 -368.992 296.597 -362.133 305.255L-122.083 608.261Z"
-                fill="url(#paint0_linear_601_39)" />
-            <defs>
-                <linearGradient id="paint0_linear_601_39" x1="77.6128" y1="475.571" x2="-187.276" y2="141.212"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stopColor="white" stopOpacity="0" />
-                    <stop offset="1" stopColor="white" stopOpacity="0.5" />
-                </linearGradient>
-            </defs>
-        </svg> --}}
         <svg class="absolute  top-40 left-16 transform -translate-x-1/4 -translate-y-1/4" width="257" height="616" viewBox="0 0 257 616" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M-122.083 608.261C-115.224 616.919 -102.645 618.377 -93.987 611.518L249.213 339.624C257.871 332.765 259.329 320.186 252.47 311.528L12.4194 8.52318C5.56028 -0.134755 -7.01877 -1.59303 -15.6767 5.26608L-358.876 277.16C-367.534 284.019 -368.992 296.598 -362.133 305.256L-122.083 608.261Z"
@@ -31,13 +18,13 @@
 
         <div class="text-center mb-20 md:mb-28 relative z-10">
             <h1
-                class="text-3xl 2xl:text-7xl font-medium inline-block border-b-2 2xl:border-b-4 md:w-2/6 pb-3 2xl:pb-6 mb-2 2xl:mb-4">
+                class="text-3xl md:text-4xl 2xl:text-7xl font-medium inline-block border-b-2 2xl:border-b-4 md:w-2/6 pb-3 2xl:pb-6 mb-2 2xl:mb-4">
                 Contact
                 <span class=" bg-gradient-to-r from-[#4796A3] to-[#25427C]  bg-clip-text text text-transparent">
                     Us
                 </span>
             </h1>
-            <h1 class="text-4xl 2xl:text-8xl font-semibold">Let's Meet & Collaborate</h1>
+            <h1 class="text-4xl md:text-5xl 2xl:text-8xl font-semibold">Let's Meet & Collaborate</h1>
         </div>
 
         <div class=" w-11/12 mx-auto relative py-5 md:py-10 z-10">
@@ -55,7 +42,7 @@
                         <h1 class="font-semibold text-sm 2xl:text-2xl text-[#6A6A6A]">
                             Email
                         </h1>
-                        <p class="text-lg font-semibold 2xl:text-4xl">
+                        <p class="text-lg font-semibold 2xl:text-3xl">
                             lorem@gmail.com
                         </p>
                     </div>
@@ -78,7 +65,7 @@
                         <h1 class="font-semibold text-sm 2xl:text-2xl text-[#6A6A6A]">
                             WhatsApp
                         </h1>
-                        <p class="text-lg font-semibold 2xl:text-4xl">
+                        <p class="text-lg font-semibold 2xl:text-3xl">
                             0821lorem999
                         </p>
                     </div>
@@ -98,7 +85,7 @@
                         <h1 class="font-semibold text-sm 2xl:text-2xl text-[#6A6A6A]">
                             Lokasi
                         </h1>
-                        <p class="text-lg font-semibold 2xl:text-4xl">
+                        <p class="text-lg font-semibold 2xl:text-3xl">
                             Jl. Ki Ageng Gribig
                         </p>
                     </div>
@@ -174,7 +161,7 @@
                                 Feedback or Questions
                             </label>
                             <textarea id="message" name="message" rows={3}
-                                class="shadow appearance-none border rounded-lg w-full py-3 px-4 2xl:py-3 2xl:px-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                                class="shadow resize-none hover:resize-y appearance-none border rounded-lg w-full py-3  px-4 2xl:py-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                         </div>
                         <button type="submit"
                             class="bg-[#25427C] w-full hover:bg-black text-white font-medium text-sm py-2 px-4 rounded-md focus:outline-none focus:shadow-outline 2xl:text-md">
