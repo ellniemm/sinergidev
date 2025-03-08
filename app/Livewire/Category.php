@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Category extends Component
@@ -44,24 +45,24 @@ class Category extends Component
     //     }
     // }
     public function fetchCategories()
-{
-    $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+    {
+        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-    $response = Http::withHeaders([
-        'Accept' => 'application/json',
-        'Authorization' => 'Bearer ' . $token
-    ])->get("https://sinergi.dev.ybgee.my.id/api/category", [
-        'order_by' => $this->sortField,
-        'sort_by' => $this->sortDirection
-    ]);
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        ])->get("https://sinergi.dev.ybgee.my.id/api/category", [
+            'order_by' => $this->sortField,
+            'sort_by' => $this->sortDirection
+        ]);
 
-    if ($response->successful()) {
-        $responseData = $response->json();
-        if (isset($responseData['data'])) {
-            $this->categories = $responseData['data'];
+        if ($response->successful()) {
+            $responseData = $response->json();
+            if (isset($responseData['data'])) {
+                $this->categories = $responseData['data'];
+            }
         }
     }
-}
 
 
     public function store()
@@ -72,29 +73,30 @@ class Category extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
-            // ])->post('http://localhost:8000/api/category', [
+                // ])->post('http://localhost:8000/api/category', [
             ])->post('https://sinergi.dev.ybgee.my.id/api/category', [
                 'category_name' => $this->categoryName
             ]);
 
             if ($response->successful()) {
-                $this->message = 'Category created successfully!';
-                $this->errors = [];
-                $this->reset(['categoryName']);
+                $this->resetForm();
                 $this->fetchCategories();
+                Log::info('Store toast', [
+                    'message' => 'Category created successfully',
+                    'status' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'Category created successfully',
+                    'status' => 'success'
+                ]);
             } else {
-                $this->message = '';
-                if ($response->status() === 422) {
-                    $this->errors = $response->json()['errors'];
-                } else if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
+                $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
-            $this->message = '';
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Failed to connect to server',
+                'type' => 'error'
+            ]);
         }
     }
 
@@ -112,46 +114,47 @@ class Category extends Component
         });
 
         if ($currentcategory) {
-            $this->reset(['categoryName']);
-            $this->categoryName = $currentcategory['category_name'];
+            $this->category_id = $id;
+            $this->categoryName = $currentcategory['category_name'] ?? '';
             $this->updateData = true;
         }
     }
-    
+
     public function update()
-{
-    try {
-        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+    {
+        try {
+            $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
-        // ])->patch("http://localhost:8000/api/category/{$this->category_id}", [
-        ])->patch("https://sinergi.dev.ybgee.my.id/api/category/{$this->category_id}", [
-            'category_name' => $this->categoryName,
-        ]);
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+                // ])->patch("http://localhost:8000/api/category/{$this->category_id}", [
+            ])->patch("https://sinergi.dev.ybgee.my.id/api/category/{$this->category_id}", [
+                'category_name' => $this->categoryName,
+            ]);
 
-        if ($response->successful()) {
-            $this->message = 'Category updated successfully!';
-            $this->errors = [];
-            $this->reset(['categoryName']);
-            $this->updateData = false;
-            $this->fetchCategories();
-        } else {
-            $this->message = '';
-            if ($response->status() === 422) {
-                $this->errors = $response->json()['errors'];
-            } else if ($response->status() === 401) {
-                $this->errors = ['auth' => 'Please login first'];
+            if ($response->successful()) {
+                $this->resetForm();
+                $this->updateData = false;
+                $this->fetchCategories();
+                Log::info('Updated category',[
+                    'message' => 'Category updated successfully',
+                    'status' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'Category updated successfully',
+                    'status' => 'success'
+                ]);
             } else {
-                $this->errors = ['server' => 'Something went wrong'];
+                $this->handleErrorResponse($response);
             }
+        } catch (\Exception $e) {
+            $this->dispatch('showToast', [
+                'message' => 'Failed to connect to server',
+                'type' => 'error'
+            ]);
         }
-    } catch (\Exception $e) {
-        $this->message = '';
-        $this->errors = ['connection' => 'Failed to connect to server'];
     }
-}
 
 
     public function delete($id)
@@ -162,33 +165,65 @@ class Category extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
-            // ])->delete("http://localhost:8000/api/category/{$id}");
+                // ])->delete("http://localhost:8000/api/category/{$id}");
             ])->delete("https://sinergi.dev.ybgee.my.id/api/category/{$id}");
 
             if ($response->successful()) {
-                $this->message = 'Category deleted successfully!';
-                $this->errors = [];
+                $this->dispatch('showToast', [
+                    'message' => 'Category deleted successfully',
+                    'status' => 'success'
+                ]);
                 $this->fetchCategories();
             } else {
-                $this->message = '';
-                if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
+                $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
-            $this->message = '';
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Failed to connect to server',
+                'type' => 'error'
+            ]);
         }
     }
-    public function resetForm(){
-        $this->reset(['categoryName']);
-        $this->updateData = false;
-    }
+    // public function resetForm(){
+    //     $this->reset(['categoryName']);
+    //     $this->updateData = false;
+    // }
 
     public function render()
     {
         return view('livewire.category');
+    }
+
+    private function handleErrorResponse($response)
+    {
+        $errorMessage = 'Terjadi kesalahan';
+        $errorType = 'error';
+
+        if ($response->status() === 422) {
+            $errorMessage = 'Validasi gagal. Periksa kembali input Anda.';
+            $this->errors = $response->json()['errors'] ?? [];
+        } elseif ($response->status() === 401) {
+            $errorMessage = 'Anda harus login terlebih dahulu';
+            $errorType = 'warning';
+        }
+
+        $this->dispatch('showToast', [
+            'message' => $errorMessage,
+            'type' => $errorType
+        ]);
+    }
+
+    public function resetForm()
+    {
+
+        $this->reset([
+            'categoryName',
+            // 'categoryDescription', 
+            // 'categoryImage', 
+            'updateData',
+            'category_id',
+            'errors'
+        ]);
+        $this->updateData = false;
     }
 }

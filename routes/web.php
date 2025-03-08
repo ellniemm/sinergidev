@@ -46,11 +46,7 @@ Route::middleware(['checkToken'])->group(function () {
     Route::delete('/blog/delete/{slug}', [BlogController::class, 'destroy'])->name('blog.destroy');
     Route::post('/upload-image', [BlogController::class, 'uploadImage']);
 
-
-
-    Route::get('/about', [AboutController::class, 'about'])->name('about.index');
-
-
     Route::get('/users', [UserController::class, 'user'])->name('user.index');
+    
     Route::get('/category', [CategoryController::class, 'category'])->name('category.index');
 });

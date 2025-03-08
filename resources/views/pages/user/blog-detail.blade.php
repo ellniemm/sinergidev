@@ -2,51 +2,57 @@
 
 <style>
     .blog-content h1 {
-        font-size: 2em;
+        font-size: 1.5em;
         font-weight: bold;
         margin: 0.67em 0;
     }
 
+    @media (min-width: 768px) {
+        .blog-content h1 {
+            font-size: 1.75em;
+        }
+    }
+
+    @media (min-width: 1536px) {
+        .blog-content h1 {
+            font-size: 2em;
+        }
+    }
+
     .blog-content h2 {
-        font-size: 1.5em;
+        font-size: 1.25em;
         font-weight: bold;
         margin: 0.83em 0;
     }
 
+    @media (min-width: 768px) {
+        .blog-content h2 {
+            font-size: 1.375em;
+        }
+    }
+
+    @media (min-width: 1536px) {
+        .blog-content h2 {
+            font-size: 1.5em;
+        }
+    }
+
     .blog-content h3 {
-        font-size: 1.17em;
+        font-size: 1.1em;
         font-weight: bold;
         margin: 1em 0;
     }
 
-    .blog-content blockquote {
-        margin: 1em 40px;
-        padding-left: 15px;
-        border-left: 3px solid #ccc;
+    @media (min-width: 768px) {
+        .blog-content h3 {
+            font-size: 1.15em;
+        }
     }
 
-    .blog-content ul {
-        list-style-type: disc;
-        margin: 1em 0;
-        padding-left: 40px;
-    }
-
-    .blog-content img {
-        display: inline-block;
-        vertical-align: middle;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .blog-content table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .blog-content th,
-    .blog-content td {
-        padding: 10px;
-        border: 1px solid #ddd;
+    @media (min-width: 1536px) {
+        .blog-content h3 {
+            font-size: 1.17em;
+        }
     }
 </style>
 
@@ -54,11 +60,11 @@
 
 <header class="bg-[#0D192F] text-white w-full ">
     <div>
-        <div class="pt-16 md:pt-28 pb-16  mx-auto text-center space-y-7 ">
-            <h3 class="text-xl md:text-2xl 2xl:text-3xl font-medium">
+        <div class="pt-10 md:pt-28 pb-16  mx-auto text-center space-y-7 ">
+            <h3 class="text-base md:text-2xl 2xl:text-3xl font-medium">
                 {{ \Carbon\Carbon::parse($blog['created_at'])->format('d M Y') }}
             </h3>
-            <h1 class="text-4xl md:text-5xl 2xl:text-6xl font-bold w-10/12 mx-auto ">
+            <h1 class="text-2xl md:text-4xl 2xl:text-6xl font-bold px-5 md:px-0 md:w-8/12 mx-auto ">
                 {{-- Apa Itu
                 <span class="bg-gradient-to-tl from-[#2a88b4] to-[#4796A3] bg-clip-text text-transparent">
                     Boolean Search? --}}
@@ -66,7 +72,7 @@
                 </span>
             </h1>
         </div>
-        <div class="relative w-full flex justify-center">
+        <div class="relative w-full flex justify-center content-center">
             {{--
             <Image src="/placeholder1000x500.png" alt="Blog Thumbnail"
                 class=" rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[1000px] md:h-[500px] 2xl:w-[1500px] 2xl:h-[750px] mt-10 2xl:mt-20 z-10"
@@ -76,7 +82,7 @@
             </div> --}}
             <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $blog['blog_thumbnail'] }}"
                 alt="{{ $blog['blog_name']}}"
-                class=" rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[1000px] md:h-[500px] 2xl:w-[1500px] 2xl:h-[750px] mt-14 2xl:mt-20 z-10 object-cover">
+                class=" rounded-xl md:rounded-3xl w-[310px] h-[200px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-4 md:mt-12  2xl:mt-14 z-10 object-cover">
             {{-- <svg viewBox="0 0 1728 800" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="absolute bottom-0 md:bottom-auto w-full">
                 <rect x="104" width="1521" height="600" rx="76" fill="white" class="absolute z-0" />
@@ -89,9 +95,13 @@
                     </linearGradient>
                 </defs>
             </svg> --}}
+            <div
+                class="absolute z-0  w-11/12 h-[200px] md:w-[900px] md:h-[450px] 2xl:w-[1121px] 2xl:h-[500px] bg-white rounded-2xl md:rounded-[66px] justify-items-center">
+            </div>
             <svg class="absolute bottom-0 md:bottom-auto w-full" viewBox="0 0 1728 800" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
-                <rect x="104" width="1521" height="600" rx="76" fill="white" class="absolute z-0" />
+                {{--
+                <rect x="254" width="1221" height="600" rx="76" fill="white" class="absolute z-0 " /> --}}
                 <rect width="1729" height="800" fill="url(#paint0_linear_491_77)" />
                 {{--
                 <path d="M0 0H1729V496H0V0Z" fill="url(#paint0_linear_491_77)" /> --}}
@@ -108,7 +118,7 @@
     </div>
 </header>
 <div class="bg-white text-black w-full relative z-10">
-    <div class="blog-content mx-auto px-10 md:px-32 py-10 2xl:py-20 2xl:px-60">
+    <div class="blog-content mx-auto px-6 md:px-72 py-10 2xl:py-20 2xl:px-[500px]">
         {{-- <div class="space-y-3 md:space-y-7 mb-3 md:mb-5  2xl:mb-7">
             <h2 class="text-xl md:text-4xl 2xl:text-5xl font-semibold pt-10">
                 <span class="bg-gradient-to-r from-[#25427C] to-[#4796A3] bg-clip-text text-transparent">
@@ -182,8 +192,8 @@
                                 {{--
                                 <Image src={"/placeholder300x200.png"} alt="plhd" width={300} height={200}
                                     class="rounded-xl w-full object-cover" />
-                                <div --}}
-                                    {{-- class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full ">
+                                <div --}} {{--
+                                    class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full ">
                                     UI/UX
                                 </div>
                             </div>
@@ -212,8 +222,8 @@
                                 {{--
                                 <Image src={"/placeholder300x200.png"} alt="plhd" width={300} height={200}
                                     class="rounded-xl w-full object-cover" />
-                                <div --}}
-                                    {{-- class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full ">
+                                <div --}} {{--
+                                    class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full ">
                                     UI/UX
                                 </div>
                             </div>
@@ -242,8 +252,8 @@
                                 {{--
                                 <Image src={"/placeholder300x200.png"} alt="plhd" width={300} height={200}
                                     class="rounded-xl w-full object-cover" />
-                                <div --}}
-                                    {{-- class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full ">
+                                <div --}} {{--
+                                    class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full ">
                                     UI/UX
                                 </div>
                             </div>
@@ -266,7 +276,8 @@
                     </div>
                 </a>
             </div> --}}
-        {{-- </div> --}}
+            {{--
+        </div> --}}
         {!! $blog['blog_desc'] !!}
 
     </div>

@@ -256,13 +256,8 @@
                 <div class="md:flex h-full gap-10">
                     <div class="relative md:w-3/4">
                         {{-- Blog Thumbail --}}
-
-                        {{--
-                        <Image src="/placeholder500x300.png" width={500} height={300} alt="post-1"
-                            class="rounded-xl w-full object-cover" /> --}}
-                        {{-- <div class=" rounded-xl w-full h-[300px]">{{ $bigCard['blog_thumbnail'] }}</div> --}}
                         <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $bigCard['blog_thumbnail'] }}"
-                            class=" rounded-xl w-full h-[300px] object-cover" alt="{{ $bigCard['blog_name'] }}">
+                            class=" rounded-xl w-full h-[300px] 2xl:h-[450px] object-cover" alt="{{ $bigCard['blog_name'] }}">
 
 
                         <div
@@ -280,7 +275,7 @@
                                 {{$bigCard['blog_name']}}
                             </h2>
                             <p class="text-[#6A6A6A] 2xl:text-xl font-medium">
-                                {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($bigCard['blog_desc'])), 6,
+                                {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($bigCard['blog_desc'])), 30,
                                 '...') }}
                             </p>
                         </div>
@@ -300,7 +295,7 @@
                     <!-- Gambar -->
                     <div class="relative w-full">
                         <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $blog['blog_thumbnail'] }}"
-                            class="bg-gray-300 rounded-xl w-full h-[200px] object-cover" alt="{{ $blog['blog_name'] }}">
+                            class="bg-gray-300 rounded-xl w-full h-[180px] 2xl:h-[270px] object-cover" alt="{{ $blog['blog_name'] }}">
                         <div
                             class="absolute top-4 right-3 bg-white text-black text-sm md:text-base 2xl:text-lg font-semibold px-4 py-1 rounded-full">
                             {{ $blog['category_name'] }}
@@ -314,7 +309,7 @@
                                 {{ $blog['blog_name'] }}
                             </h2>
                             <p class="text-[#6A6A6A] 2xl:text-xl font-medium">
-                                {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])), 20, '...')
+                                {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])), 15, '...')
                                 }}
                             </p>
                         </div>
