@@ -186,6 +186,10 @@
         z-index: 99999;
     }
 
+
+    /* preview content */
+
+
     /* 
 .trumbowyg-fullscreen .trumbowyg-editor,
 .trumbowyg-fullscreen .trumbowyg-textarea {
@@ -330,12 +334,21 @@
 
 
     </div>
+
+    {{-- section preview --}}
     <div class="text-black bg-white rounded-md shadow-md mx-auto w-full">
-        <div class="mt-10 px-4 border rounded-lg bg-white shadow-md">
-            <h3 id="preview-title" class="text-2xl font-bold mb-2"></h3>
-            <p id="preview-content" class="prose max-w-none"></p>
+        <div class="mt-1 border rounded-lg bg-white shadow-md">
+            <div class="pt-10 md:pt-28 pb-16 mx-auto text-center space-y-7">
+                <h3 id="preview-title" class="text-2xl md:text-4xl 2xl:text-6xl font-bold md:w-8/12 mx-auto"></h3>
+            </div>
+            <div id="preview-thumbnail" class="relative w-full flex justify-center"></div>
+            <div class="blog-content mx-auto md:px-72 py-10 2xl:py-20 2xl:px-[500px]">
+                <div id="preview-content" class="prose max-w-none py-10"></div>
+            </div>
         </div>
     </div>
+
+
 </div>
 
 
@@ -397,7 +410,7 @@
             ["undo", "redo"],
             ["indent", "outdent"],
             ["formatting"],
-            ["fontsize","fontfamily","foreColor", "backColor"],
+            ["fontsize", "fontfamily", "foreColor", "backColor"],
             ["strong", "em", "del", "underline"],
             ["superscript", "subscript"],
             ["link"],
@@ -409,14 +422,16 @@
             ["table"],
             ["tableCellBackgroundColor"],
             ["emoji"],
-            ['fullscreen']
+            ["fullscreen"],
         ],
         plugins: {
             upload: {
                 serverPath: "/upload-image", // Ganti dengan endpoint API Anda
                 fileFieldName: "image", // Nama field untuk file gambar
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content",
+                    ),
                     Authorization: "Bearer " + getCookie("authToken"), // Sertakan token
                     Accept: "application/json",
                 },
@@ -424,14 +439,13 @@
                 dropZone: true,
                 pasteImage: true,
                 xhrFields: {
-                    withCredentials: true,  
-                }
+                    withCredentials: true,
+                },
             },
 
             resizimg: { minSize: 64, step: 16 },
             table: true,
             color: {
-                
                 allowCustom: true,
             },
             cleanPaste: {
@@ -440,12 +454,12 @@
                 removeEmptyTags: true,
             },
             history: {
-            deleteInterval: 250,
-            maxStack: 100,
-            delay: 1000,
-            redoStackLimit: 50,
-            redoStateDelay: 800
-        },
+                deleteInterval: 250,
+                maxStack: 100,
+                delay: 1000,
+                redoStackLimit: 50,
+                redoStateDelay: 800,
+            },
         },
         semantic: true,
         removeformatPasted: true,
@@ -539,15 +553,115 @@
     $("#blog_desc").on("tbwimageupload", function () {
         setTimeout(wrapAndAlignImages, 100);
     });
+    const initialContent = $("#blog_desc").trumbowyg("html");
+    const initialTitle = $("#blog_name").val();
+    const initialThumbnail = $("#imagePreview img").attr("src");
+
+    $("#preview-title").text(initialTitle);
+    $("#preview-content").html(initialContent);
+    if (initialThumbnail) {
+        $("#preview-thumbnail").html(`
+            <img src="${initialThumbnail}" 
+                class="rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-10 2xl:mt-20 z-10 object-cover"
+            >
+        `);
+    }
+    // Event listeners untuk update real-time
     $("#blog_name").on("input", function () {
-            $("#preview-title").text($(this).val());
-        });
+        $("#preview-title").text($(this).val());
+    });
+    $('#editor').trumbowyg({
+    autogrow: true
+}).on('tbwpaste tbwchange', function () {
+    var content = $(this).trumbowyg('html');
+
+    $('img[src^="data:image"]', content).each(function () {
+        let img = $(this);
+        let base64Data = img.attr("src");
+
+        let blobURL = base64ToBlobURL(base64Data);
+        img.attr("src", blobURL); // Ganti Base64 dengan Blob URL
+    });
+});
+
+function base64ToBlobURL(base64) {
+    let byteString = atob(base64.split(',')[1]);
+    let mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+
+    let arrayBuffer = new ArrayBuffer(byteString.length);
+    let uint8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+    }
+
+    let blob = new Blob([uint8Array], { type: mimeString });
+    return URL.createObjectURL(blob);
+}
 
     $("#blog_desc").on("tbwchange tbwpaste input keyup", function () {
         wrapAndAlignImages();
         fixImageAlignment();
         fixTableStyles();
         $("#preview-content").html($(this).trumbowyg("html"));
+        const previewStyles = `
+<style>
+    .blog-content p {
+    width: 100%;
+    max-width: inherit;
+    word-wrap: break-word;
+}
+    .blog-content h1 {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 0.67em 0;
+    }
+
+    .blog-content h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 0.83em 0;
+    }
+
+    .blog-content h3 {
+        font-size: 1.17em;
+        font-weight: bold;
+        margin: 1em 0;
+    }
+
+    .blog-content blockquote {
+        margin: 1em 40px;
+        padding-left: 15px;
+        border-left: 3px solid #ccc;
+    }
+
+    .blog-content ul {
+        list-style-type: disc;
+        margin: 1em 0;
+        padding-left: 40px;
+    }
+
+    .blog-content img {
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .blog-content table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .blog-content th,
+    .blog-content td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+</style>
+`;
+
+        // Tambahkan styles ke head
+        $("head").append(previewStyles);
         //     var content = $(this).trumbowyg('html');
         // $('img[src^="data:image"]', content).each(function() {
         //     var base64Data = $(this).attr('src');
@@ -615,14 +729,30 @@
 
 function previewImage(input) {
     const preview = document.getElementById("imagePreview");
-    const image = preview.querySelector("img");
+    const previewBlog = document.getElementById("preview-thumbnail");
+    let image = preview.querySelector("img");
 
     if (input.files && input.files[0]) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
+            // Preview kecil di bawah input
+            if (!image) {
+                image = document.createElement("img");
+                image.id = "previewImg";
+                image.className =
+                    "max-w-[250px] h-auto object-cover rounded-lg mx-auto";
+                preview.appendChild(image);
+            }
             image.src = e.target.result;
             preview.classList.remove("hidden");
+
+            // Preview di bagian preview blog
+            previewBlog.innerHTML = `
+                <img src="${e.target.result}" 
+                    class="rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-12 2xl:mt-20 z-10 object-cover"
+                >
+            `;
         };
 
         reader.readAsDataURL(input.files[0]);

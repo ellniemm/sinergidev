@@ -1,10 +1,6 @@
 <div>
     <div class="container mx-auto text-black">
-        @if ($message)
-        <div class="my-3 p-3 bg-green-200 rounded-lg shadow-sm">
-            <p class="text-green-700">{{ $message }}</p>
-        </div>
-        @endif
+        @livewire('toast')
 
         <div class="my-3 p-3 bg-gray-200 rounded-lg shadow-sm">
             <h1 class="text-2xl font-bold mb-4">User Management</h1>
@@ -52,7 +48,7 @@
             <div class="flex justify-between items-center mt-4">
                 @if ($prevPageUrl)
                 <button wire:click="fetchUsers({{ $currentPage - 1 }})"
-                    class="px-4 py-2 bg-gray-300 rounded">
+                    class="btn btn-neutral text-white">
                     <svg xmlns="http://www.w3.org/2000/svg"
                     width="24" height="24" viewBox="0 0 24 24">
                     <g fill="none" fill-rule="evenodd">
@@ -67,7 +63,7 @@
                 <span>Page {{ $currentPage }} of {{ $lastPage }}</span>
                 @if ($nextPageUrl)
                 <button wire:click="fetchUsers({{ $currentPage + 1 }})"
-                    class="px-4 py-2 bg-gray-300 rounded">Next
+                    class="btn btn-neutral text-white">Next
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="#fff" d="M9.31 6.71a.996.996 0 0 0 0 1.41L13.19 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.72 6.7c-.38-.38-1.02-.38-1.41.01" />
                     </svg>

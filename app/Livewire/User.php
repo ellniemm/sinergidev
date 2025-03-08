@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class User extends Component
@@ -69,13 +70,26 @@ class User extends Component
             ]);
 
             if ($response->successful()) {
-                $this->message = 'User status updated successfully!';
                 $this->fetchUsers($this->currentPage);
+                Log::info('Dispatching toast', [
+                    'message' => 'User status updated successfully',
+                    'type' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'User status updated successfully',
+                    'type' => 'success'
+                ]);
             } else {
-                $this->errors = ['update' => 'Failed to update user status'];
+                $this->dispatch('showToast', [
+                    'message' => 'Failed to update user status',
+                    'type' => 'error'
+                ]);
             }
         } catch (\Exception $e) {
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Failed to connect to server.',
+                'type' => 'error'
+            ]);
         }
     }
 

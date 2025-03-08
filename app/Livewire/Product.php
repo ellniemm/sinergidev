@@ -295,8 +295,10 @@ class Product extends Component
                 $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
-            $this->message = ''; // Clear success message
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
+                'type' => 'error'
+            ]);
         }
     }
 
@@ -313,7 +315,7 @@ class Product extends Component
 
             if ($response->successful()) {
 
-                Log::info('Dispatching toast', [
+                Log::info('Deleting toast', [
                     'message' => 'Data berhasil dihapus!',
                     'type' => 'success'
                 ]);
@@ -334,8 +336,10 @@ class Product extends Component
                 $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
-            $this->message = '';
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
+                'type' => 'error'
+            ]);
         }
     }
     public function resetForm()

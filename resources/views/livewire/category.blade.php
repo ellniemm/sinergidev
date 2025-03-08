@@ -1,10 +1,6 @@
 <div class="bg-gray-50 min-h-screen flex justify-center">
     <div class="container mx-auto text-black p-4">
-        @if ($message)
-        <div class="my-3 p-3 bg-green-200 rounded-lg shadow-sm text-center">
-            <p class="text-green-700 font-medium">{{ $message }}</p>
-        </div>
-        @endif
+        @livewire('toast')
 
         {{-- Form Section --}}
         <div class="my-3 p-4 bg-gray-200 rounded-lg shadow-sm">
@@ -13,17 +9,17 @@
                     <label for="category_name" class="block text-sm font-medium">Category Name</label>
                     <input type="text"
                         class="mt-1 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                        wire:model='categoryName' required>
+                        wire:model='categoryName' wire:key="categoryName-{{ now() }}" required>
 
                     <div class="mt-4 flex space-x-2">
                         @if (!$updateData)
                         <button type="submit"
-                            class="px-4 py-2 btn btn-primary text-white rounded-lg w-full md:w-auto">Save</button>
+                            class="px-4 py-2  btn btn-primary text-white rounded-lg w-full md:w-auto"  wire:loading.attr="disabled">Save</button>
                         @else
                         <button wire:click='update()' type="button"
-                            class="px-4 py-2 btn btn-primary text-white rounded-lg w-full md:w-auto">Update</button>
-                        <button wire:click="resetForm" type="button"
-                            class="px-4 py-2 btn btn-ghost text-gray-600 rounded-lg w-full md:w-auto">
+                            class="px-4 py-2  btn btn-warning text-white rounded-lg w-full md:w-auto"  wire:loading.attr="disabled">Update</button>
+                        <button wire:click.prevent="resetForm" type="button"
+                            class="px-4 py-2  btn btn-ghost text-gray-600 rounded-lg w-full md:w-auto" wite:loading.attr="disabled" >
                             Cancel
                         </button>
                         @endif
@@ -54,9 +50,9 @@
                             </td>
                             <td class="px-4 py-2">
                                 <div class="flex space-x-2">
-                                    <button wire:click="edit('{{ $category['category_id'] }}')"
+                                    <button wire:click="edit('{{ $category['category_id'] }}')"  wire:loading.attr="disabled"
                                         class="px-3 py-1 btn btn-warning text-white rounded text-xs md:text-sm">Edit</button>
-                                    <button wire:click="delete('{{ $category['category_id'] }}')"
+                                    <button wire:click="delete('{{ $category['category_id'] }}')"  wire:loading.attr="disabled"
                                         class="px-3 py-1 btn btn-error text-white rounded text-xs md:text-sm">Delete</button>
                                 </div>
                             </td>

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -65,6 +66,9 @@ class Service extends Component
                 $this->lastPage = $responseData['data']['pagination']['last_page'];
                 $this->nextPageUrl = $responseData['data']['pagination']['next_page_url'];
                 $this->prevPageUrl = $responseData['data']['pagination']['prev_page_url'];
+
+                $this->resetForm();
+                $this->updateData = false;
             }
         }
     }
@@ -82,8 +86,17 @@ class Service extends Component
         }
     }
 
-    public function resetForm(){
-        $this->reset(['serviceName', 'serviceDescription', 'serviceImage']);
+    public function resetForm()
+    {
+
+        $this->reset([
+            'serviceName',
+            'serviceDescription',
+            'serviceImage',
+            'updateData',
+            'service_id',
+            'errors'
+        ]);
         $this->updateData = false;
     }
 
@@ -120,46 +133,72 @@ class Service extends Component
             }
 
             if ($response->successful()) {
-                $this->message = 'Service created successfully!';
-                $this->errors = []; // Clear any existing errors
-                $this->reset(['serviceName', 'serviceDescription', 'serviceImage']);
+                $this->resetForm();
                 $this->fetchServices();
+                Log::info('Dispatching toast', [
+                    'message' => 'Data berhasil ditambahkan!',
+                    'type' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'Data berhasil ditambahkan!', 
+                    'type' => 'success'
+                ]);
             } else {
-                $this->message = ''; // Clear success message
-                if ($response->status() === 422) {
-                    $this->errors = $response->json()['errors'];
-                } else if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
+               $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
-            $this->message = ''; // Clear success message
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
+                'type' => 'error'
+            ]);
         }
     }
     public function edit($id)
     {
-        $this->service_id = $id;
-        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+        $this->fetchServices();
 
-        // Force fresh data fetch first
-        $this->fetchServices($this->currentPage);
-
-        // Get latest data directly from the services array
-        $currentService = collect($this->services)->first(function ($service) use ($id) {
-            return $service['service_id'] === $id;
+        $updatedService = collect($this->services)
+        ->first(function ($service) use ($id){
+            return $service['service_id'] == $id;
         });
 
-        if ($currentService) {
-            $this->reset(['serviceName', 'serviceDescription', 'serviceImage']);
-            $this->serviceName = $currentService['service_name'];
-            $this->serviceDescription = $currentService['service_desc'];
-            $this->serviceImage = $currentService['service_img'];
+        if ($updatedService){
+            $this->service_id = $id;
+            $this->serviceName = $updatedService['service_name'] ?? '';
+            $this->serviceDescription = $updatedService['service_desc'] ?? '';
+            $this->serviceImage = $updatedService['service_img'] ?? '';
             $this->updateData = true;
+
+            Log::info('Edit method - Updated Service Data', [
+                'service_id' => $this->service_id,
+                'service_name' => $this->serviceName,
+                'service_desc' => $this->serviceDescription,
+                'service_img' => $this->serviceImage,
+
+            ]);
+        } else {
+            Log::warning('Service not found in updated list',[
+                'searched_id' => $id
+            ]);
+
+            $this->dispatch('showToast', [
+                'message' => 'Service tidak ditemukan. Mohon refresh halaman', 
+                'type' => 'error'
+            ]);
         }
     }
+    // public function edit($id)
+    // {
+    //     $this->service_id = $id;
+    //     $data = Http::get("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
+    //     $data = $data->json();
+
+    //     $this->serviceName = $data['data']['service_name'];
+    //     $this->serviceDescription = $data['data']['service_desc'];
+    //     $this->serviceImage = $data['data']['service_img'];
+
+    //     $this->updateData = true;
+    // }
 
 
 
@@ -176,7 +215,7 @@ class Service extends Component
                     'service_img',
                     file_get_contents($this->serviceImage->path()),
                     $this->serviceImage->getClientOriginalName()
-                // )->patch("http://localhost:8000/api/service/{$this->service_id}", [
+                    // )->patch("http://localhost:8000/api/service/{$this->service_id}", [
                 )->patch("https://sinergi.dev.ybgee.my.id/api/service/{$this->service_id}", [
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
@@ -185,7 +224,7 @@ class Service extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
-                // ])->patch("http://localhost:8000/api/service/{$this->service_id}", [
+                    // ])->patch("http://localhost:8000/api/service/{$this->service_id}", [
                 ])->patch("https://sinergi.dev.ybgee.my.id/api/service/{$this->service_id}", [
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
@@ -194,58 +233,90 @@ class Service extends Component
 
 
             if ($response->successful()) {
-                $this->message = 'Service updated successfully!';
-                $this->errors = []; // Clear any existing errors
-                $this->reset(['serviceName', 'serviceDescription', 'serviceImage']);
-                $this->updateData = false;
+                $this->resetForm();
                 $this->fetchServices();
+                $this->updateData = false;
+                Log::info('Dispatching toast', [
+                    'message' => 'Data berhasil diupdate!',
+                    'type' => 'success'
+                ]);
+                $this->dispatch('showToast', [
+                    'message' => 'Data berhasil diupdate!', 
+                    'type' => 'success'
+                ]);
             } else {
-                $this->message = ''; // Clear success message
-                if ($response->status() === 422) {
-                    $this->errors = $response->json()['errors'];
-                } else if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
+                $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
-            $this->message = ''; // Clear success message
-            $this->errors = ['connection' => 'Failed to connect to server'];
+            $this->dispatch('showToast', [
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.',
+                'type' => 'error'
+            ]);
         }
     }
 
     public function delete($id)
-    {
-        try {
-            $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+{
+    try {
+        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-            $response = Http::withHeaders([
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token
-            ])->delete("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
-
-            if ($response->successful()) {
-                $this->message = 'Service deleted successfully!';
-                $this->errors = [];
-
-                // Check if current page has only one item
-                if (count($this->services) === 1 && $this->currentPage > 1) {
-                    $this->fetchServices($this->currentPage - 1);
-                } else {
-                    $this->fetchServices($this->currentPage);
-                }
-            } else {
-                $this->message = '';
-                if ($response->status() === 401) {
-                    $this->errors = ['auth' => 'Please login first'];
-                } else {
-                    $this->errors = ['server' => 'Something went wrong'];
-                }
-            }
-        } catch (\Exception $e) {
-            $this->message = '';
-            $this->errors = ['connection' => 'Failed to connect to server'];
+        if (!$token) {
+            $this->dispatch('showToast', [
+                'message' => 'Token tidak ditemukan. Silakan login kembali.',
+                'type' => 'error'
+            ]);
+            return;
         }
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        ])->delete("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
+
+        if ($response->successful()) {
+            $this->dispatch('showToast', [
+                'message' => 'Data berhasil dihapus!', 
+                'type' => 'success'
+            ]);
+
+            if (count($this->services) === 1 && $this->currentPage > 1) {
+                $this->fetchServices($this->currentPage - 1);
+            } else {
+                $this->fetchServices($this->currentPage);
+            }
+        } else {
+            $this->handleErrorResponse($response);
+        }
+    } catch (\Exception $e) {
+        Log::error('Delete service error:', [
+            'service_id' => $id,
+            'error' => $e->getMessage()
+        ]);
+        
+        $this->dispatch('showToast', [
+            'message' => 'Gagal menghapus data. Silakan coba lagi.', 
+            'type' => 'error'
+        ]);
+    }
+}
+
+
+    private function handleErrorResponse($response)
+    {
+        $errorMessage = 'Terjadi kesalahan';
+        $errorType = 'error';
+
+        if ($response->status() === 422) {
+            $errorMessage = 'Validasi gagal. Periksa kembali input Anda.';
+            $this->errors = $response->json()['errors'] ?? [];
+        } elseif ($response->status() === 401) {
+            $errorMessage = 'Anda harus login terlebih dahulu';
+            $errorType = 'warning';
+        }
+
+        $this->dispatch('showToast', [
+            'message' => $errorMessage,
+            'type' => $errorType
+        ]);
     }
 }
