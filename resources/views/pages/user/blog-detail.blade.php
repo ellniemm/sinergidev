@@ -1,58 +1,71 @@
 @extends('pages.layouts.user')
 
 <style>
+    .blog-content p {
+        line-height: 1.7;
+    }
+
     .blog-content h1 {
-        font-size: 1.5em;
+        font-size: 2em;
         font-weight: bold;
         margin: 0.67em 0;
     }
 
-    @media (min-width: 768px) {
-        .blog-content h1 {
-            font-size: 1.75em;
-        }
-    }
-
-    @media (min-width: 1536px) {
-        .blog-content h1 {
-            font-size: 2em;
-        }
-    }
-
     .blog-content h2 {
-        font-size: 1.25em;
+        font-size: 1.5em;
         font-weight: bold;
         margin: 0.83em 0;
     }
 
-    @media (min-width: 768px) {
-        .blog-content h2 {
-            font-size: 1.375em;
-        }
-    }
-
-    @media (min-width: 1536px) {
-        .blog-content h2 {
-            font-size: 1.5em;
-        }
-    }
-
     .blog-content h3 {
-        font-size: 1.1em;
+        font-size: 1.17em;
         font-weight: bold;
         margin: 1em 0;
     }
 
-    @media (min-width: 768px) {
-        .blog-content h3 {
-            font-size: 1.15em;
-        }
+    .blog-content h4 {
+        font-size: 1em;
+        font-weight: bold;
+        margin: 1.33em 0;
     }
 
-    @media (min-width: 1536px) {
-        .blog-content h3 {
-            font-size: 1.17em;
-        }
+    .blog-content blockquote {
+        margin: 1em 40px;
+        padding-left: 15px;
+        border-left: 3px solid #ccc;
+    }
+
+    .blog-content ul {
+        list-style-type: disc;
+        margin: 1em 0;
+        padding-left: 40px;
+    }
+
+    .blog-content ol {
+        list-style-type: decimal;
+        margin: 1em 0;
+        padding-left: 40px;
+    }
+
+    .blog-content li {
+        display: list-item;
+        margin: 0.5em 0;
+        padding-bottom: 7px;
+    }
+
+    /* 🔥 Pastikan gambar sejajar dengan teks */
+    .blog-content img {
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* 🔥 Atur paragraf yang berisi gambar */
+    .blog-content p:has(img) {
+        margin: 10px 0;
+        text-align: left;
+        /* Default alignment */
     }
 </style>
 

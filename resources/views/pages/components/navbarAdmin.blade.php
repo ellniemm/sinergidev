@@ -14,8 +14,8 @@
             @endphp
             <div class="hidden lg:flex justify-center items-center col-span-6 gap-x-5">
                 @foreach($navLinks as $link)
-                <a href="" onclick="quickTokenCheck('{{ route($link['href']) }}')"
-                    class="font-semibold relative cursor-pointer hover:text-blue-300 transition-colors duration-200">
+                <a href="{{route($link['href'])}}"
+                    class="font-semibold relative cursor-pointer hover:text-blue-300 transition-colors duration-200 ">
                     {{ $link['name'] }}
                     <span
                         class="absolute -bottom-2 left-0 w-full h-[2px] bg-blue-300 transform origin-left transition-transform duration-200 ease-out scale-x-0"></span>
@@ -42,20 +42,3 @@
         </nav>
     </div>
 </div>
-
-<script>
-    function quickTokenCheck(route) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('HEAD', route, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 401) {
-                    window.location.href = "{{ route('login') }}";
-                } else {
-                    window.location.href = route;
-                }
-            }
-        };
-        xhr.send();
-    }
-    </script>
