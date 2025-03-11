@@ -16,7 +16,12 @@
 <!-- Colors Plugin CSS -->
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/colors/ui/trumbowyg.colors.min.css">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/lineheight/trumbowyg.lineheight.min.js">
 <style>
+    .trumbowyg-editor p{
+        line-height: 1.7;
+    }
     .trumbowyg-editor h1 {
         font-size: 2em;
         font-weight: bold;
@@ -62,6 +67,7 @@
     .trumbowyg-editor li {
         display: list-item;
         margin: 0.5em 0;
+        padding-bottom: 7px;
     }
 
     /* 🔥 Pastikan gambar sejajar dengan teks */
@@ -326,7 +332,7 @@
             <!-- Buttons -->
             <div class="flex justify-end space-x-2 mt-6">
                 <a href="{{ route('blog.index') }}" class="btn btn-ghost">Cancel</a>
-                <button type="submit" class="btn btn-primary text-white">
+                <button type="submit" class="btn {{ isset($blog) ? 'btn-warning' : 'btn-primary' }} text-white">
                     {{ isset($blog) ? 'Update' : 'Create' }} Blog
                 </button>
             </div>
@@ -390,378 +396,433 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/fontfamily/trumbowyg.fontfamily.min.js">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/history/trumbowyg.history.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/lineheight/trumbowyg.lineheight.min.js">
+</script>
 
 <script>
     $(document).ready(function () {
-    if (!$.trumbowyg) {
-        console.error("Trumbowyg belum dimuat!");
-        return;
-    }
-    // Initialize Trumbowyg
-    $("#blog_desc").trumbowyg({
-        btnsDef: {
-            image: {
-                dropdown: ["insertImage", "upload"],
-                ico: "insertImage",
-            },
-        },
-        btns: [
-            ["viewHTML"],
-            ["undo", "redo"],
-            ["indent", "outdent"],
-            ["formatting"],
-            ["fontsize", "fontfamily", "foreColor", "backColor"],
-            ["strong", "em", "del", "underline"],
-            ["superscript", "subscript"],
-            ["link"],
-            ["image"],
-            ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
-            ["unorderedList", "orderedList"],
-            ["horizontalRule"],
-            ["removeformat"],
-            ["table"],
-            ["tableCellBackgroundColor"],
-            ["emoji"],
-            ["fullscreen"],
-        ],
-        plugins: {
-            upload: {
-                serverPath: "/upload-image", // Ganti dengan endpoint API Anda
-                fileFieldName: "image", // Nama field untuk file gambar
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content",
-                    ),
-                    Authorization: "Bearer " + getCookie("authToken"), // Sertakan token
-                    Accept: "application/json",
-                },
-                urlPropertyName: "url", // Properti di response JSON yang berisi URL gambar
-                dropZone: true,
-                pasteImage: true,
-                xhrFields: {
-                    withCredentials: true,
-                },
-            },
-
-            resizimg: { minSize: 64, step: 16 },
-            table: true,
-            color: {
-                allowCustom: true,
-            },
-            cleanPaste: {
-                keepNewLines: true,
-                removeStyles: true,
-                removeEmptyTags: true,
-            },
-            history: {
-                deleteInterval: 250,
-                maxStack: 100,
-                delay: 1000,
-                redoStackLimit: 50,
-                redoStateDelay: 800,
-            },
-        },
-        semantic: true,
-        removeformatPasted: true,
-        pastePlain: true,
-        autogrow: true,
-        autogrowOnEnter: true,
-        imageWidthModalEdit: true,
-        defaultLinkTarget: "_blank",
-        emoji: true,
-        // upload: {
-        //     serverPath: "/upload-image",
-        //     fileFieldName: "image",
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     },
-        //     urlPropertyName: "url",
-        //     dropZone: true,
-        //     pasteImage: true,
-        // },
-        tabToIndent: true,
-    });
-
-    // Add word counter
-    $(".trumbowyg-box").append(
-        '<div class="word-counter">Words: <span>0</span></div>',
-    );
-
-    // Add counter styles
-    $("<style>")
-        .text(
-            `
-    .word-counter {
-        padding: 8px 15px;
-        background: #2d3436;
-        border-top: 1px solid #ddd;
-        font-size: 14px;
-        color: white;
-    }
-`,
-        )
-        .appendTo("head");
-
-    // Initial word count
-    function countWords() {
-        var text = $("#blog_desc").trumbowyg("html");
-        var tempDiv = document.createElement("div");
-        tempDiv.innerHTML = text;
-
-        tempDiv
-            .querySelectorAll("script, style, img")
-            .forEach((el) => el.remove());
-        let cleanText = tempDiv.textContent || tempDiv.innerText || "";
-
-        let words = cleanText
-            .replace(/[\n\r]+/g, " ")
-            .replace(/\s+/g, " ")
-            .match(/\b\w+\b/g);
-
-        let wordCount = words ? words.length : 0;
-        $(".word-counter span").text(wordCount);
-    }
-
-    // Count words on load
-    countWords();
-
-    // Count words on changes
-    $("#blog_desc").on("tbwchange tbwpaste input keyup", countWords);
-
-    function wrapAndAlignImages() {
-        $("#blog_desc img").each(function () {
-            let img = $(this);
-            let parent = img.parent();
-
-            if (!parent.is("p")) {
-                img.wrap('<p style="text-align: left;"></p>');
-            } else if (!parent.attr("style")) {
-                parent.attr("style", "text-align: left;");
-            }
-        });
-    }
-
-    function fixImageAlignment() {
-        $("#blog_desc p:has(img)").each(function () {
-            let p = $(this);
-            if (!p.attr("style")) {
-                p.css("text-align", "left");
-            }
-        });
-    }
-
-    $("#blog_desc").on("tbwimageupload", function () {
-        setTimeout(wrapAndAlignImages, 100);
-    });
-    const initialContent = $("#blog_desc").trumbowyg("html");
-    const initialTitle = $("#blog_name").val();
-    const initialThumbnail = $("#imagePreview img").attr("src");
-
-    $("#preview-title").text(initialTitle);
-    $("#preview-content").html(initialContent);
-    if (initialThumbnail) {
-        $("#preview-thumbnail").html(`
-            <img src="${initialThumbnail}" 
-                class="rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-10 2xl:mt-20 z-10 object-cover"
-            >
-        `);
-    }
-    // Event listeners untuk update real-time
-    $("#blog_name").on("input", function () {
-        $("#preview-title").text($(this).val());
-    });
-    $('#editor').trumbowyg({
-    autogrow: true
-}).on('tbwpaste tbwchange', function () {
-    var content = $(this).trumbowyg('html');
-
-    $('img[src^="data:image"]', content).each(function () {
-        let img = $(this);
-        let base64Data = img.attr("src");
-
-        let blobURL = base64ToBlobURL(base64Data);
-        img.attr("src", blobURL); // Ganti Base64 dengan Blob URL
-    });
-});
-
-function base64ToBlobURL(base64) {
-    let byteString = atob(base64.split(',')[1]);
-    let mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
-
-    let arrayBuffer = new ArrayBuffer(byteString.length);
-    let uint8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-        uint8Array[i] = byteString.charCodeAt(i);
-    }
-
-    let blob = new Blob([uint8Array], { type: mimeString });
-    return URL.createObjectURL(blob);
-}
-
-    $("#blog_desc").on("tbwchange tbwpaste input keyup", function () {
-        wrapAndAlignImages();
-        fixImageAlignment();
-        fixTableStyles();
-        $("#preview-content").html($(this).trumbowyg("html"));
-        const previewStyles = `
-<style>
-    .blog-content p {
-    width: 100%;
-    max-width: inherit;
-    word-wrap: break-word;
-}
-    .blog-content h1 {
-        font-size: 2em;
-        font-weight: bold;
-        margin: 0.67em 0;
-    }
-
-    .blog-content h2 {
-        font-size: 1.5em;
-        font-weight: bold;
-        margin: 0.83em 0;
-    }
-
-    .blog-content h3 {
-        font-size: 1.17em;
-        font-weight: bold;
-        margin: 1em 0;
-    }
-
-    .blog-content blockquote {
-        margin: 1em 40px;
-        padding-left: 15px;
-        border-left: 3px solid #ccc;
-    }
-
-    .blog-content ul {
-        list-style-type: disc;
-        margin: 1em 0;
-        padding-left: 40px;
-    }
-
-    .blog-content img {
-        display: inline-block;
-        vertical-align: middle;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .blog-content table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .blog-content th,
-    .blog-content td {
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-</style>
-`;
-
-        // Tambahkan styles ke head
-        $("head").append(previewStyles);
-        //     var content = $(this).trumbowyg('html');
-        // $('img[src^="data:image"]', content).each(function() {
-        //     var base64Data = $(this).attr('src');
-        //     $.ajax({
-        //         url: '/convert-base64',
-        //         method: 'POST',
-        //         data: {
-        //             image: base64Data,
-        //             _token: $('input[name="_token"]').val()
-        //         },
-        //         success: function(response) {
-        //             $(this).attr('src', response.url);
-        //         }
-        //     });
-        // });
-    });
-
-    function applyAlignment(alignment) {
-        let selection = document.getSelection();
-        if (!selection.rangeCount) return;
-
-        let range = selection.getRangeAt(0);
-        let parent = $(range.commonAncestorContainer).closest("p");
-
-        if (parent.length) {
-            parent.css("text-align", alignment);
+        if (!$.trumbowyg) {
+            console.error("Trumbowyg belum dimuat!");
+            return;
         }
-    }
-
-    function fixTableStyles() {
-        $(".trumbowyg-editor table")
-            .css({
-                width: "100%",
-                "border-collapse": "collapse",
-            })
-            .each(function () {
-                // Add colgroup if not exists
-                if (!$(this).find("colgroup").length) {
-                    var colCount = $(this).find(
-                        "tr:first td, tr:first th",
-                    ).length;
-                    var colgroup = $("<colgroup>");
-                    for (var i = 0; i < colCount; i++) {
-                        colgroup.append($("<col>"));
-                    }
-                    $(this).prepend(colgroup);
+        // Initialize Trumbowyg
+        $("#blog_desc").trumbowyg({
+            btnsDef: {
+                image: {
+                    dropdown: ["insertImage", "upload"],
+                    ico: "insertImage",
+                },
+            },
+            btns: [
+                ["viewHTML"],
+                ["undo", "redo"],
+                ["indent", "outdent"],
+                ["formatting"],
+                ["lineheight", "fontsize", "fontfamily", "foreColor", "backColor"],
+                ["strong", "em", "del", "underline"],
+                ["superscript", "subscript"],
+                ["link"],
+                ["image"],
+                ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
+                ["unorderedList", "orderedList"],
+                ["horizontalRule"],
+                ["removeformat"],
+                ["table"],
+                ["tableCellBackgroundColor"],
+                ["emoji"],
+                ["fullscreen"],
+            ],
+            plugins: {
+                upload: {
+                    serverPath: "/upload-image", // Ganti dengan endpoint API Anda
+                    fileFieldName: "image", // Nama field untuk file gambar
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content",
+                        ),
+                        Authorization: "Bearer " + getCookie("authToken"), // Sertakan token
+                        Accept: "application/json",
+                    },
+                    urlPropertyName: "url", // Properti di response JSON yang berisi URL gambar
+                    dropZone: true,
+                    pasteImage: true,
+                    xhrFields: {
+                        withCredentials: true,
+                    },
+                },
+    
+                resizimg: { minSize: 64, step: 16 },
+                table: true,
+                color: {
+                    allowCustom: true,
+                },
+                cleanPaste: {
+                    keepNewLines: true,
+                    removeStyles: true,
+                    removeEmptyTags: true,
+                },
+                history: {
+                    deleteInterval: 250,
+                    maxStack: 100,
+                    delay: 1000,
+                    redoStackLimit: 50,
+                    redoStateDelay: 800,
+                },
+            },
+            semantic: true,
+            removeformatPasted: true,
+            pastePlain: true,
+            autogrow: true,
+            autogrowOnEnter: true,
+            imageWidthModalEdit: true,
+            defaultLinkTarget: "_blank",
+            emoji: true,
+            // upload: {
+            //     serverPath: "/upload-image",
+            //     fileFieldName: "image",
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     },
+            //     urlPropertyName: "url",
+            //     dropZone: true,
+            //     pasteImage: true,
+            // },
+            tabToIndent: true,
+        });
+    
+        // Add word counter
+        $(".trumbowyg-box").append(
+            '<div class="word-counter">Words: <span>0</span></div>',
+        );
+    
+        // Add counter styles
+        $("<style>")
+            .text(
+                `
+        .word-counter {
+            padding: 8px 15px;
+            background: #2d3436;
+            border-top: 1px solid #ddd;
+            font-size: 14px;
+            color: white;
+        }
+    `,
+            )
+            .appendTo("head");
+    
+        // Initial word count
+        function countWords() {
+            var text = $("#blog_desc").trumbowyg("html");
+            var tempDiv = document.createElement("div");
+            tempDiv.innerHTML = text;
+    
+            tempDiv
+                .querySelectorAll("script, style, img")
+                .forEach((el) => el.remove());
+            let cleanText = tempDiv.textContent || tempDiv.innerText || "";
+    
+            let words = cleanText
+                .replace(/[\n\r]+/g, " ")
+                .replace(/\s+/g, " ")
+                .match(/\b\w+\b/g);
+    
+            let wordCount = words ? words.length : 0;
+            $(".word-counter span").text(wordCount);
+        }
+    
+        // Count words on load
+        countWords();
+    
+        // Count words on changes
+        $("#blog_desc").on("tbwchange tbwpaste input keyup", countWords);
+    
+        function wrapAndAlignImages() {
+            $("#blog_desc img").each(function () {
+                let img = $(this);
+                let parent = img.parent();
+    
+                if (!parent.is("p")) {
+                    img.wrap('<p style="text-align: left;"></p>');
+                } else if (!parent.attr("style")) {
+                    parent.attr("style", "text-align: left;");
                 }
             });
-    }
-
-    $(".trumbowyg-button-group").on("click", "button", function () {
-        let buttonClass = $(this).attr("class");
-
-        if (buttonClass.includes("trumbowyg-justifyLeft-button")) {
-            applyAlignment("left");
-        } else if (buttonClass.includes("trumbowyg-justifyCenter-button")) {
-            applyAlignment("center");
-        } else if (buttonClass.includes("trumbowyg-justifyRight-button")) {
-            applyAlignment("right");
-        } else if (buttonClass.includes("trumbowyg-justifyFull-button")) {
-            applyAlignment("justify");
         }
-    });
-});
-
-function previewImage(input) {
-    const preview = document.getElementById("imagePreview");
-    const previewBlog = document.getElementById("preview-thumbnail");
-    let image = preview.querySelector("img");
-
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            // Preview kecil di bawah input
-            if (!image) {
-                image = document.createElement("img");
-                image.id = "previewImg";
-                image.className =
-                    "max-w-[250px] h-auto object-cover rounded-lg mx-auto";
-                preview.appendChild(image);
-            }
-            image.src = e.target.result;
-            preview.classList.remove("hidden");
-
-            // Preview di bagian preview blog
-            previewBlog.innerHTML = `
-                <img src="${e.target.result}" 
-                    class="rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-12 2xl:mt-20 z-10 object-cover"
+    
+        function fixImageAlignment() {
+            $("#blog_desc p:has(img)").each(function () {
+                let p = $(this);
+                if (!p.attr("style")) {
+                    p.css("text-align", "left");
+                }
+            });
+        }
+    
+        $("#blog_desc").on("tbwimageupload", function () {
+            setTimeout(wrapAndAlignImages, 100);
+        });
+        const initialContent = $("#blog_desc").trumbowyg("html");
+        const initialTitle = $("#blog_name").val();
+        const initialThumbnail = $("#imagePreview img").attr("src");
+    
+        $("#preview-title").text(initialTitle);
+        $("#preview-content").html(initialContent);
+        if (initialThumbnail) {
+            $("#preview-thumbnail").html(`
+                <img src="${initialThumbnail}" 
+                    class="rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-10 2xl:mt-20 z-10 object-cover"
                 >
-            `;
-        };
-
-        reader.readAsDataURL(input.files[0]);
+            `);
+        }
+        const previewStyles = `
+    <style>
+    .blog-content p {
+            line-height: 1.7;
+        }
+        .blog-content h1 {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0.67em 0;
+        }
+    
+        .blog-content h2 {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0.83em 0;
+        }
+        
+        .blog-content h3 {
+            font-size: 1.17em;
+            font-weight: bold;
+            margin: 1em 0;
+        }
+        
+        .blog-content blockquote {
+            margin: 1em 40px;
+            padding-left: 15px;
+            border-left: 3px solid #ccc;
+        }
+        .blog-content ul {
+            list-style-type: disc;
+            margin: 1em 0;
+            padding-left: 40px;
+        }
+        
+        .blog-content ol {
+            list-style-type: decimal;
+            margin: 1em 0;
+            padding-left: 40px;
+        }
+        
+        .blog-content li {
+            display: list-item;
+            margin: 0.5em 0;
+            padding-bottom: 7px;
+        }
+    
+        
+        .blog-content img {
+            display: inline-block;
+            vertical-align: middle;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .blog-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        .blog-content th,
+        .blog-content td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        </style>
+        `;
+        // Tambahkan styles ke head
+        $("head").append(previewStyles);
+    
+        // Event listeners untuk update real-time
+        $("#blog_name").on("input", function () {
+            $("#preview-title").text($(this).val());
+        });
+        $("#editor")
+            .trumbowyg({
+                autogrow: true,
+            })
+            .on("tbwpaste tbwchange", function () {
+                var content = $(this).trumbowyg("html");
+    
+                $('img[src^="data:image"]', content).each(function () {
+                    let img = $(this);
+                    let base64Data = img.attr("src");
+    
+                    let blobURL = base64ToBlobURL(base64Data);
+                    img.attr("src", blobURL); // Ganti Base64 dengan Blob URL
+                });
+            });
+    
+        $("#blog_desc").on("tbwchange tbwpaste input keyup", function () {
+            wrapAndAlignImages();
+            fixImageAlignment();
+            fixTableStyles();
+            $("#preview-content").html($(this).trumbowyg("html"));
+            //         const previewStyles = `
+            // <style>
+            // .blog-content p {
+            //     lineheight: 1.7;
+            //     width: 100%;
+            //     max-width: inherit;
+            //     word-wrap: break-word;
+            // }
+            //     .blog-content h1 {
+            //         font-size: 2em;
+            //         font-weight: bold;
+            //         margin: 0.67em 0;
+            //     }
+    
+            //     .blog-content h2 {
+            //         font-size: 1.5em;
+            //         font-weight: bold;
+            //         margin: 0.83em 0;
+            //     }
+    
+            //     .blog-content h3 {
+            //         font-size: 1.17em;
+            //         font-weight: bold;
+            //         margin: 1em 0;
+            //     }
+    
+            //     .blog-content blockquote {
+            //         margin: 1em 40px;
+            //         padding-left: 15px;
+            //         border-left: 3px solid #ccc;
+            //     }
+            //     .blog-content ul {
+            //         list-style-type: disc;
+            //         margin: 1em 0;
+            //         padding-left: 40px;
+            //     }
+    
+            //     .blog-content ol {
+            //         list-style-type: decimal;
+            //         margin: 1em 0;
+            //         padding-left: 40px;
+            //     }
+    
+            //     .blog-content li {
+            //         display: list-item;
+            //         margin: 0.5em 0;
+            //     }
+    
+            //     .blog-content img {
+            //         display: inline-block;
+            //         vertical-align: middle;
+            //         max-width: 100%;
+            //         height: auto;
+            //     }
+    
+            //     .blog-content table {
+            //         width: 100%;
+            //         border-collapse: collapse;
+            //     }
+    
+            //     .blog-content th,
+            //     .blog-content td {
+            //         padding: 10px;
+            //         border: 1px solid #ddd;
+            //     }
+            //     </style>
+            //     `;
+            //     // Tambahkan styles ke head
+            //     $("head").append(previewStyles);
+        });
+    
+        function applyAlignment(alignment) {
+            let selection = document.getSelection();
+            if (!selection.rangeCount) return;
+    
+            let range = selection.getRangeAt(0);
+            let parent = $(range.commonAncestorContainer).closest("p");
+    
+            if (parent.length) {
+                parent.css("text-align", alignment);
+            }
+        }
+    
+        function fixTableStyles() {
+            $(".trumbowyg-editor table")
+                .css({
+                    width: "100%",
+                    "border-collapse": "collapse",
+                })
+                .each(function () {
+                    // Add colgroup if not exists
+                    if (!$(this).find("colgroup").length) {
+                        var colCount = $(this).find(
+                            "tr:first td, tr:first th",
+                        ).length;
+                        var colgroup = $("<colgroup>");
+                        for (var i = 0; i < colCount; i++) {
+                            colgroup.append($("<col>"));
+                        }
+                        $(this).prepend(colgroup);
+                    }
+                });
+        }
+    
+        $(".trumbowyg-button-group").on("click", "button", function () {
+            let buttonClass = $(this).attr("class");
+    
+            if (buttonClass.includes("trumbowyg-justifyLeft-button")) {
+                applyAlignment("left");
+            } else if (buttonClass.includes("trumbowyg-justifyCenter-button")) {
+                applyAlignment("center");
+            } else if (buttonClass.includes("trumbowyg-justifyRight-button")) {
+                applyAlignment("right");
+            } else if (buttonClass.includes("trumbowyg-justifyFull-button")) {
+                applyAlignment("justify");
+            }
+        });
+    });
+    
+    function previewImage(input) {
+        const preview = document.getElementById("imagePreview");
+        const previewBlog = document.getElementById("preview-thumbnail");
+        let image = preview.querySelector("img");
+    
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                // Preview kecil di bawah input
+                if (!image) {
+                    image = document.createElement("img");
+                    image.id = "previewImg";
+                    image.className =
+                        "max-w-[250px] h-auto object-cover rounded-lg mx-auto";
+                    preview.appendChild(image);
+                }
+                image.src = e.target.result;
+                preview.classList.remove("hidden");
+    
+                // Preview di bagian preview blog
+                previewBlog.innerHTML = `
+                    <img src="${e.target.result}" 
+                        class="rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-12 2xl:mt-20 z-10 object-cover"
+                    >
+                `;
+            };
+    
+            reader.readAsDataURL(input.files[0]);
+        }
     }
-}
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-}
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+    
 </script>
 @endsection
