@@ -102,10 +102,10 @@
                         <td class="px-4 py-2 space-x-2">
                             <button wire:key="edit-{{ $service['service_id'] }}"
                                 wire:click="edit('{{ $service['service_id'] }}')" wire:loading.attr="disabled"
-                                wire:target="edit" class="btn btn-warning text-white">Edit</button>
+                                class="btn btn-warning text-white">Edit</button>
                             <button wire:key="delete-{{ $service['service_id'] }}"
                                 wire:click="delete('{{ $service['service_id'] }}')" wire:loading.attr="disabled"
-                                wire:target="delete" class="btn btn-error text-white">Delete</button>
+                                class="btn btn-error text-white">Delete</button>
 
                         </td>
                     </tr>

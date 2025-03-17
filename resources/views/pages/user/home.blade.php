@@ -6,7 +6,7 @@
     <div class="space-x-3 flex text-left items-center mx-auto md:gap-16 justify-between">
         <div class="w-full lg:w-3/5 2xl:w-10/12 px-6 md:px-10 2xl:px-24 py-10 2xl:py-10">
             <h3 class="text-3xl md:text-5xl 2xl:text-7xl 2xl:whitespace-pre-line font-bold mb-10 lg:mb-7">
-                Kreativitas Digital & 
+                Kreativitas Digital &
                 Inovatif Bersama Sinergi
             </h3>
             <div class="text-gray-400 mb-10 md:whitespace-pre-line font-normal md:font-medium text-lg 2xl:text-2xl">
@@ -52,85 +52,69 @@
             Projek
             <span class="bg-gradient-to-r from-[#4796A3] to-[#163981] bg-clip-text text-transparent"> Kami</span>
         </h1>
-
         <div class="flex flex-col space-y-8 py-8">
+            @if(isset($products[0]))
             {{-- === Project Card 1 === --}}
             <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-                {{-- Left Side: Title, Description, Button --}}
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
-                    <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">Web Development</h3>
+                    <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[0]['product_name'] }}</h3>
                     <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
-                        Pengembangan website dengan Laravel
-                        memungkinnkan pengalaman pengguna yang
-                        optimal dan kinerja yang luar biasa. Setiap
-                        proyek dirancang secara khusus untuk
-                        kebutuhan bisnis, memberikan solusi digital
-                        yang efektif dan berkelanjutan.
+                        {{ $products[0]['product_desc'] }}
                     </div>
-                    <a href=""
-                        class="2xl:text-lg  border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
+                    <a href="{{ route('products.detail', $products[0]['product_id'])}}"
+                        class="2xl:text-lg border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
                         View More
                     </a>
                 </div>
-
-                {{-- Right Side: Image --}}
                 <div class="w-full lg:w-auto order-1 lg:order-none">
-                    <div class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto"></div>
+                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[0]['product_img'] }}"
+                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto">
                 </div>
             </div>
+            @endif
 
+            @if(isset($products[1]))
             {{-- === Project Card 2 === --}}
             <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-                {{-- Right Side: Image --}}
                 <div class="w-full lg:w-auto">
-                    <div class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto"></div>
+                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[1]['product_img'] }}"
+                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto">
                 </div>
-
-                {{-- Left Side: Title, Description, Button --}}
-                <div class="w-full lg:w-1/2 2xl:w-5/6 mb-6 lg:mb-0">
-                    <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">
-                        Mobile App Development
-                    </h3>
+                <div class="w-full lg:w-1/2 mb-6 lg:mb-0">
+                    <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[1]['product_name'] }}</h3>
                     <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
-                        Pengembangan aplikasi mobile dengan berbagai
-                        platform, memastikan pengalaman pengguna 
-                        yang lancar dan tampilan yang menarik. Kami 
-                        membuat aplikasi yang disesuaikan dengan 
-                        kebutuhan bisnis yang berkembang.
+                        {{ $products[1]['product_desc'] }}
                     </div>
-                    <a href=""
-                        class="2xl:text-lg  border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
-                        View More
+                    <a href="{{ route('products.detail', $products[1]['product_id'])}}"
+                        class="2xl:text-lg border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
+                        Full Story
                     </a>
                 </div>
             </div>
+            @endif
 
+            @if(isset($products[2]))
             {{-- === Project Card 3 === --}}
             <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-                {{-- Left Side: Title, Description, Button --}}
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
-                    <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5 ">UI/UX Design</h3>
+                    <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[2]['product_name'] }}</h3>
                     <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
-                        Desain antarmuka dan pengalaman pengguna 
-                        yang intuitif dan menarik. Kami berfokus pada
-                        menciptakan desain yang sesuai dengan tujuan
-                        bisnis dan memberikan pengalaman yang memuaskan.
+                        {{ $products[2]['product_desc'] }}
                     </div>
-                    <a href=""
-                        class="2xl:text-lg  border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
+                    <a href="{{ route('products.detail', $products[2]['product_id'])}}"
+                        class="2xl:text-lg border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
                         View More
                     </a>
                 </div>
-
-                {{-- Right Side: Image --}}
                 <div class="w-full lg:w-auto order-1 lg:order-none">
-                    {{--
-                    <Image src="/placeholder300.png" width={300} height={300} alt="Web Development"
-                        class="rounded-lg w-full lg:w-[300px] h-auto object-cover" /> --}}
-                    <div class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto"></div>
+                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[2]['product_img'] }}"
+                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto">
                 </div>
             </div>
+            @endif
         </div>
+
+
     </div>
 </section>
 
@@ -257,25 +241,27 @@
                         fill="white" />
                 </svg>
             </div>
-            <h3 class="text-2xl 2xl:text-4xl font-semibold mb-4 2xl:mb-7">Web Development</h3>
-            <p class="text-gray-400 font-medium 2xl:text-2xl mb-10 w-11/12 ">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum quae
-                id saepe consequuntur, tenetur nulla error nemo. Doloremque
-                temporibus, a sit laboriosam iste quia aliquid soluta doloribus
-                nisi, at aperiam!
+            @if (isset($services[0]))
+
+            <h3 class="text-2xl 2xl:text-4xl font-semibold mb-4 2xl:mb-7">{{ $services[0]['service_name']}}</h3>
+            <p class="text-gray-400 font-medium text-base 2xl:text-2xl mb-5 w-11/12 ">
+                Layanan ini mencakup berbagai aspek, mulai dari desain antarmuka pengguna (UI)
+                dan pengalaman pengguna (UX), pengembangan front-end dan back-end.
             </p>
-            <p class="text-gray-400 font-medium 2xl:text-2xl mb-10 w-11/12 ">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam
-                repudiandae atque quod aliquam neque. Impedit?
+            <p class="text-gray-400 font-medium text-base 2xl:text-2xl mb-10 w-11/12 ">
+                {{ $services[0]['service_desc']}}
             </p>
             <a href="#" class="text-white 2xl:text-xl font-semibold rounded-xl mt-5 c">
                 Learn More
             </a>
+            @endif
         </div>
 
         {{-- Right Side Container for Cards 2 & 3 --}}
         <div class="flex flex-col gap-4 2xl:gap-8 lg:justify-center lg:w-1/2 2xl:w-2/4 w-full">
             {{-- Card 2 --}}
+            @if (isset($services[2]))
+
             <div class="bg-white text-[#0D192F] p-6 rounded-xl shadow-lg z-10">
                 <div>
                     <svg class="w-[50px] h-[50px] 2xl:w-[60px] 2xl:h-[60px]" viewBox="0 0 70 70" fill="none"
@@ -302,19 +288,21 @@
                     </svg>
                 </div>
                 <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
-                    Mobile App Development
+                    {{$services[1]['service_name']}}
                 </h3>
-                <p class="font-medium 2xl:text-2xl mb-8">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Doloremque ipsa ab magni culpa non quod cumque, officia at odio
-                    repudiandae.
+                <p class="font-medium text-base *:2xl:text-2xl mb-8">
+                    Layanan ini mencakup berbagai aspek, mulai dari desain antarmuka pengguna (UI) dan pengalaman
+                    pengguna (UX), pengembangan aplikasi untuk platform iOS dan Android, hingga pengujian dan penerapan.
                 </p>
                 <a href="" class="font-bold 2xl:text-xl">
                     Learn More
                 </a>
             </div>
+            @endif
 
             {{-- Card 3 --}}
+            @if (isset($services[2]))
+
             <div class="bg-white text-[#0D192F] p-6 rounded-xl shadow-lg z-10">
                 <div>
                     <svg class="w-[50px] h-[50px] 2xl:w-[60px] 2xl:h-[60px]" viewBox="0 0 70 70" fill="none"
@@ -325,17 +313,20 @@
                     </svg>
                 </div>
                 <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
-                    Game Development
+                    {{$services[2]['service_name']}}
                 </h3>
-                <p class="font-medium 2xl:text-2xl mb-8">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Doloremque ipsa ab magni culpa non quod cumque, officia at odio
-                    repudiandae.
+
+                <p class="font-medium text-base 2xl:text-2xl mb-8">
+                    Layanan ini mencakup proses pembuatan permainan video untuk berbagai platform, seperti komputer,
+                    konsol, dan perangkat seluler dan berbagai aspek, mulai dari desain konsep permainan, pembuatan aset
+                    grafis dan
+                    suara, pemrograman permainan, hingga pengujian dan penerapan.
                 </p>
                 <a href="" class="font-bold 2xl:text-xl">
                     Learn More
                 </a>
             </div>
+            @endif
         </div>
     </div>
     <div class="absolute -bottom-20 left-0 z-0">

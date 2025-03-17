@@ -21,9 +21,9 @@ class Product extends Component
     public $lastPage;
     public $nextPageUrl;
     public $prevPageUrl;
-    public $perPage = 10;
+    public $perPage = 2;
 
-    public $sortDirection = 'desc';
+    public $sortDirection = 'asc';
     public $updateData = false;
     public $product_id;
     public $sortField = 'product_name';
@@ -127,176 +127,48 @@ class Product extends Component
                     'type' => 'success'
                 ]);
                 $this->dispatch('showToast', [
-                    'message' => 'Data berhasil ditambahkan!', 
+                    'message' => 'Data berhasil ditambahkan!',
                     'type' => 'success'
                 ]);
 
                 $this->dispatch('reset');
-            } else {
-               // Tangani error dengan lebih detail
-               $this->handleErrorResponse($response);
-            }
-        } catch (\Exception $e) {
-            $this->dispatch('showToast', [
-                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
-                'type' => 'error'
-            ]);
-        }
-    }
-
-    // public function edit($id)
-    // {
-    //     $this->product_id = $id;
-    //     $data = Http::get("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
-    //     $data = $data->json();
-
-    //     $this->productName = $data['data']['product_name'];
-    //     $this->productDescription = $data['data']['product_desc'];
-    //     $this->productImage = $data['data']['product_img'];
-
-    //     $this->updateData = true;
-    // }
-
-    // public function update()
-    // {
-    //     try {
-    //         $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
-
-    //         if ($this->productImage && !is_string($this->productImage)) {
-    //             $response = Http::withHeaders([
-    //                 'Accept' => 'application/json',
-    //                 'Authorization' => 'Bearer ' . $token
-    //             ])->attach(
-    //                 'product_img',
-    //                 file_get_contents($this->productImage->path()),
-    //                 $this->productImage->getClientOriginalName()
-    //             )->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
-    //                 'product_name' => $this->productName,
-    //                 'product_desc' => $this->productDescription,
-    //             ]);
-    //         } else {
-    //             $response = Http::withHeaders([
-    //                 'Accept' => 'application/json',
-    //                 'Authorization' => 'Bearer ' . $token
-    //             ])->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
-    //                 'product_name' => $this->productName,
-    //                 'product_desc' => $this->productDescription,
-    //             ]);
-    //         }
-
-    //         if ($response->successful()) {
-    //             $this->message = 'Product updated successfully!';
-    //             $this->errors = [];
-    //             $this->reset(['productName', 'productDescription', 'productImage']);
-    //             $this->fetchProducts();
-    //         } else {
-    //             $this->message = '';
-    //             if ($response->status() === 422) {
-    //                 $this->errors = $response->json()['errors'];
-    //             } else if ($response->status() === 401) {
-    //                 $this->errors = ['auth' => 'Please login first'];
-    //             } else {
-    //                 $this->errors = ['server' => 'Something went wrong'];
-    //             }
-    //         }
-    //     } catch (\Exception $e) {
-    //         $this->message = '';
-    //         $this->errors = ['connection' => 'Failed to connect to server'];
-    //     }
-    // }
-    public function edit($id)
-{
-    // Pertama, refresh data produk dengan fetchProducts
-    $this->fetchProducts();
-
-    // Cari produk yang baru saja diupdate dari daftar produk
-    $updatedProduct = collect($this->products)
-        ->first(function ($product) use ($id) {
-            return $product['product_id'] == $id;
-        });
-
-    if ($updatedProduct) {
-        // Set data produk terbaru
-        $this->product_id = $id;
-        $this->productName = $updatedProduct['product_name'] ?? '';
-        $this->productDescription = $updatedProduct['product_desc'] ?? '';
-        $this->productImage = $updatedProduct['product_img'] ?? '';
-        $this->updateData = true;
-
-        // Log untuk debugging
-        Log::info('Edit method - Updated Product Data', [
-            'product_id' => $this->product_id,
-            'productName' => $this->productName,
-            'productDescription' => $this->productDescription,
-            'productImage' => $this->productImage
-        ]);
-    } else {
-        // Tangani jika produk tidak ditemukan
-        Log::warning('Product not found in updated list', [
-            'searched_id' => $id
-        ]);
-
-        $this->dispatch('showToast', [
-            'message' => 'Produk tidak ditemukan', 
-            'type' => 'error'
-        ]);
-    }
-}
-
-
-
-    public function update()
-    {
-         // Reset errors sebelum operasi
-         $this->errors = [];
-        try {
-            $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
-
-            if ($this->productImage && !is_string($this->productImage)) {
-                $response = Http::withHeaders([
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token
-                ])->attach(
-                    'product_img',
-                    file_get_contents($this->productImage->path()),
-                    $this->productImage->getClientOriginalName()
-                    // )->patch("http://localhost:8000/api/product/{$this->product_id}", [
-                )->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
-                    'product_name' => $this->productName,
-                    'product_desc' => $this->productDescription,
-                ]);
-            } else {
-                $response = Http::withHeaders([
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token
-                    // ])->patch("http://localhost:8000/api/product/{$this->product_id}", [
-                ])->patch("https://sinergi.dev.ybgee.my.id/api/product/{$this->product_id}", [
-                    'product_name' => $this->productName,
-                    'product_desc' => $this->productDescription,
-                ]);
-            }
-
-
-            if ($response->successful()) {
-                $this->resetForm();
-                $this->updateData = false;
-                $this->fetchProducts();
-                Log::info('Dispatching toast', [
-                    'message' => 'Data berhasil diupdate!',
-                    'type' => 'success'
-                ]);
-                $this->dispatch('showToast', [
-                    'message' => 'Data berhasil diupdate!', 
-                    'type' => 'success'
-                ]);
-                
             } else {
                 // Tangani error dengan lebih detail
                 $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
             $this->dispatch('showToast', [
-                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.',
+                'type' => 'error'
+            ]);
+        }
+    }
+
+    public function edit($id)
+    {
+        // Ambil data langsung dari API untuk id spesifik
+        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            // Set data produk dari response API
+            $this->product_id = $id;
+            $this->productName = $data['data']['product_name'];
+            $this->productDescription = $data['data']['product_desc'];
+            $this->productImage = $data['data']['product_img'];
+            $this->updateData = true;
+
+            // Log untuk debugging
+            Log::info('Edit method - Updated Product Data', [
+                'product_id' => $this->product_id,
+                'productName' => $this->productName,
+                'productDescription' => $this->productDescription,
+                'productImage' => $this->productImage
+            ]);
+        } else {
+            $this->dispatch('showToast', [
+                'message' => 'Produk tidak ditemukan',
                 'type' => 'error'
             ]);
         }
@@ -320,10 +192,10 @@ class Product extends Component
                     'type' => 'success'
                 ]);
                 $this->dispatch('showToast', [
-                    'message' => 'Data berhasil dihapus!', 
+                    'message' => 'Data berhasil dihapus!',
                     'type' => 'success'
                 ]);
-                
+
 
                 // Check if current page has only one item
                 if (count($this->products) === 1 && $this->currentPage > 1) {
@@ -337,7 +209,7 @@ class Product extends Component
             }
         } catch (\Exception $e) {
             $this->dispatch('showToast', [
-                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.',
                 'type' => 'error'
             ]);
         }
@@ -346,10 +218,10 @@ class Product extends Component
     {
 
         $this->reset([
-            'productName', 
-            'productDescription', 
-            'productImage', 
-            'updateData', 
+            'productName',
+            'productDescription',
+            'productImage',
+            'updateData',
             'product_id',
             'errors'
         ]);
@@ -370,7 +242,7 @@ class Product extends Component
         }
 
         $this->dispatch('showToast', [
-            'message' => $errorMessage, 
+            'message' => $errorMessage,
             'type' => $errorType
         ]);
     }

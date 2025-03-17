@@ -23,7 +23,7 @@ class Service extends Component
     public $prevPageUrl;
     public $perPage = 2; // Atur jumlah item per halaman
 
-    public $sortDirection = 'desc';
+    public $sortDirection = 'asc';
     public $updateData = false;
     public $service_id;
     public $sortField = 'service_name';
@@ -66,9 +66,6 @@ class Service extends Component
                 $this->lastPage = $responseData['data']['pagination']['last_page'];
                 $this->nextPageUrl = $responseData['data']['pagination']['next_page_url'];
                 $this->prevPageUrl = $responseData['data']['pagination']['prev_page_url'];
-
-                $this->resetForm();
-                $this->updateData = false;
             }
         }
     }
@@ -140,68 +137,49 @@ class Service extends Component
                     'type' => 'success'
                 ]);
                 $this->dispatch('showToast', [
-                    'message' => 'Data berhasil ditambahkan!', 
+                    'message' => 'Data berhasil ditambahkan!',
                     'type' => 'success'
                 ]);
             } else {
-               $this->handleErrorResponse($response);
+                $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
             $this->dispatch('showToast', [
-                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.', 
+                'message' => 'Gagal terhubung ke server. Periksa koneksi internet Anda.',
                 'type' => 'error'
             ]);
         }
     }
     public function edit($id)
     {
-        $this->fetchServices();
+        // Ambil data langsung dari API untuk id spesifik
+        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
 
-        $updatedService = collect($this->services)
-        ->first(function ($service) use ($id){
-            return $service['service_id'] == $id;
-        });
+        if ($response->successful()) {
+            $data = $response->json();
 
-        if ($updatedService){
+            // Set data produk dari response API
             $this->service_id = $id;
-            $this->serviceName = $updatedService['service_name'] ?? '';
-            $this->serviceDescription = $updatedService['service_desc'] ?? '';
-            $this->serviceImage = $updatedService['service_img'] ?? '';
+            $this->serviceName = $data['data']['service_name'];
+            $this->serviceDescription = $data['data']['service_desc'];
+            $this->serviceImage = $data['data']['service_img'];
             $this->updateData = true;
 
-            Log::info('Edit method - Updated Service Data', [
+            // Log untuk debugging
+            Log::info('Edit method - Updated service Data', [
                 'service_id' => $this->service_id,
-                'service_name' => $this->serviceName,
-                'service_desc' => $this->serviceDescription,
-                'service_img' => $this->serviceImage,
-
+                'serviceName' => $this->serviceName,
+                'serviceDescription' => $this->serviceDescription,
+                'serviceImage' => $this->serviceImage
             ]);
         } else {
-            Log::warning('Service not found in updated list',[
-                'searched_id' => $id
-            ]);
-
             $this->dispatch('showToast', [
-                'message' => 'Service tidak ditemukan. Mohon refresh halaman', 
+                'message' => 'Produk tidak ditemukan',
                 'type' => 'error'
             ]);
         }
     }
-    // public function edit($id)
-    // {
-    //     $this->service_id = $id;
-    //     $data = Http::get("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
-    //     $data = $data->json();
-
-    //     $this->serviceName = $data['data']['service_name'];
-    //     $this->serviceDescription = $data['data']['service_desc'];
-    //     $this->serviceImage = $data['data']['service_img'];
-
-    //     $this->updateData = true;
-    // }
-
-
-
+    
     public function update()
     {
         try {
@@ -216,7 +194,8 @@ class Service extends Component
                     file_get_contents($this->serviceImage->path()),
                     $this->serviceImage->getClientOriginalName()
                     // )->patch("http://localhost:8000/api/service/{$this->service_id}", [
-                )->patch("https://sinergi.dev.ybgee.my.id/api/service/{$this->service_id}", [
+                )->post("https://sinergi.dev.ybgee.my.id/api/service/{$this->service_id}", [
+                    '_method' => 'PATCH',
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
                 ]);
@@ -226,6 +205,7 @@ class Service extends Component
                     'Authorization' => 'Bearer ' . $token
                     // ])->patch("http://localhost:8000/api/service/{$this->service_id}", [
                 ])->patch("https://sinergi.dev.ybgee.my.id/api/service/{$this->service_id}", [
+                    '_method' => 'PATCH',
                     'service_name' => $this->serviceName,
                     'service_desc' => $this->serviceDescription,
                 ]);
@@ -241,7 +221,7 @@ class Service extends Component
                     'type' => 'success'
                 ]);
                 $this->dispatch('showToast', [
-                    'message' => 'Data berhasil diupdate!', 
+                    'message' => 'Data berhasil diupdate!',
                     'type' => 'success'
                 ]);
             } else {
@@ -256,49 +236,49 @@ class Service extends Component
     }
 
     public function delete($id)
-{
-    try {
-        $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
+    {
+        try {
+            $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-        if (!$token) {
+            if (!$token) {
+                $this->dispatch('showToast', [
+                    'message' => 'Token tidak ditemukan. Silakan login kembali.',
+                    'type' => 'error'
+                ]);
+                return;
+            }
+
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ])->delete("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
+
+            if ($response->successful()) {
+                $this->dispatch('showToast', [
+                    'message' => 'Data berhasil dihapus!',
+                    'type' => 'success'
+                ]);
+
+                if (count($this->services) === 1 && $this->currentPage > 1) {
+                    $this->fetchServices($this->currentPage - 1);
+                } else {
+                    $this->fetchServices($this->currentPage);
+                }
+            } else {
+                $this->handleErrorResponse($response);
+            }
+        } catch (\Exception $e) {
+            Log::error('Delete service error:', [
+                'service_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
             $this->dispatch('showToast', [
-                'message' => 'Token tidak ditemukan. Silakan login kembali.',
+                'message' => 'Gagal menghapus data. Silakan coba lagi.',
                 'type' => 'error'
             ]);
-            return;
         }
-
-        $response = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
-        ])->delete("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
-
-        if ($response->successful()) {
-            $this->dispatch('showToast', [
-                'message' => 'Data berhasil dihapus!', 
-                'type' => 'success'
-            ]);
-
-            if (count($this->services) === 1 && $this->currentPage > 1) {
-                $this->fetchServices($this->currentPage - 1);
-            } else {
-                $this->fetchServices($this->currentPage);
-            }
-        } else {
-            $this->handleErrorResponse($response);
-        }
-    } catch (\Exception $e) {
-        Log::error('Delete service error:', [
-            'service_id' => $id,
-            'error' => $e->getMessage()
-        ]);
-        
-        $this->dispatch('showToast', [
-            'message' => 'Gagal menghapus data. Silakan coba lagi.', 
-            'type' => 'error'
-        ]);
     }
-}
 
 
     private function handleErrorResponse($response)
