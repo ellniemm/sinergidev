@@ -92,97 +92,69 @@
             <span class="bg-gradient-to-r from-[#4796A3] to-[#142737] bg-clip-text text-transparent">Projek Kami</span>
         </h1>
 
-        <div class="flex flex-col space-y-8 py-4">
+        <div class="flex flex-col space-y-8 py-8">
+            @if(isset($products[0]))
             {{-- === Project Card 1 === --}}
-            <div class="w-full lg:w-3/4  mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-                {{-- Left Side: Title, Description, Button --}}
+            <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
-                    <h3 class="text-xl md:text-2xl  2xl:text-3xl font-semibold mb-3 2xl:mb-5"><span
-                            class="bg-gradient-to-r from-[#4796A3] to-[#142737] bg-clip-text text-transparent">Perpustakaan
-                            Website</span></h3>
-                    <div
-                        class="text-gray-500 mb-6 2xl:mb-10 md:whitespace-pre-line font-xl  text-base md:text-lg 2xl:text-2xl">
-                        Pengembangan website dengan Laravel
-                        memungkinnkan pengalaman pengguna yang
-                        optimal dan kinerja yang luar biasa. Setiap
-                        proyek dirancang secara khusus untuk
-                        kebutuhan bisnis, memberikan solusi digital
-                        yang efektif dan berkelanjutan.
+                    <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[0]['product_name'] }}
+                    </h3>
+                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
+                        {{ $products[0]['product_desc'] }}
                     </div>
-                    <a href=""
-                        class="border-2 border-black rounded-full text-sm 2xl:text-lg px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
+                    <a href="{{ route('products.detail', $products[0]['product_id'])}}"
+                        class="2xl:text-lg border-2 border-black text-sm rounded-full px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
                         View More
                     </a>
                 </div>
-
-                {{-- Right Side: img --}}
                 <div class="w-full lg:w-auto order-1 lg:order-none">
-                    {{-- <img src="/placeholder300.png" width={300} height={300} alt="Web Development"
-                        class="rounded-lg w-full lg:w-[300px] h-auto object-cover" /> --}}
-                    <div class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto"></div>
+                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[0]['product_img'] }}"
+                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] shadow-2xl mx-auto">
                 </div>
             </div>
+            @endif
 
+            @if(isset($products[1]))
             {{-- === Project Card 2 === --}}
-            <div class="w-full lg:w-3/4 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-                {{-- Right Side: img --}}
+            <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
                 <div class="w-full lg:w-auto">
-                    {{-- <img src="/placeholder300.png" width={300} height={300} alt="Web Development"
-                        class="rounded-lg w-full lg:w-[300px] h-auto object-cover" /> --}}
-                    <div class="rounded-lg bg-gray-400 w-[300px] h-[300px]"></div>
+                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[1]['product_img'] }}"
+                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] shadow-2xl mx-auto">
                 </div>
-
-                {{-- Left Side: Title, Description, Button --}}
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0">
-                    <h3 class=" text-2xl  md:text-2xl 2xl:text-3xl font-semibold mb-3 2xl:mb-5"><span
-                            class="bg-gradient-to-r from-[#4796A3] to-[#142737] bg-clip-text text-transparent">Kelas
-                            Malam - Game</span></h3>
-                    <div class="text-gray-500 mb-6 2xl:mb-10 md:whitespace-pre-line font-xl text-base md:text-lg 2xl:text-2xl">
-                        Pengembangan game dengan Godot
-                        memungkinkan pengalaman bermain yang
-                        imersif dan menyenangkan. Kami memastikan
-                        setiap elemen game, dari desain visual hingga
-                        mekanisme gameplay, dikembangkan dengan
-                        hati-hati agar memberikan keseruan yang
-                        maksimal.
+                    <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[1]['product_name'] }}
+                    </h3>
+                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
+                        {{ $products[1]['product_desc'] }}
                     </div>
-                    <a href=""
-                        class="border-2 border-black rounded-full text-sm 2xl:text-lg px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
-                        View More
+                    <a href="{{ route('products.detail', $products[1]['product_id'])}}"
+                        class="2xl:text-lg border-2 border-black text-sm rounded-full px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
+                        Full Story
                     </a>
                 </div>
             </div>
+            @endif
 
+            @if(isset($products[2]))
             {{-- === Project Card 3 === --}}
-            <div class="w-full lg:w-3/4 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-                {{-- Left Side: Title, Description, Button --}}
+            <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
-                    <h3 class="text-2xl 2xl:text-3xl font-semibold mb-3 2xl:mb-5"><span
-                            class="bg-gradient-to-r from-[#4796A3] to-[#142737] bg-clip-text text-transparent">Mobile
-                            App</span></h3>
-                    <div class="text-gray-500 mb-6 2xl:mb-10 md:whitespace-pre-line font-xl text-base md:text-lg 2xl:text-2xl">
-                        Pengembangan aplikasi mobile dengan
-                        teknologi modern memungkinkan
-                        pengalaman pengguna yang intuitif dan
-                        kinerja yang optimal. Kami fokus pada
-                        setiap detail aplikasi untuk memastikan
-                        bahwa produk yang dihasilkan tidak hanya
-                        menarik secara visual, tetapi juga cepat,
-                        aman, dan mudah digunakan.
+                    <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[2]['product_name'] }}
+                    </h3>
+                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
+                        {{ $products[2]['product_desc'] }}
                     </div>
-                    <a href=""
-                        class="border-2 border-black rounded-full 2xl:text-lg px-5 py-2 text-sm text-black font-medium hover:bg-black hover:text-white transition duration-200">
+                    <a href="{{ route('products.detail', $products[2]['product_id'])}}"
+                        class="2xl:text-lg border-2 border-black text-sm rounded-full px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
                         View More
                     </a>
                 </div>
-
-                {{-- Right Side: img --}}
                 <div class="w-full lg:w-auto order-1 lg:order-none">
-                    {{-- <img src="/placeholder300.png" width={300} height={300} alt="Web Development"
-                        class="rounded-lg w-full lg:w-[300px] h-auto object-cover" /> --}}
-                    <div class="rounded-lg bg-gray-400 w-[300px] h-[300px]"></div>
+                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[2]['product_img'] }}"
+                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] shadow-2xl mx-auto">
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </section>

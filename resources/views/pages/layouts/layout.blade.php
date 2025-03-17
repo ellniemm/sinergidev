@@ -12,11 +12,12 @@
 </head>
 
 <style>
-/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap'); */
-@font-face{
-    font-family: 'Montserrat';
-    src: url('{{ asset('./fonts/Montserrat-VariableFont_wght.ttf') }}') format('truetype');
-}
+    /* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap'); */
+    @font-face {
+        font-family: 'Montserrat';
+        src: url('{{ asset(' ./fonts/Montserrat-VariableFont_wght.ttf') }}') format('truetype');
+    }
+
     body {
         font-family: 'Montserrat';
         background: #0D192F;
@@ -27,7 +28,7 @@
 <body>
     @if(!in_array(request()->route()->getName(), ['login', 'register', 'verify.email']))
     @include('pages.components.navbarAdmin')
-@endif
+    @endif
     @yield('main')
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     @livewireScripts

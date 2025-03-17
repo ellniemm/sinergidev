@@ -20,6 +20,9 @@ Route::get('/home', [UserPagesController::class, 'index'])->name('home');
 Route::get('/services', [UserPagesController::class, 'services'])->name('services');
 Route::get('/about-us', [UserPagesController::class, 'aboutUs'])->name('about-us');
 Route::get('/products', [UserPagesController::class, 'products'])->name('products');
+Route::get('/products/{id}', [UserPagesController::class, 'productsDetail'])->name('products.detail');
+Route::get('/services/{id}', [UserPagesController::class, 'servicesDetail'])->name('services.detail');
+
 Route::get('/contact-us', [UserPagesController::class, 'contactUs'])->name('contact-us');
 Route::get('/blogs', [UserPagesController::class, 'blog'])->name('blog.user');
 Route::get('/blogs/{slug}', [UserPagesController::class, 'blogDetail'])->name('blog.detail');
@@ -47,6 +50,6 @@ Route::middleware(['checkToken'])->group(function () {
     Route::post('/upload-image', [BlogController::class, 'uploadImage']);
 
     Route::get('/users', [UserController::class, 'user'])->name('user.index');
-    
+
     Route::get('/category', [CategoryController::class, 'category'])->name('category.index');
 });

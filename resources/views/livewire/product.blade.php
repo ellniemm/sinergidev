@@ -14,7 +14,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium">Product Description</label>
-                    <textarea class="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200"
+                    <textarea class="w-full h-32 min-h-[80px] max-h-96 resize-y border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200"
                         wire:model='productDescription'
                         wire:key="productDescription-{{ $updateData ? $product_id : now() }}"></textarea>
                 </div>
