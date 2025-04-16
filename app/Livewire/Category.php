@@ -57,6 +57,7 @@ class Category extends Component
         ]);
 
         if ($response->successful()) {
+            // dd($response->json());
             $responseData = $response->json();
             if (isset($responseData['data'])) {
                 $this->categories = $responseData['data'];

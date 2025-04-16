@@ -2,7 +2,7 @@
 
 @section('content')
 <header class="bg-[#0D192F] w-full">
-    <div class="px-10 pt-32 w-3/4 pb-60 ">
+    <div class="px-6 md:px-10 pt-20 md:pt-32  md:w-3/4 pb-32 md:pb-60 ">
         <div class="flex items-center space-x-2 mb-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                 <g fill="none">
@@ -14,7 +14,7 @@
                     </path>
                 </g>
             </svg>
-            <h1 class="text-3xl font-medium">
+            <h1 class="text-xl md:text-3xl font-medium">
                 Web
                 <span class="bg-gradient-to-r from-[#4796A3] to-[#25427C] bg-clip-text text-transparent">
                     Development
@@ -22,20 +22,21 @@
             </h1>
         </div>
 
-        <h1 class="font-bold text-5xl border-t-2 pt-2">
+        <h1 class="font-semibold md:font-bold text-2xl md:text-5xl border-t-2 pt-2">
             Solusi Profesional untuk Website yang Memikat Pengguna
         </h1>
     </div>
 </header>
 <section class="bg-white text-black">
-    <div class="px-10 gap-7 py-20 flex flex-row justify-center">
-        <div class="text-2xl font-bold whitespace-pre-line border-r-2 pr-8 border-black flex items-start self-start">
+    <div class="px-10 gap-7 py-20 flex flex-col md:flex-row justify-center">
+        <div
+            class="text-lg md:text-2xl font-semibold md:font-bold md:whitespace-pre-line border-b-2 md:border-b-0 md:border-r-2 pb-8 md:pr-8 border-black flex items-start self-start">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">Tingkatkan
                 pertumbuhan
                 perusahaan Anda dengan layanan
                 Pengembangan Web khusus</span>
         </div>
-        <div class="text-lg whitespace-pre-line self-start">Kami memberikan solusi Pengembangan Web
+        <div class="text-base md:text-lg md:whitespace-pre-line self-start">Kami memberikan solusi Pengembangan Web
             yang akan menciptakan peluang untuk
             mengahasilkan lebih banyak prospek dan mencapai
             tujuan bisnis Anda.</div>
@@ -44,59 +45,60 @@
     {{-- =Image= --}}
     <div class="relative">
         <div class="absolute inset-0 bg-[#0D192F] opacity-50 z-10"></div>
-        <img src="{{ asset('img/Web-Development.jpg')}}" alt="Web-Development" class="w-full object-cover z-1 ">
+        <img src="{{ asset('img/Web-Development.jpg')}}" alt="Web-Development"
+            class="w-full h-[200px] md:h-auto  object-cover z-0 ">
     </div>
 
 
-    <div class="px-20 pt-32 pb-20 w-11/12">
-        <h1 class="text-4xl font-bold mb-5">
+    <div class="px-6 md:px-20 pt-10 md:pt-32 pb-10 md:pb-20 md:w-11/12">
+        <h1 class="text-xl md:text-4xl font-semibold md:font-bold mb-5">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">
                 Sesuaikan Kebutuhan Bisnis
             </span>
         </h1>
-        <p class="text-lg mb-10">
+        <p class="text-base md:text-lg mb-10">
             Dengan kebutuhan bisnis kustomisasi, kami dengan cermat memahami
             minat, preferensi Anda, dan menganalisis informasi untuk memberi
             Anda layanan pengembangan web terbaik.
         </p>
-        <h1 class="text-4xl font-bold mb-5">
+        <h1 class="text-xl md:text-4xl font-semibold md:font-bold mb-5">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">
                 Teknologi
             </span>
         </h1>
-        <p class="text-lg mb-10">
+        <p class="text-base md:text-lg mb-10">
             Kami menerapkan berbagai teknologi untuk mengembangkan, memproses,
             dan mengonfigurasi perangkat lunak berdasarkan kebutuhan isnis Anda
             yang akan membuat merek Anda menonjol.
         </p>
-        <h1 class="text-4xl font-bold mb-5">
+        <h1 class="text-xl md:text-4xl font-semibold md:font-bold mb-5">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">
                 Back-End
             </span>
         </h1>
-        <p class="text-lg mb-10">
+        <p class="text-base md:text-lg mb-10">
             Kami memenuhi kebutuhan back end, database sesuai minat dan prefensi
             anda.
         </p>
-        <h1 class="text-4xl font-bold mb-5">
+        <h1 class="text-xl md:text-4xl font-semibold md:font-bold mb-5">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">
                 Front-End
             </span>
         </h1>
-        <p class="text-lg mb-10">
+        <p class="text-base md:text-lg mb-10">
             Kami memenuhi kebutuhan tampilan front end sesuai design minat dan
             prefensi anda.
         </p>
     </div>
 </section>
-<section class="bg-white text-black pt-10">
+{{-- <section class="bg-white text-black pt-10">
     <div>
-        <h1 class="text-4xl font-semibold text-center">
+        <h1 class="text-xl md:text-4xl font-semibold md:font-semibold text-center">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">
                 Produk Kami Lainnya
             </span>
         </h1>
-        <div class=" py-16 grid grid-cols-3 w-5/6 gap-20 mx-auto justify-items-center">
+        <div class=" py-16 grid grid-cols-1 md:grid-cols-3 w-5/6 gap-20 mx-auto justify-items-center">
             <div class="flex flex-col gap-2">
                 <div class="bg-gray-400 rounded-2xl w-[300px] h-[200px]"></div>
                 <h1 class="text-2xl font-semibold mb-5">Lorem, ipsum.</h1>
@@ -111,7 +113,7 @@
                     class="rounded-2xl w-[300px] h-[200px] object-cover">
                 <h1 class="text-2xl font-semibold mb-5">{{$products[0]['product_name']}}</h1>
                 <a href="{{ route('products.detail', $products[0]['product_id'])}}" class="text-sm">
-                Lihat Detail
+                    Lihat Detail
                 </a>
             </div>
             @endif
@@ -124,5 +126,5 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 @endsection

@@ -1,4 +1,5 @@
 <div class="bg-[#0D192F] sticky 2xl:px-10 top-0 w-full shadow-md z-30">
+    <div class="absolute inset-0 bg-white opacity-[0.06] z-0 pointer-events-none"></div>
     <div class="overflow-x-hidden px-4 mx-auto sm:px-10">
         <nav class="text-white mx-auto py-5 flex justify-between items-center">
             <a href="{{route('home')}}" class="flex items-center gap-x-2 text-xl 2xl:text-3xl font-bold">
