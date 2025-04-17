@@ -1,5 +1,5 @@
 @extends('pages.layouts.user')
-
+@section('title', 'Blog - Sinergi Studio')
 @section('content')
 <header class="bg-[#0D192F] relative text-white w-full">
     <div class="space-x-3 mb-0 flex items-start mx-auto justify-between">

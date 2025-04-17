@@ -1,12 +1,88 @@
+
 <div>
-   
+    <!-- Search Form -->
+    <div class="mb-8 flex justify-between">
+        <form wire:submit.prevent="search" class="flex flex-col md:flex-row gap-4 w-full mr-4">
+            <div class="relative flex-grow">
+                <input type="text" wire:model.defer="searchTerm" placeholder="Search blog posts..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <button type="submit"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+            </div>
+            @if($isSearching)
+            <button type="button" wire:click="resetSearch"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition duration-200 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Clear Search
+            </button>
+            @endif
+        </form>
+        <!-- Category Dropdown -->
+        <div class="relative w-full md:w-auto">
+            <select
+                class="appearance-none border border-gray-300 rounded-full py-2 px-4 pr-10 w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="all">All Categories</option>
+                <option value="tech">Technology</option>
+                <option value="life">Lifestyle</option>
+                <option value="travel">Travel</option>
+                <!-- Tambah kategori lain di sini -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Search Results Indicator -->
+    @if($isSearching)
+    <div class="mb-6">
+        <h2 class="text-xl font-semibold">
+            @if(count($gridCard) > 0)
+            Search results for "{{ $searchTerm }}" ({{ count($gridCard) }} found)
+            @else
+            No results found for "{{ $searchTerm }}"
+            @endif
+        </h2>
+    </div>
+    @endif
+
+    <!-- Improved Loading Indicator for Search -->
+    <div wire:loading wire:target="search" class="flex justify-center items-center py-4 mb-6">
+        <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-md">
+            <svg class="animate-spin h-5 w-5 mr-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+            </svg>
+            <span class="text-gray-700">Searching...</span>
+        </div>
+    </div>
+
+    <!-- Initial Loading Indicator -->
     @if($isLoading && empty($blogs))
     <div class="flex justify-center items-center py-10">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-md">
+            <svg class="animate-spin h-5 w-5 mr-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+            </svg>
+            <span class="text-gray-700">Loading blog posts...</span>
+        </div>
     </div>
     @else
-    @if($bigCard)
-
+    @if($bigCard && !$isSearching)
+    <!-- Big Card - Only show when not searching -->
     <div
         class="card px-5 py-6 bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full mb-5 hover:shadow-lg transition-shadow duration-300">
         <div class="md:flex h-full gap-10">
@@ -14,7 +90,7 @@
                 <!-- Thumbnail dengan link dan efek hover -->
                 <a href="{{ route('blog.detail', $bigCard['slug']) }}"
                     class="block group relative overflow-hidden rounded-xl">
-                    
+
                     <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $bigCard['blog_thumbnail'] }}"
                         class="rounded-xl w-full h-[300px] 2xl:h-[450px] object-cover transition-transform duration-500 hover:scale-105"
                         alt="{{ $bigCard['blog_name'] }}">
@@ -77,13 +153,47 @@
     </div>
     @endif
 
+    <!-- No Results Message (when searching) -->
+    @if($isSearching && count($gridCard) == 0 && !$isLoading)
+    <div class="bg-white bg-opacity-50 rounded-xl p-10 text-center shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="text-xl font-medium text-gray-700 mb-2">No blog posts found</h3>
+        <p class="text-gray-500 mb-4">We couldn't find any blog posts matching "{{ $searchTerm }}".</p>
+        <button wire:click="resetSearch"
+            class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-200 inline-flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to all blogs
+        </button>
+    </div>
+    @endif
 
+    <!-- No Results Message (when not searching but no blogs available) -->
+    @if(!$isSearching && empty($blogs) && !$isLoading)
+    <div class="bg-white bg-opacity-50 rounded-xl p-10 text-center shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1M19 20a2 2 0 002-2V8a2 2 0 00-2-2h-5M5 14h5m5-4h5M5 8h5" />
+        </svg>
+        <h3 class="text-xl font-medium text-gray-700 mb-2">No blog posts available</h3>
+        <p class="text-gray-500">Check back later for new content.</p>
+    </div>
+    @endif
+
+    <!-- Grid Cards -->
+    @if(count($gridCard) > 0)
     <div class="md:grid grid-cols-3 gap-8">
         @foreach ($gridCard as $blog)
         <div
             class="card bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full h-full flex flex-col justify-between p-5 mb-6 md:mb-0 hover:shadow-lg hover: transition-shadow duration-300">
             <!-- Gambar dengan link dan efek hover -->
-            <!-- Perbaikan untuk efek hover pada gambar -->
             <div class="relative w-full overflow-hidden rounded-xl">
                 <a href="{{ route('blog.detail', $blog['slug']) }}" class="block group">
                     <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $blog['blog_thumbnail'] }}"
@@ -101,7 +211,6 @@
                     {{ $blog['category_name'] }}
                 </div>
             </div>
-
 
             <!-- Konten -->
             <div class="flex flex-col flex-grow justify-between mt-4">
@@ -148,7 +257,9 @@
         </div>
         @endforeach
     </div>
+    @endif
 
+    <!-- Load More Button -->
     @if($hasMoreBlog)
     <div class="text-center mt-10">
         <button wire:click="loadMore"

@@ -1,4 +1,5 @@
 @extends('pages.layouts.user')
+@section('title', $blog['blog_name'])
 
 <style>
     .blog-content p {
