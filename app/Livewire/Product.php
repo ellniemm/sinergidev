@@ -146,31 +146,49 @@ class Product extends Component
 
     public function edit($id)
     {
-        // Ambil data langsung dari API untuk id spesifik
-        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
+        // Cari product dengan ID yang sesuai dari data yang sudah di-fetch
+        $productFromCurrentData = collect($this->products)->firstWhere('product_id', $id);
 
-        if ($response->successful()) {
-            $data = $response->json();
-
-            // Set data produk dari response API
+        if ($productFromCurrentData) {
+            // Gunakan data dari hasil fetch yang sudah ada
             $this->product_id = $id;
-            $this->productName = $data['data']['product_name'];
-            $this->productDescription = $data['data']['product_desc'];
-            $this->productImage = $data['data']['product_img'];
+            $this->productName = $productFromCurrentData['product_name'];
+            $this->productDescription = $productFromCurrentData['product_desc'];
+            $this->productImage = $productFromCurrentData['product_img'];
             $this->updateData = true;
 
-            // Log untuk debugging
-            Log::info('Edit method - Updated Product Data', [
+            Log::info('Edit method - Using data from current fetch', [
                 'product_id' => $this->product_id,
                 'productName' => $this->productName,
                 'productDescription' => $this->productDescription,
                 'productImage' => $this->productImage
             ]);
         } else {
-            $this->dispatch('showToast', [
-                'message' => 'Produk tidak ditemukan',
-                'type' => 'error'
-            ]);
+            // Jika tidak ditemukan di data saat ini, ambil dari API
+            $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
+
+            if ($response->successful()) {
+                $data = $response->json();
+
+                // Set data product dari response API
+                $this->product_id = $id;
+                $this->productName = $data['data']['product_name'];
+                $this->productDescription = $data['data']['product_desc'];
+                $this->productImage = $data['data']['product_img'];
+                $this->updateData = true;
+
+                Log::info('Edit method - Fetched fresh data from API', [
+                    'product_id' => $this->product_id,
+                    'productName' => $this->productName,
+                    'productDescription' => $this->productDescription,
+                    'productImage' => $this->productImage
+                ]);
+            } else {
+                $this->dispatch('showToast', [
+                    'message' => 'Product tidak ditemukan',
+                    'type' => 'error'
+                ]);
+            }
         }
     }
 

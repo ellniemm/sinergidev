@@ -61,15 +61,19 @@ class PagesController extends Controller
     public function blog()
     {
         try {
-            $response = Http::get('https://sinergi.dev.ybgee.my.id/api/blog', [
-                'page' => request()->get('page', 1),
-                'per_page' => 10
+            $response = Http::get('https://sinergi.dev.ybgee.my.id/api/blog');
+
+            // Log response details
+            Log::info('Blog API Response', [
+                'status' => $response->status(),
+                'successful' => $response->successful(),
+                'body' => $response->body(),
+                'json' => json_encode($response->json())
             ]);
 
             if ($response->successful()) {
                 $data = $response->json();
                 $blogs = $data['data']['blogs'];
-                $pagination = $data['data']['pagination'];
 
                 $bigCard = $blogs[0] ?? null;
                 $gridCard = array_slice($blogs, 1);
@@ -78,31 +82,67 @@ class PagesController extends Controller
                     'blogs' => $blogs,
                     'bigCard' => $bigCard,
                     'gridCard' => $gridCard,
-                    'currentPage' => $pagination['current_page'],
-                    'lastPage' => $pagination['last_page'],
-                    'nextPageUrl' => $pagination['next_page_url'] !== null,
-                    'prevPageUrl' => $pagination['prev_page_url'] !== null
+
                 ]);
+            } else {
+                Log::error('Blog API unsuccessful response', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return response()->view('errors.custom', [
+                    'message' => 'Failed to load blog data. Please try again later.'
+                ], 500);
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to load blog posts');
+            Log::error('Blog API exception', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+            return response()->view('errors.custom', [
+                'message' => 'An error occurred while loading the blog. Please try again later.'
+            ], 500);
         }
     }
+
 
     public function blogDetail($slug)
     {
         try {
             $response = Http::get('https://sinergi.dev.ybgee.my.id/api/blog/' . $slug);
+            Log::info('Blog Detail API Response', [
+                'slug' => $slug,
+                'status' => $response->status(),
+                'successful' => $response->successful(),
+                'body' => $response->body(),
+                'json' => json_encode($response->json())
+            ]);
+
             if ($response->successful()) {
                 $data = $response->json();
                 // Access the blog data directly from data array
                 $blog = $data['data'];
                 return view('pages.user.blog-detail', compact('blog'));
+            } else {
+                Log::error('Blog Detail API unsuccessful response', [
+                    'slug' => $slug,
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return response()->view('errors.custom', [
+                    'message' => 'Failed to load blog post. Please try again later.'
+                ], 500);
             }
-            Log::error('API Response not successful: ' . $response->body());
         } catch (\Exception $e) {
-            Log::error('Blog detail error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to load blog post');
+            Log::error('Blog Detail API exception', [
+                'slug' => $slug,
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+            return response()->view('errors.custom', [
+                'message' => 'An error occurred while loading the blog post. Please try again later.'
+            ], 500);
         }
     }
 

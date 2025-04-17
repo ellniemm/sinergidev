@@ -150,36 +150,55 @@ class Service extends Component
             ]);
         }
     }
+
     public function edit($id)
     {
-        // Ambil data langsung dari API untuk id spesifik
-        $response = Http::get("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
+        // Cari service dengan ID yang sesuai dari data yang sudah di-fetch
+        $serviceFromCurrentData = collect($this->services)->firstWhere('service_id', $id);
 
-        if ($response->successful()) {
-            $data = $response->json();
-
-            // Set data produk dari response API
+        if ($serviceFromCurrentData) {
+            // Gunakan data dari hasil fetch yang sudah ada
             $this->service_id = $id;
-            $this->serviceName = $data['data']['service_name'];
-            $this->serviceDescription = $data['data']['service_desc'];
-            $this->serviceImage = $data['data']['service_img'];
+            $this->serviceName = $serviceFromCurrentData['service_name'];
+            $this->serviceDescription = $serviceFromCurrentData['service_desc'];
+            $this->serviceImage = $serviceFromCurrentData['service_img'];
             $this->updateData = true;
 
-            // Log untuk debugging
-            Log::info('Edit method - Updated service Data', [
+            Log::info('Edit method - Using data from current fetch', [
                 'service_id' => $this->service_id,
                 'serviceName' => $this->serviceName,
                 'serviceDescription' => $this->serviceDescription,
                 'serviceImage' => $this->serviceImage
             ]);
         } else {
-            $this->dispatch('showToast', [
-                'message' => 'Produk tidak ditemukan',
-                'type' => 'error'
-            ]);
+            // Jika tidak ditemukan di data saat ini, ambil dari API
+            $response = Http::get("https://sinergi.dev.ybgee.my.id/api/service/{$id}");
+
+            if ($response->successful()) {
+                $data = $response->json();
+
+                // Set data service dari response API
+                $this->service_id = $id;
+                $this->serviceName = $data['data']['service_name'];
+                $this->serviceDescription = $data['data']['service_desc'];
+                $this->serviceImage = $data['data']['service_img'];
+                $this->updateData = true;
+
+                Log::info('Edit method - Fetched fresh data from API', [
+                    'service_id' => $this->service_id,
+                    'serviceName' => $this->serviceName,
+                    'serviceDescription' => $this->serviceDescription,
+                    'serviceImage' => $this->serviceImage
+                ]);
+            } else {
+                $this->dispatch('showToast', [
+                    'message' => 'Service tidak ditemukan',
+                    'type' => 'error'
+                ]);
+            }
         }
     }
-    
+
     public function update()
     {
         try {

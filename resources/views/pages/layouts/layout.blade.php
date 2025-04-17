@@ -15,7 +15,7 @@
     /* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap'); */
     @font-face {
         font-family: 'Montserrat';
-        src: url('{{ asset(' ./fonts/Montserrat-VariableFont_wght.ttf') }}') format('truetype');
+        src: url('{{ asset('fonts/Montserrat-VariableFont_wght.ttf') }}') format('truetype');
     }
 
     body {
