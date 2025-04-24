@@ -1,4 +1,3 @@
-
 <div>
     <!-- Search Form -->
     <div class="mb-8 flex justify-between">
@@ -15,28 +14,37 @@
                     </svg>
                 </button>
             </div>
-            @if($isSearching)
+
+            <!-- Category Dropdown -->
+            <div class="relative w-full md:w-1/6">
+                <div class="relative">
+                    <select wire:model.defer="selectedCategory"
+                        class="appearance-none border border-gray-300 rounded-full py-2 px-4 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">All</option>
+                        @foreach($categories as $category)
+                        <option value="{{ $category['category_id'] }}">{{ $category['category_name'] }}</option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            @if($isSearching || $selectedCategory !== 'all')
             <button type="button" wire:click="resetSearch"
-                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition duration-200 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition duration-200  items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
-                Clear Search
             </button>
             @endif
         </form>
-        <!-- Category Dropdown -->
-        <div class="relative w-full md:w-auto">
-            <select
-                class="appearance-none border border-gray-300 rounded-full py-2 px-4 pr-10 w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="all">All Categories</option>
-                <option value="tech">Technology</option>
-                <option value="life">Lifestyle</option>
-                <option value="travel">Travel</option>
-                <!-- Tambah kategori lain di sini -->
-            </select>
-        </div>
     </div>
 
     <!-- Search Results Indicator -->
@@ -47,6 +55,17 @@
             Search results for "{{ $searchTerm }}" ({{ count($gridCard) }} found)
             @else
             No results found for "{{ $searchTerm }}"
+            @endif
+        </h2>
+    </div>
+    @elseif($selectedCategory !== 'all')
+    <div class="mb-6">
+        <h2 class="text-xl font-semibold">
+            @if(count($gridCard) > 0)
+            Showing blogs in category: {{ collect($categories)->firstWhere('category_id',
+            $selectedCategory)['category_name'] }} ({{ count($gridCard) }} found)
+            @else
+            No blogs found in this category
             @endif
         </h2>
     </div>
@@ -116,7 +135,7 @@
                 <div class="2xl:px-5">
                     <!-- Judul dengan link dan efek hover -->
                     <a href="{{ route('blog.detail', $bigCard['slug']) }}" class="block group">
-                        <h2 class="font-semibold text-lg md:text-2xl 2xl:text-4xl mb-6 pt-5 md:pt-0 relative">
+                        <h2 class="font-semibold text-lg md:text-2xl 2xl:text-4xl mb-6 mt-5 relative">
                             <!-- Teks normal yang selalu terlihat -->
                             <span class="block transition-opacity duration-300 ease-in-out group-hover:opacity-0">
                                 {{ $bigCard['blog_name'] }}
@@ -160,9 +179,8 @@
             viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <h3 class="text-xl font-medium text-gray-700 mb-2">No blog posts found</h3>
-        <p class="text-gray-500 mb-4">We couldn't find any blog posts matching "{{ $searchTerm }}".</p>
+    </svg>
+        <p class="text-gray-500 mb-4">We couldn't find any blog posts matching "{{ $searchTerm }}. Try another search or category.</p>
         <button wire:click="resetSearch"
             class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-200 inline-flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
