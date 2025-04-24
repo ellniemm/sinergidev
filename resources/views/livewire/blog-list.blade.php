@@ -47,7 +47,7 @@
         </form>
     </div>
 
-    <!-- Search Results Indicator -->
+    <!-- Hasil Indicator -->
     @if($isSearching)
     <div class="mb-6">
         <h2 class="text-xl font-semibold">
@@ -71,7 +71,7 @@
     </div>
     @endif
 
-    <!-- Improved Loading Indicator for Search -->
+    <!-- Loading indicator -->
     <div wire:loading wire:target="search" class="flex justify-center items-center py-4 mb-6">
         <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-md">
             <svg class="animate-spin h-5 w-5 mr-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -101,12 +101,12 @@
     </div>
     @else
     @if($bigCard && !$isSearching)
-    <!-- Big Card - Only show when not searching -->
+    {{-- Big Card muncul saat tidak dalam searching --}}
     <div
         class="card px-5 py-6 bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full mb-5 hover:shadow-lg transition-shadow duration-300">
         <div class="md:flex h-full gap-10">
             <div class="relative md:w-3/4">
-                <!-- Thumbnail dengan link dan efek hover -->
+                
                 <a href="{{ route('blog.detail', $bigCard['slug']) }}"
                     class="block group relative overflow-hidden rounded-xl">
 
@@ -119,13 +119,11 @@
                     </div>
                 </a>
 
-                <!-- Kategori dengan desain yang lebih modern -->
                 <div
                     class="absolute top-3 right-3 bg-white bg-opacity-90 text-black text-xs md:text-sm font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">
                     {{ $bigCard['category_name'] }}
                 </div>
 
-                <!-- Tanggal dengan desain yang lebih modern -->
                 <div
                     class="absolute bottom-3 left-3 bg-black bg-opacity-60 text-white text-xs md:text-sm font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">
                     {{ \Carbon\Carbon::parse($bigCard['created_at'])->format('d M Y') }}
@@ -133,15 +131,14 @@
             </div>
             <div class="md:w-2/4 2xl:w-2/3 md:flex md:flex-col justify-between">
                 <div class="2xl:px-5">
-                    <!-- Judul dengan link dan efek hover -->
+                    
                     <a href="{{ route('blog.detail', $bigCard['slug']) }}" class="block group">
                         <h2 class="font-semibold text-lg md:text-2xl 2xl:text-4xl mb-6 mt-5 relative">
-                            <!-- Teks normal yang selalu terlihat -->
+                            
                             <span class="block transition-opacity duration-300 ease-in-out group-hover:opacity-0">
                                 {{ $bigCard['blog_name'] }}
                             </span>
 
-                            <!-- Teks gradient yang muncul saat hover -->
                             <span
                                 class="absolute top-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
                                 {{ $bigCard['blog_name'] }}
@@ -172,7 +169,7 @@
     </div>
     @endif
 
-    <!-- No Results Message (when searching) -->
+    {{-- Pemberitahuan tidak ada hasil --}}
     @if($isSearching && count($gridCard) == 0 && !$isLoading)
     <div class="bg-white bg-opacity-50 rounded-xl p-10 text-center shadow-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none"
@@ -192,7 +189,7 @@
     </div>
     @endif
 
-    <!-- No Results Message (when not searching but no blogs available) -->
+    {{-- Tidak ada hasil karna tidak ada data --}}
     @if(!$isSearching && empty($blogs) && !$isLoading)
     <div class="bg-white bg-opacity-50 rounded-xl p-10 text-center shadow-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none"
@@ -205,13 +202,13 @@
     </div>
     @endif
 
-    <!-- Grid Cards -->
+    
     @if(count($gridCard) > 0)
     <div class="md:grid grid-cols-3 gap-8">
         @foreach ($gridCard as $blog)
         <div
             class="card bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full h-full flex flex-col justify-between p-5 mb-6 md:mb-0 hover:shadow-lg hover: transition-shadow duration-300">
-            <!-- Gambar dengan link dan efek hover -->
+            
             <div class="relative w-full overflow-hidden rounded-xl">
                 <a href="{{ route('blog.detail', $blog['slug']) }}" class="block group">
                     <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $blog['blog_thumbnail'] }}"
@@ -223,25 +220,25 @@
                     </div>
                 </a>
 
-                <!-- Kategori dengan desain yang lebih modern -->
+                
                 <div
                     class="absolute top-3 right-3 bg-white bg-opacity-90 text-black text-xs font-medium px-2.5 py-0.5 rounded-full shadow-sm">
                     {{ $blog['category_name'] }}
                 </div>
             </div>
 
-            <!-- Konten -->
+            
             <div class="flex flex-col flex-grow justify-between mt-4">
                 <div>
-                    <!-- Judul dengan link dan efek hover -->
+                    
                     <a href="{{ route('blog.detail', $blog['slug']) }}" class="block group">
                         <h2 class="font-semibold text-lg 2xl:text-2xl mb-3 relative">
-                            <!-- Teks normal yang selalu terlihat -->
+                            
                             <span class="block transition-opacity duration-300 ease-in-out group-hover:opacity-0">
                                 {{ $blog['blog_name'] }}
                             </span>
 
-                            <!-- Teks gradient yang muncul saat hover -->
+                            
                             <span
                                 class="absolute top-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
                                 {{ $blog['blog_name'] }}
@@ -277,7 +274,7 @@
     </div>
     @endif
 
-    <!-- Load More Button -->
+    {{-- Tombol Load More --}}
     @if($hasMoreBlog)
     <div class="text-center mt-10">
         <button wire:click="loadMore"
