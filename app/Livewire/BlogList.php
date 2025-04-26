@@ -15,42 +15,76 @@ class BlogList extends Component
     public $limit = 6;
     public $hasMoreBlog = false;
     public $isLoading = true;
-    public $initialFetch = true; // Flag untuk fetch pertama
+    public $initialFetch = true;
 
     public $searchTerm = '';
     public $isSearching = false;
 
+    public $selectedCategory = 'all';
+    public $categories = [];
+    public $isFiltering = false;
+
     public function mount()
     {
-        // fetch default 1 bigCard 6 gridCard
+    
         $this->limit = 7;
+        $this->fetchCategories();
         $this->fetchBlogs();
     }
 
+    public function fetchCategories()
+    {
+        try {
+            
+            $response = Http::get('https://sinergi.dev.ybgee.my.id/api/category');
+            
+            if ($response->successful()) {
+                $data = $response->json();
+                
+                
+                if (isset($data['data']) && is_array($data['data'])) {
+                    $this->categories = $data['data'];
+                    Log::info('Categories fetched successfully', ['count' => count($this->categories)]);
+                } else {
+                    Log::info('Categories data structure unexpected', ['response' => $data]);
+                }
+            } else {
+                Log::info('Categories fetch failed', ['status' => $response->status()]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Categories fetch exception', ['message' => $e->getMessage()]);
+        }
+    }
+    
     public function fetchBlogs()
     {
         $this->isLoading = true;
 
         try {
-            // Hitung offset yang benar berdasarkan jumlah data yang sudah diambil
+            
             $calculatedOffset = 0;
             if (!$this->initialFetch) {
-                // Jika bukan fetch pertama, offset seharusnya = jumlah data yang sudah diambil
+                
                 $calculatedOffset = count($this->blogs);
             }
             
-            // Parameter dasar untuk request API
+        
             $params = [
                 'offset' => $calculatedOffset,
                 'limit' => $this->limit
             ];
             
-            // Tambahkan parameter search jika sedang dalam mode pencarian
+            
             if ($this->isSearching && !empty($this->searchTerm)) {
                 $params['search'] = $this->searchTerm;
             }
             
-            // Kirim request ke API dengan parameter yang sudah disiapkan
+            
+            if ($this->selectedCategory !== 'all') {
+                $params['category'] = $this->selectedCategory;
+            }
+            
+            
             $response = Http::get('https://sinergi.dev.ybgee.my.id/api/blog', $params);
             
             if ($response->successful()) {
@@ -58,34 +92,38 @@ class BlogList extends Component
                 
                 if (isset($data['data']['blogs']) && is_array($data['data']['blogs'])) {
                     $newBlogs = $data['data']['blogs'];
+                    Log::info('Blogs fetched successfully', [
+                        'count' => count($newBlogs),
+                        'params' => $params
+                    ]);
                     
-                    if ($this->isSearching) {
-                        // Jika sedang dalam mode pencarian
+                    if ($this->isSearching || $this->selectedCategory !== 'all') {
+                        
                         if ($this->initialFetch) {
-                            // Reset data jika ini adalah pencarian pertama
+                            
                             $this->blogs = $newBlogs;
-                            $this->bigCard = null; // Tidak ada bigCard dalam mode pencarian
-                            $this->gridCard = $newBlogs; // Semua hasil ditampilkan sebagai gridCard
+                            $this->bigCard = null; 
+                            $this->gridCard = $newBlogs; 
                             $this->initialFetch = false;
                         } else {
-                            // Jika ini adalah load more dalam mode pencarian
+                            
                             $this->blogs = array_merge($this->blogs, $newBlogs);
                             $this->gridCard = array_merge($this->gridCard, $newBlogs);
                         }
                     } else if ($this->initialFetch) {
-                        // Ini adalah fetch pertama (normal mode)
+                        
                         $this->blogs = $newBlogs;
                         $this->bigCard = !empty($this->blogs) ? $this->blogs[0] : null;
                         $this->gridCard = array_slice($this->blogs, 1);
                         $this->limit = 6;
                         $this->initialFetch = false;
                     } else {
-                        // Ini adalah fetch "Load More" (normal mode)
+                        
                         $this->blogs = array_merge($this->blogs, $newBlogs);
                         $this->gridCard = array_merge($this->gridCard, $newBlogs);
                     }
                     
-                    // Cek apakah masih ada blog yang belum ditampilkan
+                    
                     $this->hasMoreBlog = isset($data['data']['has_more']) ? $data['data']['has_more'] : false;
                 }
             }
@@ -99,49 +137,55 @@ class BlogList extends Component
     }
 
 
-     // Method untuk memulai pencarian
-     public function search()
-     {
-         // Reset data
-         $this->blogs = [];
-         $this->gridCard = [];
-         $this->bigCard = null;
-         $this->offset = 0;
-         $this->isSearching = true;
-         $this->initialFetch = true;
+    public function search()
+    {
+    
+        if (empty($this->searchTerm) && $this->selectedCategory === 'all') {
+            return;
+        }
+        
+    
+        $this->blogs = [];
+        $this->gridCard = [];
+        $this->bigCard = null;
+        $this->offset = 0;
+        $this->isSearching = !empty($this->searchTerm);
+        $this->initialFetch = true;
+        
+    
+        $this->fetchBlogs();
+    }
+
+
+    public function resetSearch()
+    {
+        $this->searchTerm = '';
+        $this->isSearching = false;
+        $this->selectedCategory = 'all';
+        $this->isFiltering = false;
          
-         // Fetch blogs dengan parameter search
-         $this->fetchBlogs();
-     }
+    
+        $this->blogs = [];
+        $this->gridCard = [];
+        $this->bigCard = null;
+        $this->offset = 0;
+        $this->initialFetch = true;
+        $this->limit = 7;
+         
+    
+        $this->fetchBlogs();
+    }
      
-     // Method untuk mereset pencarian
-     public function resetSearch()
-     {
-         $this->searchTerm = '';
-         $this->isSearching = false;
-         
-         // Reset semua data dan fetch ulang dari awal
-         $this->blogs = [];
-         $this->gridCard = [];
-         $this->bigCard = null;
-         $this->offset = 0;
-         $this->initialFetch = true; // Penting! Ini akan memastikan data diproses sebagai fetch pertama
-         $this->limit = 7; // Mengambil 7 data (1 untuk bigCard, 6 untuk gridCard)
-         
-         // Fetch ulang semua data
-         $this->fetchBlogs();
-     }
-     
- 
-     public function loadMore()
-     {
-         if ($this->hasMoreBlog) {
-             $this->fetchBlogs();
-         }
-     }
+    public function loadMore()
+    {
+        if ($this->hasMoreBlog) {
+            $this->fetchBlogs();
+        }
+    }
  
     public function render()
     {
+       
         return view('livewire.blog-list');
     }
 }
