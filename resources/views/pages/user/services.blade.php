@@ -1,5 +1,7 @@
 @extends('pages.layouts.user')
 
+@section('title', 'Services - Sinergi Studio')
+
 @section('content')
 {{-- Header --}}
 <header class="bg-[#0D192F] relative py-14 2xl:py-32 md:py-20 ">

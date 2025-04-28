@@ -1,5 +1,7 @@
 @extends('pages.layouts.user')
 
+@section('title', 'Contact Us - Sinergi Studio')
+
 @section('content')
 <header class="bg-[#0D192F] pt-28 2xl:pt-40 relative ">
     <svg class="absolute  top-40 left-16 transform -translate-x-1/4 -translate-y-1/4" width="257" height="616"

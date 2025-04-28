@@ -1,5 +1,7 @@
 @extends('pages.layouts.user')
 
+@section('title', 'Home - Sinergi Studio')
+
 @section('content')
 <!-- === Hero Section === -->
 <section class="bg-[#0D192F] text-white w-full">

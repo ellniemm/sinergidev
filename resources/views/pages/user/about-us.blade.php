@@ -1,5 +1,7 @@
 @extends('pages.layouts.user')
 
+@section('title', 'About Us - Sinergi Studio')
+
 @section('content')
     <header class="bg-[#0D192F] w-full lg:pt-10 2xl:pt-20 relative">
         {{-- Konten Header  --}}

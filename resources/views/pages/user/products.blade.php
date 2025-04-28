@@ -1,5 +1,7 @@
 @extends('pages.layouts.user')
 
+@section('title', 'Product - Sinergi Studio')
+
 @section('content')
 <header class="bg-[#0D192F] relative">
     <div class=" flex justify-between  ">
