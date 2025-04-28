@@ -140,7 +140,7 @@
                             </g>
                         </svg>
                     </div>
-                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">0</div>
+                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">1</div>
                 </div>
                 <p class="text-gray-500 text-center mt-1 font-medium text-lg 2xl:text-2xl">
                     Client and Patners
@@ -157,7 +157,7 @@
                                 d="M10.5 15.25A.74.74 0 0 1 10 15l-3-3a.75.75 0 0 1 1-1l2.47 2.47L19 5a.75.75 0 0 1 1 1l-9 9a.74.74 0 0 1-.5.25" />
                         </svg>
                     </div>
-                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">0</div>
+                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">5+</div>
                 </div>
                 <p class="text-gray-500 text-center mt-1 font-medium text-lg 2xl:text-2xl">
                     Problem Solved
@@ -175,7 +175,7 @@
                             </g>
                         </svg>
                     </div>
-                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">0</div>
+                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">1</div>
                 </div>
                 <div class="text-gray-500 text-center whitespace-pre-line mt-1 font-medium 2xl:font-lg 2xl:text-2xl">
                     Years Expirience in
@@ -192,7 +192,7 @@
                                 d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047a9.005 9.005 0 0 1 5.9 8.181a.75.75 0 1 1-1.499.044a7.5 7.5 0 0 0-14.993 0a.75.75 0 0 1-1.5-.045a9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5M8 8a4 4 0 1 0 8 0a4 4 0 0 0-8 0" />
                         </svg>
                     </div>
-                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">19</div>
+                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">12+</div>
                 </div>
                 <p class="text-gray-500 text-center mt-1 font-medium text-lg 2xl:text-2xl">
                     Sinergi Talent
@@ -210,7 +210,7 @@
                             </g>
                         </svg>
                     </div>
-                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">4</div>
+                    <div class="text-[#4796A3] font-bold text-5xl 2xl:text-7xl">10</div>
                 </div>
                 <p class="text-gray-500 text-center mt-1 font-medium text-lg 2xl:text-2xl">
                     Client Happy

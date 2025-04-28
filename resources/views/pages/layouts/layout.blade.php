@@ -26,7 +26,7 @@
 </style>
 
 <body>
-    @if(!in_array(request()->route()->getName(), ['login', 'register', 'verify.email']))
+    @if(!in_array(request()->route()->getName(), ['login', 'register', 'verify.email','resend.email','forgot.password','reset.password']))
     @include('pages.components.navbarAdmin')
     @endif
     @yield('main')

@@ -176,7 +176,7 @@
 </section>
 
 <script>
-    // Gallery images array
+    
     const galleryImages = [
         '{{ asset('img/preview/kelasmalam.png') }}',
         '{{ asset('img/preview/ghost.png') }}',
@@ -188,7 +188,7 @@
     let currentIndex = 0;
     const totalImages = galleryImages.length;
     
-    // DOM elements
+    
     const modal = document.getElementById('gallery-modal');
     const galleryImage = document.getElementById('gallery-image');
     const currentIndexEl = document.getElementById('current-index');
@@ -197,45 +197,45 @@
     const nextBtn = document.getElementById('next-btn');
     const closeBtn = document.getElementById('close-btn');
     
-    // Initialize total images count
+    
     totalImagesEl.textContent = totalImages;
     
-    // Open gallery with specific image
+    
     function openGallery(index) {
     currentIndex = index;
     updateGalleryImage();
     modal.style.display = 'flex';
 }
     
-    // Close gallery
+    
     function closeGallery() {
     modal.style.display = 'none';
 }
     
-    // Update gallery image based on current index
+    
     function updateGalleryImage() {
         galleryImage.src = galleryImages[currentIndex];
         currentIndexEl.textContent = currentIndex + 1;
     }
     
-    // Navigate to previous image
+    
     function prevImage() {
         currentIndex = (currentIndex - 1 + totalImages) % totalImages;
         updateGalleryImage();
     }
     
-    // Navigate to next image
+    
     function nextImage() {
         currentIndex = (currentIndex + 1) % totalImages;
         updateGalleryImage();
     }
     
-    // Event listeners
+    
     prevBtn.addEventListener('click', prevImage);
     nextBtn.addEventListener('click', nextImage);
     closeBtn.addEventListener('click', closeGallery);
     
-    // Keyboard navigation
+    
     document.addEventListener('keydown', function(e) {
         if (modal.classList.contains('flex')) {
             if (e.key === 'ArrowLeft') {
