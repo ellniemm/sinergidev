@@ -36,6 +36,9 @@
                 <input type="password" id="password" name="password" class="input input-bordered w-full text-sm 2xl:text-lg"
                     placeholder="Enter your password" required />
             </div>
+            <div class="flex items-center justify-between">
+                <a href="{{route('forgot.password')}}" class="text-sm font-medium text-primary hover:underline dark:text-primary-500">Forgot password?</a>
+            </div>
 
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary w-full mt-4 text-sm 2xl:text-lg">

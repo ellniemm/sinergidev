@@ -32,7 +32,7 @@
 
     <div class=" w-11/12 mx-auto relative py-5 md:py-10 z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10 2xl:gap-20 pt-10 2xl:pt-32">
-            <div class="flex  bg-white py-5 px-5 text-black rounded-xl items-center space-x-10">
+            <div class="flex  bg-white py-5 px-5 text-black rounded-xl items-center space-x-5">
                 <div class=" ">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] h-[30px] 2xl:w-[52px] 2xl:h-[52px]"
                         viewBox="0 0 24 24">
@@ -45,12 +45,12 @@
                     <h1 class="font-semibold text-sm 2xl:text-2xl text-[#6A6A6A]">
                         Email
                     </h1>
-                    <p class="text-lg font-semibold 2xl:text-3xl">
-                        lorem@gmail.com
+                    <p class="text-sm font-semibold 2xl:text-3xl">
+                        tefarpl.smkn6@smkn6malang.sch.id
                     </p>
                 </div>
             </div>
-            <div class="flex bg-white py-5 px-5 text-black rounded-xl items-center space-x-10">
+            <div class="flex bg-white py-5 px-5 text-black rounded-xl items-center space-x-5">
                 <div class="">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] h-[30px] 2xl:w-[52px] 2xl:h-[52px]"
                         viewBox="0 0 24 24">
@@ -69,11 +69,11 @@
                         WhatsApp
                     </h1>
                     <p class="text-lg font-semibold 2xl:text-3xl">
-                        0821lorem999
+                        0851-9817-7098
                     </p>
                 </div>
             </div>
-            <div class="flex bg-white py-5 px-5 text-black rounded-xl items-center space-x-10">
+            <div class="flex bg-white py-5 px-5 text-black rounded-xl items-center space-x-5">
                 <div class="">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] h-[30px] 2xl:w-[52px] 2xl:h-[52px]"
                         viewBox="0 0 24 24">
@@ -88,8 +88,8 @@
                     <h1 class="font-semibold text-sm 2xl:text-2xl text-[#6A6A6A]">
                         Lokasi
                     </h1>
-                    <p class="text-lg font-semibold 2xl:text-3xl">
-                        Jl. Ki Ageng Gribig
+                    <p class="text-base font-semibold 2xl:text-3xl">
+                        Jl. Ki Ageng Gribig No. 28 Madyopuro, Kota Malang
                     </p>
                 </div>
             </div>
@@ -115,45 +115,37 @@
 </section>
 <section class="bg-white py-20 2xl:py-40">
     <div class="container mx-auto px-5 md:px-24">
-        <h1 class="text-2xl md:text-4xl 2xl:text-6xl text-center font-bold mb-5 md:mb-10 text-black">
-            FAQs
-        </h1>
+        <h1 class="text-2xl md:text-4xl 2xl:text-6xl text-center font-bold mb-5 md:mb-10 text-black"> FAQs </h1>
         <div id="accordion-open" data-accordion="open">
-            <!-- Panel 1 -->
-            <div id="accordion-open-heading-1">
-                <button type="button"
+            
+            <div id="accordion-open-heading-1"> <button type="button"
                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                     data-accordion-target="#accordion-open-body-1" aria-expanded="true"
-                    aria-controls="accordion-open-body-1">
-                    <span class="flex items-center">
-                        <svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    aria-controls="accordion-open-body-1"> <span class="flex items-center"> <svg
+                            class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <h2 class="font-bold text-sm 2xl:text-2xl text-black">What is Flowbite?</h2>
-                    </span>
-                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                        <h2 class="font-bold text-sm 2xl:text-2xl text-black">Layanan apa saja yang Anda tawarkan?</h2>
+                    </span> <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 5 5 1 1 5" />
-                    </svg>
-                </button>
-            </div>
+                    </svg> </button> </div>
             <div id="accordion-open-body-1" class="hidden" aria-labelledby="accordion-open-heading-1">
                 <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 text-sm 2xl:text-xl">
-                    <p class="mb-2 text-gray-700 dark:text-gray-400">Flowbite is an open-source library of interactive
-                        components built on top of Tailwind CSS including buttons, dropdowns, modals, navbars, and more.
-                    </p>
-                    <p class="mb-2 text-gray-700 dark:text-gray-400">Check out this guide to learn how to <a
-                            href="/docs/getting-started/introduction/"
-                            class="text-blue-600 dark:text-blue-500 hover:underline">get started</a> and start
-                        developing websites even faster with components on top of Tailwind CSS.</p>
+                    <p class="mb-2 text-gray-700 dark:text-gray-400">Kami menawarkan berbagai layanan digital, termasuk
+                        pengembangan website, pengembangan aplikasi mobile, dan strategi pemasaran digital. Tujuan kami
+                        adalah membantu bisnis membangun kehadiran digital yang kuat dan tumbuh secara efektif di dunia
+                        digital.</p>
                 </div>
             </div>
-
-            <!-- Panel 2 -->
+            php-template
+            Copy
+            Edit
+            
             <div id="accordion-open-heading-2" class="">
                 <button type="button"
                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
@@ -166,7 +158,8 @@
                                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <h2 class="font-bold text-sm 2xl:text-2xl text-black">Is there a Figma file available?</h2>
+                        <h2 class="font-bold text-sm 2xl:text-2xl text-black">Berapa lama waktu yang dibutuhkan untuk
+                            mengembangkan sebuah website?</h2>
                     </span>
                     <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -177,16 +170,14 @@
             </div>
             <div id="accordion-open-body-2" class="hidden" aria-labelledby="accordion-open-heading-2">
                 <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 text-sm 2xl:text-xl">
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first conceptualized and designed using
-                        the Figma software so everything you see in the library has a design equivalent in our Figma
-                        file.</p>
-                    <p class="mb-2 text-gray-700 dark:text-gray-400">Check out the <a href="https://flowbite.com/figma/"
-                            class="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a> based on
-                        the utility classes from Tailwind CSS and components from Flowbite.</p>
+                    <p class="mb-2 text-gray-500 dark:text-gray-400">Waktu pengembangan website tergantung pada
+                        kompleksitas proyek. Untuk website sederhana, biasanya membutuhkan waktu 2-4 minggu, sementara
+                        untuk website atau aplikasi yang lebih kompleks dapat memakan waktu 6-8 minggu atau lebih. Kami
+                        bekerja sama dengan klien untuk memastikan kebutuhan mereka terpenuhi dengan efisien.</p>
                 </div>
             </div>
 
-            <!-- Panel 3 -->
+            
             <div id="accordion-open-heading-3" class="">
                 <button type="button"
                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
@@ -199,8 +190,8 @@
                                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <h2 class="font-bold text-sm 2xl:text-2xl text-black">What are the differences between Flowbite
-                            and Tailwind UI?</h2>
+                        <h2 class="font-bold text-sm 2xl:text-2xl text-black">Apa itu pemasaran digital dan bagaimana
+                            itu membantu?</h2>
                     </span>
                     <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -211,24 +202,14 @@
             </div>
             <div id="accordion-open-body-3" class="hidden" aria-labelledby="accordion-open-heading-3">
                 <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700 text-sm 2xl:text-xl">
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">The main difference is that the core components
-                        from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product.
-                        Another difference is that Flowbite relies on smaller and standalone components, whereas
-                        Tailwind UI offers sections of pages.</p>
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">However, we actually recommend using both Flowbite,
-                        Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the
-                        best of two worlds.</p>
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-                    <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
-                        <li><a href="https://flowbite.com/pro/"
-                                class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite Pro</a></li>
-                        <li><a href="https://tailwindui.com/" rel="nofollow"
-                                class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a></li>
-                    </ul>
+                    <p class="mb-2 text-gray-500 dark:text-gray-400">Pemasaran digital mengacu pada penggunaan platform,
+                        alat, dan strategi online untuk mempromosikan bisnis Anda. Ini mencakup SEO, pemasaran media
+                        sosial, dan kampanye email, yang semuanya dirancang untuk meningkatkan kesadaran merek, menarik
+                        pelanggan, dan meningkatkan penjualan.</p>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </section>
 @endsection

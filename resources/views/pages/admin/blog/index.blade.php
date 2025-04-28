@@ -79,7 +79,7 @@
                             </div>
                         </td>
                         <td>{{ $blog['status'] }}</td>
-                        <td>{{ $blog['username'] }}</td>
+                        <td>{{ $blog['creator'] }}</td>
                         <td>{{ $blog['category_name'] }}</td>
 
                         <td>{{ \Carbon\Carbon::parse($blog['created_at'])->format('d M Y') }}</td>
