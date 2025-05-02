@@ -29,7 +29,10 @@ Route::get('/blogs/{slug}', [UserPagesController::class, 'blogDetail'])->name('b
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
+Route::get('/auth/password-reset', [AuthController::class, 'resetPassword'])->name('reset.password');
 Route::get('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
+Route::get('/auth/email/resend', [AuthController::class, 'resendVerificationEmail'])->name('resend.email');
 // Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
 
 Route::middleware(['checkToken'])->group(function () {
