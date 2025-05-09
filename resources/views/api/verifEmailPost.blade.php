@@ -3,6 +3,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const verificationUrl = urlParams.get('verification_url');
         const signature = urlParams.get('signature');
+        const email = urlParams.get('email');
         let expires = urlParams.get('expires');
 
         // Extract expires from verificationUrl if not found in main URL
@@ -14,6 +15,7 @@
         console.log('URL Parameters:', {
             verificationUrl: verificationUrl,
             signature: signature,
+            email: email,
             expires: expires
         });
 

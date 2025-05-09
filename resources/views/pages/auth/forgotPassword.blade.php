@@ -1,7 +1,7 @@
 
 @extends('pages.layouts.layout')
 
-{{-- @section('title', 'Forgot Password') --}}
+@section('title', 'Forgot Password - Sinergi Studio')
 
 @section('main')
 
