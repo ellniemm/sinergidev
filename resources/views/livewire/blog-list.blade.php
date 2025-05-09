@@ -3,7 +3,7 @@
     <div class="mb-8 flex justify-between">
         <form wire:submit.prevent="search" class="flex flex-col md:flex-row gap-4 w-full mr-4">
             <div class="relative flex-grow">
-                <input type="text" wire:model.defer="searchTerm" placeholder="Search blog posts..."
+                <input type="text" wire:model.defer="searchTerm" placeholder="Cari blog..."
                     class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 <button type="submit"
                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500">
@@ -52,9 +52,9 @@
     <div class="mb-6">
         <h2 class="text-xl font-semibold">
             @if(count($gridCard) > 0)
-            Search results for "{{ $searchTerm }}" ({{ count($gridCard) }} found)
+            Hasil pencarian untuk "{{ $searchTerm }}" ({{ count($gridCard) }} ditemukan)
             @else
-            No results found for "{{ $searchTerm }}"
+            Tidak ada hasil yang ditemukan untuk "{{ $searchTerm }}"
             @endif
         </h2>
     </div>
@@ -62,10 +62,10 @@
     <div class="mb-6">
         <h2 class="text-xl font-semibold">
             @if(count($gridCard) > 0)
-            Showing blogs in category: {{ collect($categories)->firstWhere('category_id',
-            $selectedCategory)['category_name'] }} ({{ count($gridCard) }} found)
+            Menampilkan blog dalam kategori : {{ collect($categories)->firstWhere('category_id',
+            $selectedCategory)['category_name'] }} ({{ count($gridCard) }} ditemukan)
             @else
-            No blogs found in this category
+            Tidak ada blog ditemukan dalam kategori ini
             @endif
         </h2>
     </div>
@@ -102,72 +102,138 @@
     @else
     @if($bigCard && !$isSearching)
     {{-- Big Card muncul saat tidak dalam searching --}}
-    <div
-        class="card px-5 py-6 bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full mb-5 hover:shadow-lg transition-shadow duration-300">
-        <div class="md:flex h-full gap-10">
-            <div class="relative md:w-3/4">
-                
-                <a href="{{ route('blog.detail', $bigCard['slug']) }}"
-                    class="block group relative overflow-hidden rounded-xl">
-
-                    <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $bigCard['blog_thumbnail'] }}"
-                        class="rounded-xl w-full h-[300px] 2xl:h-[450px] object-cover transition-transform duration-500 hover:scale-105"
-                        alt="{{ $bigCard['blog_name'] }}">
-                    <div
-                        class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                        <span class="text-white text-sm font-normal">Read More</span>
-                    </div>
-                </a>
-
-                <div
-                    class="absolute top-3 right-3 bg-white bg-opacity-90 text-black text-xs md:text-sm font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">
-                    {{ $bigCard['category_name'] }}
-                </div>
-
-                <div
-                    class="absolute bottom-3 left-3 bg-black bg-opacity-60 text-white text-xs md:text-sm font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">
-                    {{ \Carbon\Carbon::parse($bigCard['created_at'])->format('d M Y') }}
-                </div>
-            </div>
-            <div class="md:w-2/4 2xl:w-2/3 md:flex md:flex-col justify-between">
-                <div class="2xl:px-5">
-                    
-                    <a href="{{ route('blog.detail', $bigCard['slug']) }}" class="block group">
-                        <h2 class="font-semibold text-lg md:text-2xl 2xl:text-4xl mb-6 mt-5 relative">
-                            
-                            <span class="block transition-opacity duration-300 ease-in-out group-hover:opacity-0">
-                                {{ $bigCard['blog_name'] }}
-                            </span>
-
-                            <span
-                                class="absolute top-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
-                                {{ $bigCard['blog_name'] }}
-                            </span>
-                        </h2>
+    <div class="md:hidden">
+        <div
+            class="card px-4 py-5 bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full mb-5 hover:shadow-lg transition-shadow duration-300">
+            <div class="flex flex-col h-full">
+                <div class="relative w-full">
+                    <a href="{{ route('blog.detail', $bigCard['slug']) }}"
+                        class="block group relative overflow-hidden rounded-xl">
+                        <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $bigCard['blog_thumbnail'] }}"
+                            class="rounded-xl w-full h-[200px] object-cover transition-transform duration-500 hover:scale-105"
+                            alt="{{ $bigCard['blog_name'] }}">
+                        <div
+                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span class="text-white text-sm font-normal">Read More</span>
+                        </div>
                     </a>
-                    <p class="text-[#6A6A6A] 2xl:text-xl font-medium leading-relaxed">
-                        {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($bigCard['blog_desc'])), 30, '...') }}
-                    </p>
+
+                    <div
+                        class="absolute top-2 right-2 bg-white bg-opacity-90 text-black text-xs font-medium px-2 py-1 rounded-full shadow-sm backdrop-blur-sm">
+                        {{ $bigCard['category_name'] }}
+                    </div>
+
+                    <div
+                        class="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs font-medium px-2 py-1 rounded-full shadow-sm backdrop-blur-sm">
+                        {{ \Carbon\Carbon::parse($bigCard['published_at'])->format('d M Y') }}
+                    </div>
                 </div>
-                <div class="flex items-center mt-6 md:mt-4">
-                    <div class="flex items-center">
-                        <p class="text-sm 2xl:text-base font-medium">By <span class="font-semibold">Sinergi Team</span>
+                <div class="flex flex-col justify-between mt-4">
+                    <div>
+                        <a href="{{ route('blog.detail', $bigCard['slug']) }}" class="block group">
+                            <h2 class="font-semibold text-lg mb-3 relative line-clamp-2">
+                                <span class="block transition-opacity duration-300 ease-in-out group-hover:opacity-0">
+                                    {{ $bigCard['blog_name'] }}
+                                </span>
+                                <span
+                                    class="absolute top-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
+                                    {{ $bigCard['blog_name'] }}
+                                </span>
+                            </h2>
+                        </a>
+                        <p class="text-[#6A6A6A] text-sm font-medium leading-relaxed line-clamp-3">
+                            {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($bigCard['blog_desc'])), 20, '...')
+                            }}
                         </p>
                     </div>
+                    <div class="flex items-center mt-4 pt-3 border-t border-gray-300 border-opacity-50">
+                        <div class="flex items-center">
+                            <p class="text-xs font-medium">By <span class="font-semibold">{{
+                                    $bigCard['creator']}}</span></p>
+                        </div>
+                        <a href="{{ route('blog.detail', $bigCard['slug']) }}"
+                            class="ml-auto text-[#4796A3] text-xs font-medium hover:underline flex items-center">
+                            Read more
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden md:block">
+        <div
+            class="card px-5 py-6 bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full mb-5 hover:shadow-lg transition-shadow duration-300">
+            <div class="md:flex h-full gap-10">
+                <div class="relative md:w-3/4">
                     <a href="{{ route('blog.detail', $bigCard['slug']) }}"
-                        class="ml-auto text-[#4796A3] font-medium hover:underline flex items-center">
-                        Read more
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
+                        class="block group relative overflow-hidden rounded-xl">
+                        <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $bigCard['blog_thumbnail'] }}"
+                            class="rounded-xl w-full h-[300px] 2xl:h-[450px] object-cover transition-transform duration-500 hover:scale-105"
+                            alt="{{ $bigCard['blog_name'] }}">
+                        <div
+                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                            <span class="text-white text-sm font-normal">Read More</span>
+                        </div>
                     </a>
+
+                    <div
+                        class="absolute top-3 right-3 bg-white bg-opacity-90 text-black text-xs md:text-sm font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">
+                        {{ $bigCard['category_name'] }}
+                    </div>
+
+                    <div
+                        class="absolute bottom-3 left-3 bg-black bg-opacity-60 text-white text-xs md:text-sm font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">
+                        {{ \Carbon\Carbon::parse($bigCard['published_at'])->format('d M Y') }}
+                    </div>
+                </div>
+                <div class="md:w-2/4 2xl:w-2/3 md:flex md:flex-col justify-between">
+                    <div class="2xl:px-5">
+                        <a href="{{ route('blog.detail', $bigCard['slug']) }}" class="block group">
+                            <h2 class="font-semibold text-lg md:text-2xl 2xl:text-4xl mb-6 mt-5 relative">
+                                <span class="block transition-opacity duration-300 ease-in-out group-hover:opacity-0">
+                                    {{ $bigCard['blog_name'] }}
+                                </span>
+
+                                <span
+                                    class="absolute top-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
+                                    {{ $bigCard['blog_name'] }}
+                                </span>
+                            </h2>
+                        </a>
+                        <p class="text-[#6A6A6A] 2xl:text-xl font-medium leading-relaxed">
+                            {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($bigCard['blog_desc'])), 30, '...')
+                            }}
+                        </p>
+                    </div>
+                    <div class="flex items-center mt-6 md:mt-4">
+                        <div class="flex items-center">
+                            <p class="text-sm 2xl:text-base font-medium">By <span class="font-semibold">{{
+                                    $bigCard['creator']}}</span>
+                            </p>
+                        </div>
+                        <a href="{{ route('blog.detail', $bigCard['slug']) }}"
+                            class="ml-auto text-[#4796A3] font-medium hover:underline flex items-center">
+                            Read more
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     @endif
+
+
 
     {{-- Pemberitahuan tidak ada hasil --}}
     @if($isSearching && count($gridCard) == 0 && !$isLoading)
@@ -176,8 +242,9 @@
             viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-        <p class="text-gray-500 mb-4">We couldn't find any blog posts matching "{{ $searchTerm }}. Try another search or category.</p>
+        </svg>
+        <p class="text-gray-500 mb-4">We couldn't find any blog posts matching "{{ $searchTerm }}. Try another search or
+            category.</p>
         <button wire:click="resetSearch"
             class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-200 inline-flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
@@ -202,17 +269,17 @@
     </div>
     @endif
 
-    
+
     @if(count($gridCard) > 0)
     <div class="md:grid grid-cols-3 gap-8">
         @foreach ($gridCard as $blog)
         <div
-            class="card bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full h-full flex flex-col justify-between p-5 mb-6 md:mb-0 hover:shadow-lg hover: transition-shadow duration-300">
-            
+            class="card bg-[#D9D9D9] bg-opacity-25 rounded-2xl w-full h-full flex flex-col justify-between p-4 sm:p-5 mb-6 md:mb-0 hover:shadow-lg hover: transition-shadow duration-300">
+
             <div class="relative w-full overflow-hidden rounded-xl">
                 <a href="{{ route('blog.detail', $blog['slug']) }}" class="block group">
                     <img src="https://sinergi.dev.ybgee.my.id/img/blog/thumbnails/{{ $blog['blog_thumbnail'] }}"
-                        class="bg-gray-300 rounded-xl w-full h-[180px] 2xl:h-[270px] object-cover transition-transform duration-500 hover:scale-105"
+                        class="bg-gray-300 rounded-xl w-full h-[150px] sm:h-[180px] md:h-[180px] 2xl:h-[270px] object-cover transition-transform duration-500 hover:scale-105"
                         alt="{{ $blog['blog_name'] }}">
                     <div
                         class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
@@ -220,49 +287,50 @@
                     </div>
                 </a>
 
-                
+
                 <div
-                    class="absolute top-3 right-3 bg-white bg-opacity-90 text-black text-xs font-medium px-2.5 py-0.5 rounded-full shadow-sm">
+                    class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white bg-opacity-90 text-black text-xs font-medium px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full shadow-sm">
                     {{ $blog['category_name'] }}
                 </div>
             </div>
 
-            
-            <div class="flex flex-col flex-grow justify-between mt-4">
+
+            <div class="flex flex-col flex-grow justify-between mt-3 sm:mt-4">
                 <div>
-                    
+
                     <a href="{{ route('blog.detail', $blog['slug']) }}" class="block group">
-                        <h2 class="font-semibold text-lg 2xl:text-2xl mb-3 relative">
-                            
+                        <h2 class="font-semibold text-base sm:text-lg 2xl:text-2xl mb-2 sm:mb-3 relative line-clamp-2">
+
                             <span class="block transition-opacity duration-300 ease-in-out group-hover:opacity-0">
                                 {{ $blog['blog_name'] }}
                             </span>
 
-                            
+
                             <span
                                 class="absolute top-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
                                 {{ $blog['blog_name'] }}
                             </span>
                         </h2>
                     </a>
-                    <p class="text-[#6A6A6A] 2xl:text-xl font-medium leading-relaxed">
-                        {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])), 15, '...') }}
+                    <p class="text-[#6A6A6A] text-sm sm:text-base 2xl:text-xl font-medium leading-relaxed line-clamp-3">
+                        {{ Str::words(preg_replace('/&nbsp;/', ' ', strip_tags($blog['blog_desc'])), 12, '...') }}
                     </p>
                 </div>
-                <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-300 border-opacity-50">
-                    <div class="text-sm font-medium text-gray-700 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
+                <div
+                    class="flex items-center justify-between mt-3 sm:mt-4 pt-2 sm:pt-3 border-t border-gray-300 border-opacity-50">
+                    <div class="text-xs sm:text-sm font-medium text-gray-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        {{ \Carbon\Carbon::parse($blog['created_at'])->format('d M Y') }}
+                        {{ \Carbon\Carbon::parse($blog['published_at'])->format('d M Y') }}
                     </div>
                     <a href="{{ route('blog.detail', $blog['slug']) }}"
-                        class="text-[#4796A3] text-sm font-medium hover:underline flex items-center">
+                        class="text-[#4796A3] text-xs sm:text-sm font-medium hover:underline flex items-center">
                         Read more
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 ml-1" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-3.5 sm:w-3.5 ml-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
@@ -273,6 +341,7 @@
         @endforeach
     </div>
     @endif
+
 
     {{-- Tombol Load More --}}
     @if($hasMoreBlog)
