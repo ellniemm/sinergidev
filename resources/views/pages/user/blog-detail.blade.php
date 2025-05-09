@@ -85,7 +85,7 @@
 
             <div class="flex items-center justify-center space-x-4">
                 <h3 class="text-base md:text-lg 2xl:text-xl font-medium">
-                    {{ \Carbon\Carbon::parse($blog['created_at'])->format('d M Y') }}
+                    {{ \Carbon\Carbon::parse($blog['published_at'])->format('d M Y') }}
                 </h3>
 
                 <span class="text-gray-400">•</span>
@@ -167,7 +167,7 @@
                                     </p>
                                 </div>
                                 <p class="mt-4 text-sm font-semibold">
-                                    {{ $relatedBlog['creator'] ?? 'Sinergi Studio' }} • {{ \Carbon\Carbon::parse($relatedBlog['created_at'])->format('d M Y') }}
+                                    {{ $relatedBlog['creator'] ?? 'Sinergi Studio' }} • {{ \Carbon\Carbon::parse($relatedBlog['published_at'])->format('d M Y') }}
                                 </p>
                             </div>
                         </div>
