@@ -3,8 +3,8 @@
     <h1 class="text-2xl md:text-3xl 2xl:text-5xl font-bold mb-3 2xl:mb-6">
         Get In Touch
     </h1>
-    <h1 class="text-base md:text-lg 2xl:text-2xl font-semibold text-gray-500 mb-2 2xl:mb-4">
-        You can contact us anytime
+    <h1 class="text-sm md:text-base 2xl:text-2xl font-semibold text-gray-500 mb-4 2xl:mb-6">
+        Hubungi kami kapan saja
     </h1>
     <form wire:submit="submit">
         <div class="mb-3 2xl:mb-6">

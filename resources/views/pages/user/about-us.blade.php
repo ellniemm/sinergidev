@@ -1,14 +1,15 @@
 @extends('pages.layouts.user')
+@section('title', 'About Us - Sinergi Studio')
 
 @section('content')
 <header class="bg-[#0D192F] w-full lg:pt-10 2xl:pt-20 relative">
     
     <div class=" w-full lg:w-11/12  md:w-3/4 py-5 lg:py-20 px-5 md:px-10 lg:px-28 2xl:px-16 absolute">
-        <h1 class="lg:pb-2 text-md text-xl md:text-4xl  lg:text-5xl 2xl:text-8xl font-bold text-white leading-tight">
+        <h1 class="lg:pb-2 text-md text-xl md:text-4xl  lg:text-5xl 2xl:text-7xl font-bold text-white leading-tight">
             Kami Membantu Bisnis Anda
         </h1>
         <h1
-            class="pb-3 lg:pb-7 2xl:pb-10 2xl:pt-5 text-md text-xl md:text-4xl  lg:text-5xl 2xl:text-8xl  border-b-2 2xl:border-b-4 border-white w-2/3 md:w-2/4 2xl:w-2/3 font-bold text-white leading-tight mb-2 ">
+            class="pb-3 lg:pb-7 2xl:pb-10 2xl:pt-5 text-md text-xl md:text-4xl  lg:text-5xl 2xl:text-7xl  border-b-2 2xl:border-b-4 border-white w-2/3 md:w-2/4 2xl:w-2/3 font-bold text-white leading-tight mb-2 ">
             Tumbuh
             <span class="bg-gradient-to-tl from-[#2a88b4] to-[#4796A3] bg-clip-text text-transparent"> Bersama
             </span>
@@ -64,8 +65,8 @@
                             d="M15 4a8 8 0 0 1 8 8a8 8 0 0 1-8 8a8 8 0 0 1-8-8a8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6a6 6 0 0 0 6 6a6 6 0 0 0 6-6a6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33l-1.06 1.06L14 12.4zM2 18a1 1 0 0 1-1-1a1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2zm1-5a1 1 0 0 1-1-1a1 1 0 0 1 1-1h2.05L5 12l.05 1zm1-5a1 1 0 0 1-1-1a1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2z">
                         </path>
                     </svg>
-                    <h3 class="font-bold text-xl 2xl:text-2xl mb-2">Semangat Inovasi</h3>
-                    <p class="2xl:text-lg">
+                    <h3 class="font-bold text-xl 2xl:text-xl mb-2">Semangat Inovasi</h3>
+                    <p class="2xl:text-xl">
                         Selalu mencari ide baru dan teknologi terbaik untuk berkarya.
                     </p>
                 </div>
@@ -77,8 +78,8 @@
                             d="M9 11a1 1 0 1 0-1-1a1 1 0 0 0 1 1m5.36 3.23a3.76 3.76 0 0 1-4.72 0a1 1 0 0 0-1.28 1.54a5.68 5.68 0 0 0 7.28 0a1 1 0 1 0-1.28-1.54M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m0 18a8 8 0 1 1 8-8a8 8 0 0 1-8 8m5.62-10.87a3.08 3.08 0 0 0-4.24 0a1 1 0 0 0 1.41 1.41a1 1 0 0 1 1.42 0a1 1 0 0 0 1.41 0a1 1 0 0 0 0-1.41">
                         </path>
                     </svg>
-                    <h3 class="font-bold text-xl 2xl:text-2xl mb-2">Komitmen pada Kualitas</h3>
-                    <p class="2xl:text-lg">
+                    <h3 class="font-bold text-xl 2xl:text-xl mb-2">Komitmen pada Kualitas</h3>
+                    <p class="2xl:text-xl">
                         Mengerjakan setiap project dengan detail, serius, dan profesional tinggi.
                     </p>
                 </div>
@@ -90,8 +91,8 @@
                             d="M11.875 20q.1 0 .2-.05t.15-.1l8.2-8.2q.3-.3.438-.675t.137-.75q0-.4-.137-.763t-.438-.637l-4.25-4.25q-.275-.3-.638-.437T14.776 4q-.375 0-.75.138t-.675.437l-.275.275l1.85 1.875q.375.35.55.8t.175.95q0 1.05-.712 1.763t-1.763.712q-.5 0-.962-.175t-.813-.525L9.525 8.4L5.15 12.775q-.075.075-.112.163T5 13.125q0 .2.15.363t.35.162q.1 0 .2-.05t.15-.1l3.4-3.4l1.4 1.4l-3.375 3.4q-.075.075-.112.163t-.038.187q0 .2.15.35t.35.15q.1 0 .2-.05t.15-.1l3.4-3.375l1.4 1.4l-3.375 3.4q-.075.05-.112.15t-.038.2q0 .2.15.35t.35.15q.1 0 .188-.038t.162-.112l3.4-3.375l1.4 1.4l-3.4 3.4q-.075.075-.112.162t-.038.188q0 .2.163.35t.362.15m-.025 2q-.925 0-1.637-.612t-.838-1.538q-.85-.125-1.425-.7t-.7-1.425q-.85-.125-1.412-.712T5.15 15.6q-.95-.125-1.55-.825t-.6-1.65q0-.5.188-.962t.537-.813l5.8-5.775L12.8 8.85q.05.075.15.113t.2.037q.225 0 .375-.137t.15-.363q0-.1-.038-.2t-.112-.15L9.95 4.575q-.275-.3-.637-.437T8.55 4q-.375 0-.75.138t-.675.437L3.6 8.125q-.225.225-.375.525t-.2.6t0 .613t.2.587l-1.45 1.45q-.425-.575-.625-1.262T1 9.25t.35-1.362t.825-1.188L5.7 3.175Q6.3 2.6 7.038 2.3T8.55 2t1.513.3t1.312.875l.275.275l.275-.275q.6-.575 1.338-.875t1.512-.3t1.513.3t1.312.875L21.825 7.4q.575.575.875 1.325t.3 1.525t-.3 1.513t-.875 1.312l-8.2 8.175q-.35.35-.812.55t-.963.2M9.375 8">
                         </path>
                     </svg>
-                    <h3 class="font-bold text-xl 2xl:text-2xl mb-2">Kolaborasi yang Aktif</h3>
-                    <p class="2xl:text-lg">
+                    <h3 class="font-bold text-xl 2xl:text-xl mb-2">Kolaborasi yang Aktif</h3>
+                    <p class="2xl:text-xl">
                         Membangun hubungan terbuka, mendengar, dan bekerja sama mencapai sukses.
                     </p>
                 </div>
@@ -106,15 +107,24 @@
                             <path stroke="#25427c" strokeWidth={2} d="M14.992 16a5.38 5.38 0 0 1-5.984 0"></path>
                         </g>
                     </svg>
-                    <h3 class="font-bold text-xl 2xl:text-2xl mb-2">Fokus pada Solusi Nyata</h3>
-                    <p class="2xl:text-lg">
+                    <h3 class="font-bold text-xl 2xl:text-xl mb-2">Fokus pada Solusi Nyata</h3>
+                    <p class="block 2xl:hidden">
                         Menghadirkan karya digital yang efektif, inovatif, berdampak, serta bermanfaat maksimal.
+                    </p>
+                    <p class="hidden 2xl:text-xl 2xl:block">
+                        Menghadirkan karya digital yang efektif, inovatif, berdampak, serta maksimal.
                     </p>
                 </div>
             </div>
 
             
-            <div class="bg-gray-400 shadow-lg rounded-lg aspect-square "></div>
+            {{-- <div class="bg-gray-400 shadow-lg rounded-lg aspect-square "></div> --}}
+            <div class="">
+                <div class="md:w-fit mt-4 md:mt-0">
+                    <img src="{{ asset('img/office.jpg') }}" alt="Nilai Kami" class="object-cover rounded-lg shadow-lg h-full w-full md:aspect-square">
+                </div>
+                <p class="text-xs text-gray-500 mt-2 text-center">Photo by <a href="https://unsplash.com/photos/your-photo-id" target="_blank" class="underline hover:text-gray-700 transition-colors">Unsplash</a></p>
+            </div>
         </div>
     </div>
 </section>
@@ -141,23 +151,27 @@
             </h1>
         </div>
 
-        <div class="w-3/4 mx-auto container">
-            <h1 class="py text-lg md:text-lg 2xl:text-6xl text-center font-semibold mb-6 ">
+        <div class="px-4 md:w-3/4 mx-auto container">
+            <h1 class="hidden md:block py text-base md:text-lg 2xl:text-3xl text-center font-semibold mb-6 ">
                 Menyediakan solusi digital yang inovatif dan efektif untuk membantu klien kami berkembang di dunia
                 digital. Kami fokus pada pengembangan website, aplikasi mobile, dan strategi digital marketing yang
                 mendorong pertumbuhan dan kesuksesan bisnis klien kami. 
             </h1>
-            <h1 class="py text-lg md:text-lg 2xl:text-6xl text-center font-semibold mb-2">
+            <h1 class="hidden md:block py text-base md:text-lg 2xl:text-3xl text-center font-semibold mb-2">
                 Dengan mengutamakan kualitas, teknologi terbaru,
                 dan pendekatan berbasis data, kami bertujuan untuk menciptakan hasil yang nyata, berkelanjutan, dan
                 memberikan dampak positif bagi bisnis klien kami dalam jangka panjang.
+            </h1>
+            <h1 class="block md:hidden py text-base md:text-lg 2xl:text-3xl text-center font-semibold mb-2 ">
+                Meneyediakan solusi digital inovatif untuk membantu klien berkembang.
+                Fokus pada website, aplikasi mobile, dan digital marketing yang mendorong kesuksesan bisnis Anda.
             </h1>
             
         </div>
     </div>
 
     <div class="absolute -bottom-[80%] left-0 ">
-        <svg class="w-[600px]" viewBox="0 0 692 997" viewBox="0 0 692 997" fill="none"
+        <svg class="w-[450px] md:w-[600px]" viewBox="0 0 692 997" viewBox="0 0 692 997" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <rect x="424.614" y="829.499" width="464.728" height="374.567" rx="20"
                 transform="rotate(-132.776 424.614 829.499)" fill="url(#rectGradient)" />
@@ -193,32 +207,32 @@
             
             <div
                 class="flex flex-col bg-gradient-to-tl from-[#CBC8C8] to-white py-10 md:py-20 px-5 md:px-10  text-black rounded-lg items-start">
-                <h1 class="font-semibold text-4xl md:text-5xl mb-5">1</h1>
-                <div class="font-semibold text-gray-500 text-lg">
+                <h1 class="font-semibold text-4xl md:text-5xl 2xl:text-5 mb-5">1</h1>
+                <div class="font-bold text-gray-500 text-lg 2xl:text-xl">
                     Meningkatkan pertumbuhan dan skala bisnis klien melalui solusi digital inovatif yang mendukung perkembangan mereka di dunia digital.
                 </div>
             </div>
             
             <div
                 class="flex flex-col bg-gradient-to-tl from-[#CBC8C8] to-white py-10 md:py-20 px-5 md:px-10  text-black rounded-lg items-start">
-                <h1 class="font-semibold text-4xl md:text-5xl mb-5">2</h1>
-                <p class="font-semibold text-gray-500 text-lg">
+                <h1 class="font-semibold text-4xl md:text-5xl 2xl:text-5 mb-5">2</h1>
+                <p class="font-bold text-gray-500 text-lg 2xl:text-xl">
                     Menyediakan website dan aplikasi mobile yang responsif dan user-friendly untuk memberikan pengalaman pengguna yang optimal.
                 </p>
             </div>
             
             <div
                 class="flex flex-col bg-gradient-to-tl from-[#CBC8C8] to-white py-10 md:py-20 px-5 md:px-10  text-black rounded-lg items-start">
-                <h1 class="font-semibold text-4xl md:text-5xl mb-5">3</h1>
-                <p class="font-semibold text-gray-500 text-lg">
+                <h1 class="font-semibold text-4xl md:text-5xl 2xl:text-5 mb-5">3</h1>
+                <p class="font-bold text-gray-500 text-lg 2xl:text-xl">
                     Meningkatkan visibilitas dan daya saing klien melalui strategi digital marketing yang terarah dan berbasis data.
                 </p>
             </div>
             
             <div
                 class="flex flex-col bg-gradient-to-tl from-[#CBC8C8] to-white py-10 md:py-20 px-5 md:px-10 text-black rounded-lg items-start">
-                <h1 class="font-semibold text-4xl md:text-5xl mb-5">4</h1>
-                <p class="font-semibold text-gray-500 text-lg">
+                <h1 class="font-semibold text-4xl md:text-5xl 2xl:text-5 mb-5">4</h1>
+                <p class="font-bold text-gray-500 text-lg 2xl:text-xl">
                     Menjadi mitra jangka panjang yang mendukung kesuksesan berkelanjutan klien dengan solusi yang terus berkembang.
 
 
