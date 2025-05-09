@@ -49,7 +49,7 @@ class Product extends Component
 
     public function fetchProducts($page = 1)
     {
-        // $response = Http::get("http://localhost:8000/api/product", [
+        
         $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product", [
             'page' => $page,
             'per_page' => $this->perPage,
@@ -58,7 +58,7 @@ class Product extends Component
         ]);
 
         if ($response->successful()) {
-            // dd($response->json());
+            
             $responseData = $response->json();
             if (isset($responseData['data'])) {
                 $this->products = $responseData['data']['products'];
@@ -103,7 +103,7 @@ class Product extends Component
                     'product_img',
                     file_get_contents($this->productImage->path()),
                     $this->productImage->getClientOriginalName()
-                    // )->post('http://localhost:8000/api/product', [
+                    
                 )->post('https://sinergi.dev.ybgee.my.id/api/product', [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
@@ -112,7 +112,7 @@ class Product extends Component
                 $response = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token
-                    // ])->post('http://localhost:8000/api/product', [
+                    
                 ])->post('https://sinergi.dev.ybgee.my.id/api/product', [
                     'product_name' => $this->productName,
                     'product_desc' => $this->productDescription,
@@ -133,7 +133,7 @@ class Product extends Component
 
                 $this->dispatch('reset');
             } else {
-                // Tangani error dengan lebih detail
+                
                 $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {
@@ -146,11 +146,11 @@ class Product extends Component
 
     public function edit($id)
     {
-        // Cari product dengan ID yang sesuai dari data yang sudah di-fetch
+        
         $productFromCurrentData = collect($this->products)->firstWhere('product_id', $id);
 
         if ($productFromCurrentData) {
-            // Gunakan data dari hasil fetch yang sudah ada
+            
             $this->product_id = $id;
             $this->productName = $productFromCurrentData['product_name'];
             $this->productDescription = $productFromCurrentData['product_desc'];
@@ -164,13 +164,13 @@ class Product extends Component
                 'productImage' => $this->productImage
             ]);
         } else {
-            // Jika tidak ditemukan di data saat ini, ambil dari API
+            
             $response = Http::get("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
 
             if ($response->successful()) {
                 $data = $response->json();
 
-                // Set data product dari response API
+                
                 $this->product_id = $id;
                 $this->productName = $data['data']['product_name'];
                 $this->productDescription = $data['data']['product_desc'];
@@ -200,7 +200,7 @@ class Product extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
-                // ])->delete("http://localhost:8000/api/product/{$id}");
+                
             ])->delete("https://sinergi.dev.ybgee.my.id/api/product/{$id}");
 
             if ($response->successful()) {
@@ -215,14 +215,14 @@ class Product extends Component
                 ]);
 
 
-                // Check if current page has only one item
+                
                 if (count($this->products) === 1 && $this->currentPage > 1) {
                     $this->fetchproducts($this->currentPage - 1);
                 } else {
                     $this->fetchproducts($this->currentPage);
                 }
             } else {
-                // Tangani error dengan lebih detail
+                
                 $this->handleErrorResponse($response);
             }
         } catch (\Exception $e) {

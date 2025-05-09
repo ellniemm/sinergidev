@@ -1,4 +1,5 @@
 @extends('pages.layouts.user')
+@section('title', 'E-library - Web')
 
 @section('content')
 <header class="bg-[#0D192F] ">

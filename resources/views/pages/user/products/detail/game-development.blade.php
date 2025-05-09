@@ -1,4 +1,5 @@
 @extends('pages.layouts.user')
+@section('title', 'Kelas Malam - Game')
 
 @section('content')
 <header class="bg-[#0D192F] ">
@@ -67,7 +68,7 @@
 
     <div class="bg-white">
         <div class="px-10 py-24">
-            <div class="w-11/12 h-[500px] bg-gray-400 mb-10 mx-auto rounded-xl shadow-md">
+            <div class="w-11/12 h-[500px] bg-gray-400 mb-10 mx-auto rounded-xl shadow-md 2xl:h-[700px]">
                 <iframe class="w-full h-full rounded-xl" src="https://www.youtube.com/embed/NhbtZuVHaEw"
                     title="Kelas Malam: Escape From Karma - Announcement Trailer | PC Games"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

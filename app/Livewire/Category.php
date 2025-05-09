@@ -22,28 +22,7 @@ class Category extends Component
         $this->fetchCategories();
     }
 
-    // public function fetchCategories($page = 1)
-    // {
-    //     $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
-
-    //     $response = Http::withHeaders([
-    //         'Accept' => 'application/json',
-    //         'Authorization' => 'Bearer ' . $token
-    //     // ])->get("http://localhost:8000/api/category", [
-    //     ])->get("https://sinergi.dev.ybgee.my.id/api/category", [
-    //         'page' => $page,
-    //         'order_by' => $this->sortField,
-    //         'sort_by' => $this->sortDirection
-    //     ]);
-
-    //     if ($response->successful()) {
-    //         // dd($response->json());
-    //         $responseData = $response->json();
-    //         if (isset($responseData['data'])) {
-    //             $this->categories = $responseData['data'];
-    //         }
-    //     }
-    // }
+   
     public function fetchCategories()
     {
         $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
@@ -57,7 +36,7 @@ class Category extends Component
         ]);
 
         if ($response->successful()) {
-            // dd($response->json());
+            
             $responseData = $response->json();
             if (isset($responseData['data'])) {
                 $this->categories = $responseData['data'];
@@ -74,7 +53,7 @@ class Category extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
-                // ])->post('http://localhost:8000/api/category', [
+                
             ])->post('https://sinergi.dev.ybgee.my.id/api/category', [
                 'category_name' => $this->categoryName
             ]);
@@ -106,10 +85,10 @@ class Category extends Component
         $this->category_id = $id;
         $token = isset($_COOKIE['authToken']) ? $_COOKIE['authToken'] : null;
 
-        // Force fresh data fetch first
+        
         $this->fetchCategories();
 
-        // Get latest data directly from the categories array
+        
         $currentcategory = collect($this->categories)->first(function ($categories) use ($id) {
             return $categories['category_id'] === $id;
         });
@@ -129,7 +108,7 @@ class Category extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
-                // ])->patch("http://localhost:8000/api/category/{$this->category_id}", [
+                
             ])->patch("https://sinergi.dev.ybgee.my.id/api/category/{$this->category_id}", [
                 'category_name' => $this->categoryName,
             ]);
@@ -166,7 +145,7 @@ class Category extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
-                // ])->delete("http://localhost:8000/api/category/{$id}");
+                
             ])->delete("https://sinergi.dev.ybgee.my.id/api/category/{$id}");
 
             if ($response->successful()) {
@@ -185,10 +164,7 @@ class Category extends Component
             ]);
         }
     }
-    // public function resetForm(){
-    //     $this->reset(['categoryName']);
-    //     $this->updateData = false;
-    // }
+    
 
     public function render()
     {
@@ -219,8 +195,8 @@ class Category extends Component
 
         $this->reset([
             'categoryName',
-            // 'categoryDescription', 
-            // 'categoryImage', 
+            
+            
             'updateData',
             'category_id',
             'errors'

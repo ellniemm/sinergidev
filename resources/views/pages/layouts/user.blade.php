@@ -19,7 +19,9 @@
             
             color: #fff;
         }
-        
+         html{
+            scroll-behavior: smooth;
+         }
     </style>
 <body>
     @include('pages.components.navbarUser')

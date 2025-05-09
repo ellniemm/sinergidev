@@ -1,4 +1,5 @@
 @extends('pages.layouts.user')
+@section('title', 'Contact Us - Sinergi Studio')
 
 @section('title', 'Contact Us - Sinergi Studio')
 
@@ -27,12 +28,12 @@
                 Us
             </span>
         </h1>
-        <h1 class="text-4xl md:text-5xl 2xl:text-8xl font-semibold">Let's Meet & Collaborate</h1>
+        <h1 class="text-4xl md:text-5xl 2xl:text-7xl font-semibold">Let's Meet & Collaborate</h1>
     </div>
 
     <div class=" w-11/12 mx-auto relative py-5 md:py-10 z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10 2xl:gap-20 pt-10 2xl:pt-32">
-            <div class="flex  bg-white py-5 px-5 text-black rounded-xl items-center space-x-5">
+            <div class="flex  bg-white py-5 px-5 2xl:px-10 text-black rounded-xl items-center space-x-5 2xl:space-x-10">
                 <div class=" ">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] h-[30px] 2xl:w-[52px] 2xl:h-[52px]"
                         viewBox="0 0 24 24">
@@ -45,12 +46,12 @@
                     <h1 class="font-semibold text-sm 2xl:text-2xl text-[#6A6A6A]">
                         Email
                     </h1>
-                    <p class="text-sm font-semibold 2xl:text-3xl">
-                        tefarpl.smkn6@smkn6malang.sch.id
+                    <p class="text-lg font-semibold 2xl:text-2xl">
+                        sinergispace@gmail.com
                     </p>
                 </div>
             </div>
-            <div class="flex bg-white py-5 px-5 text-black rounded-xl items-center space-x-5">
+            <div class="flex bg-white py-5 px-5 2xl:px-10 text-black rounded-xl items-center space-x-5 2xl:space-x-10">
                 <div class="">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] h-[30px] 2xl:w-[52px] 2xl:h-[52px]"
                         viewBox="0 0 24 24">
@@ -73,7 +74,7 @@
                     </p>
                 </div>
             </div>
-            <div class="flex bg-white py-5 px-5 text-black rounded-xl items-center space-x-5">
+            <div class="flex bg-white py-5 px-5 2xl:px-10 text-black rounded-xl items-center space-x-5 2xl:space-x-10">
                 <div class="">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] h-[30px] 2xl:w-[52px] 2xl:h-[52px]"
                         viewBox="0 0 24 24">
@@ -88,7 +89,7 @@
                     <h1 class="font-semibold text-sm 2xl:text-2xl text-[#6A6A6A]">
                         Lokasi
                     </h1>
-                    <p class="text-base font-semibold 2xl:text-3xl">
+                    <p class="text-base font-semibold 2xl:text-2xl">
                         Jl. Ki Ageng Gribig No. 28 Madyopuro, Kota Malang
                     </p>
                 </div>
@@ -97,14 +98,13 @@
     </div>
 </header>
 <section class="bg-[#E8E8F4] text-black py-10 ">
-    <div class="container mx-auto px-5 2xl:px-0 md:px-20">
+    <div class="container mx-auto px-5 2xl:px-10 md:px-20">
         <div class="md:flex justify-between gap-5">
             <div class="md:w-2/3 2xl:w-3/4 py-10 md:py-20">
                 <h1 class=" text-3xl md:text-5xl 2xl:text-7xl font-bold mb-5">Let's Work Together</h1>
                 <div class="text-base md:text-lg 2xl:text-2xl md:whitespace-pre-line font-semibold text-gray-500">
-                    Share your vision for your next project
-                    with us now. Please Contact us for
-                    basic questions we're habe to help!
+                    Bagikan visi proyek Anda bersama kami. 
+                    Hubungi kami jika ada pertanyaan!
                 </div>
             </div>
             <div class="md:w-1/2 flex flex-col bg-[#F8F8F8] py-5 md:py-10 px-3 md:px-10 text-black rounded-xl">
@@ -117,7 +117,7 @@
     <div class="container mx-auto px-5 md:px-24">
         <h1 class="text-2xl md:text-4xl 2xl:text-6xl text-center font-bold mb-5 md:mb-10 text-black"> FAQs </h1>
         <div id="accordion-open" data-accordion="open">
-            
+
             <div id="accordion-open-heading-1"> <button type="button"
                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                     data-accordion-target="#accordion-open-body-1" aria-expanded="true"
@@ -142,10 +142,6 @@
                         digital.</p>
                 </div>
             </div>
-            php-template
-            Copy
-            Edit
-            
             <div id="accordion-open-heading-2" class="">
                 <button type="button"
                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
@@ -177,7 +173,7 @@
                 </div>
             </div>
 
-            
+
             <div id="accordion-open-heading-3" class="">
                 <button type="button"
                     class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
