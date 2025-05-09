@@ -123,7 +123,7 @@
                 <div class="md:w-fit mt-4 md:mt-0">
                     <img src="{{ asset('img/office.jpg') }}" alt="Nilai Kami" class="object-cover rounded-lg shadow-lg h-full w-full md:aspect-square">
                 </div>
-                <p class="text-xs text-gray-500 mt-2 text-center">Photo by <a href="https://unsplash.com/photos/your-photo-id" target="_blank" class="underline hover:text-gray-700 transition-colors">Unsplash</a></p>
+                <p class="text-xs text-gray-500 mt-2 text-center">Photo by <a href="https://unsplash.com/photos/man-using-macbook-Lks7vei-eAg" target="_blank" class="underline hover:text-gray-700 transition-colors">charlesdeluvio - Unsplash</a></p>
             </div>
         </div>
     </div>
