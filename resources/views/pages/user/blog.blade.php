@@ -3,8 +3,8 @@
 @section('content')
 <header class="bg-[#0D192F] relative text-white w-full">
     <div class="space-x-3 mb-0 flex items-start mx-auto justify-between">
-        <div class="px-5 md:px-10 py-20 md:py-16 2xl:px-20 2xl:py-44 ">
-            <h1 class="text-3xl md:text-5xl 2xl:text-7xl font-bold mb-2">
+        <div class="px-5 md:px-10 py-10 md:py-16 2xl:px-20 2xl:py-36 ">
+            <h1 class="text-2xl md:text-5xl 2xl:text-7xl font-bold mb-2 2xl:mb-6">
                 Sinergi
                 <span class="bg-gradient-to-r from-[#4796A3] to-[#34668f] bg-clip-text text-transparent">
                     Blog
@@ -16,7 +16,7 @@
         </div>
         <div class="md:py-1">
             <svg width="374" height="600" viewBox="0 0 574 800"
-                class="self-center w-[150px] h-[350px] md:w-[254px] md:h-[300px] 2xl:w-[450px] 2xl:h-[800px]"
+                class="self-center w-[154px] h-[200px] md:w-[254px] md:h-[300px] 2xl:w-[454px] 2xl:h-[500px]"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M314 538.57C314 549.616 322.954 558.57 334 558.57H771.849C782.895 558.57 791.849 549.616 791.849 538.57V152C791.849 140.955 782.895 132 771.849 132H334C322.954 132 314 140.955 314 152V538.57Z"

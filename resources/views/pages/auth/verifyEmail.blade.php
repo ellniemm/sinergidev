@@ -1,6 +1,6 @@
 @extends('pages.layouts.layout')
 
-@section('title', 'Email Verification')
+@section('title', 'Email Verification - Sinergi Studio')
 
 @section('main')
 <div class="flex flex-col items-center justify-center h-screen px-4 2xl:px-0">
@@ -8,7 +8,7 @@
         <h1 class="text-2xl 2xl:text-4xl font-bold mb-4 text-center">Email Verification</h1>
 
         <div id="verificationResult" class="hidden">
-            <!-- Success Message -->
+            
             <div id="successMessage" class="hidden mt-6 text-center">
                 <div class="bg-green-50 p-6 rounded-lg border border-green-200 shadow-sm">
                     <div class="flex flex-col items-center space-y-4">
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <!-- Failed Message -->
+            
             <div id="failedMessage" class="hidden mt-6 text-center">
                 <div class="bg-red-50 p-6 rounded-lg border border-red-200 shadow-sm">
                     <div class="flex flex-col items-center space-y-4">
@@ -52,7 +52,14 @@
                             <p id="errorMessage" class="font-medium"></p>
                             <p class="mt-2">Please try again or contact support if the problem persists.</p>
                         </div>
-                        <button type="button" class="mt-4 px-6 py-2 btn btn-primary text-sm 2xl:text-lg"
+                        
+                        
+                        <a href="{{ route('resend.email', ['email' => request()->query('email')]) }}" 
+                            class="mt-4 px-6 py-2 btn btn-primary text-sm 2xl:text-lg">
+                            Resend Verification Email
+                        </a>
+                        
+                        <button type="button" class="mt-2 px-6 py-2 btn btn-outline text-sm 2xl:text-lg"
                             onclick="window.location.href='/register'">
                             Back to Register
                         </button>

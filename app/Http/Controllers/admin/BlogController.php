@@ -25,7 +25,7 @@ class BlogController extends Controller
             ]);
 
             if ($response->successful()) {
-                // dd($response->json());
+
                 $data = $response->json();
                 $blogs = $data['data']['blogs'];
                 $pagination = $data['data']['pagination'];
@@ -43,7 +43,7 @@ class BlogController extends Controller
             return redirect()->back()->with('toast', [
                 'message' => 'Failed to connect to server',
                 'type' => 'error'
-                ]);
+            ]);
         }
     }
 
@@ -68,7 +68,7 @@ class BlogController extends Controller
             return redirect()->back()->with('toast', [
                 'message' => 'Failed to connect to server',
                 'type' => 'error'
-                ]);
+            ]);
         }
     }
 
@@ -92,6 +92,9 @@ class BlogController extends Controller
             $file = $request->file('blog_thumbnail');
             $status = $request->status === 'publish' ? 'published' : $request->status;
 
+            
+            $published_at = $status === 'published' ? now()->format('Y-m-d H:i:s') : null;
+
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
@@ -104,6 +107,7 @@ class BlogController extends Controller
                 'blog_desc' => $request->blog_desc,
                 'category_id' => $request->category_name,
                 'status' => $status,
+                'published_at' => $published_at, 
             ]);
 
             Log::info('API Response:', ['status' => $response->status(), 'body' => $response->json()]);
@@ -112,7 +116,7 @@ class BlogController extends Controller
                 $responseData = $response->json();
                 return redirect()->route('blog.index')->with('toast', [
                     'type' => 'success',
-                    'message' => $responseData['message'] // Mengambil message dari response API
+                    'message' => $responseData['message']
                 ]);
             }
 
@@ -126,10 +130,9 @@ class BlogController extends Controller
             return redirect()->back()->with('toast', [
                 'message' => 'Failed to connect to server',
                 'type' => 'error'
-                ]);
+            ]);
         }
     }
-
 
     public function edit($slug)
     {
@@ -137,19 +140,19 @@ class BlogController extends Controller
 
         $token = $_COOKIE['authToken'] ?? null;
         try {
-            // Cek apakah token ada
+
             if (!$token) {
                 Log::error("Token tidak ditemukan, kemungkinan pengguna belum login.");
                 return redirect()->route('blog.index')->with('error', 'Unauthorized');
             }
 
-            // Ambil data blog berdasarkan slug
+
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
             ])->get("https://sinergi.dev.ybgee.my.id/api/blog/{$slug}");
 
-            // Cek response API
+
             if (!$response->successful()) {
                 Log::error("Gagal mengambil data blog, response: ", $response->json());
                 return redirect()->route('blog.index')->with('error', 'Failed to fetch blog data');
@@ -158,7 +161,7 @@ class BlogController extends Controller
             $blog = $response->json()['data'];
             $blog['status'] = $blog['status'] === 'published' ? 'publish' : $blog['status'];
 
-            // Ambil kategori
+
             $categoryResponse = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token
@@ -173,16 +176,17 @@ class BlogController extends Controller
                 return redirect()->route('blog.index')->with('toast', [
                     'message' => 'Failed to fetch category',
                     'type' => 'error'
-                    ]);
+                ]);
             }
         } catch (\Exception $e) {
             Log::error('Blog edit error: ' . $e->getMessage());
             return redirect()->route('blog.index')->with('toast', [
                 'message' => 'Failed to connect to server',
                 'type' => 'error'
-                ]);
+            ]);
         }
     }
+
 
 
     public function update(Request $request, $slug)
@@ -194,11 +198,16 @@ class BlogController extends Controller
 
         try {
             $status = $request->status === 'publish' ? 'published' : $request->status;
+
+            
+            $published_at = $status === 'published' ? now()->format('Y-m-d H:i:s') : null;
+
             $data = [
                 'blog_name' => $request->blog_name,
                 'blog_desc' => $request->blog_desc,
                 'category_id' => $request->category_name,
                 'status' => $status,
+                'published_at' => $published_at, 
             ];
 
             $response = Http::withHeaders([
@@ -215,7 +224,6 @@ class BlogController extends Controller
                 );
             }
 
-            // $response = $response->post("http://localhost:8000/api/blog/{$slug}", array_merge($data, ['_method' => 'PATCH']));
             $response = $response->post("https://sinergi.dev.ybgee.my.id/api/blog/{$slug}", array_merge($data, ['_method' => 'PATCH']));
 
             Log::info("API Response:", $response->json());
@@ -224,7 +232,7 @@ class BlogController extends Controller
                 $responseData = $response->json();
                 return redirect()->route('blog.index')->with('toast', [
                     'type' => 'success',
-                    'message' => $responseData['message'] // Mengambil message dari response API
+                    'message' => $responseData['message']
                 ]);
             }
 
@@ -236,12 +244,11 @@ class BlogController extends Controller
         } catch (\Exception $e) {
             Log::error('Blog update error: ' . $e->getMessage());
             return redirect()->back()->with('toast', [
-            'message' => 'Failed to connect to server',
-            'type' => 'error'
+                'message' => 'Failed to connect to server',
+                'type' => 'error'
             ]);
         }
     }
-
     public function destroy($slug)
     {
         $token = $_COOKIE['authToken'] ?? null;
@@ -258,7 +265,7 @@ class BlogController extends Controller
                 $responseData = $response->json();
                 return redirect()->route('blog.index')->with('toast', [
                     'type' => 'success',
-                    'message' => $responseData['message'] // Mengambil message dari response API
+                    'message' => $responseData['message']
                 ]);
             }
             return redirect()->back()->with('toast', [
@@ -270,7 +277,7 @@ class BlogController extends Controller
             return redirect()->back()->with('toast', [
                 'message' => 'Failed to connect to server',
                 'type' => 'error'
-                ]);
+            ]);
         }
     }
 
@@ -288,5 +295,4 @@ class BlogController extends Controller
         }
         return response()->json(['success' => false]);
     }
-    
 }

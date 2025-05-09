@@ -105,40 +105,102 @@ class PagesController extends Controller
 
 
     public function blogDetail($slug)
-    {
-        try {
-            $response = Http::get('https://sinergi.dev.ybgee.my.id/api/blog/' . $slug);
-            Log::info('Blog Detail API Response', [
+{
+    try {
+        $response = Http::get('https://sinergi.dev.ybgee.my.id/api/blog/' . $slug);
+        Log::info('Blog Detail API Response', [
+            'slug' => $slug,
+            'status' => $response->status(),
+            'successful' => $response->successful(),
+            'body' => $response->body(),
+            'json' => json_encode($response->json())
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $blog = $data['data'];
+            
+            
+            $relatedBlogs = [];
+            $currentBlogId = $blog['blog_id'];
+            
+            if (isset($blog['category_id'])) {
+                $categoryId = $blog['category_id'];
+                
+                
+                $relatedResponse = Http::get('https://sinergi.dev.ybgee.my.id/api/blog', [
+                    'category' => $categoryId,
+                    'limit' => 10 
+                ]);
+                
+                if ($relatedResponse->successful()) {
+                    $relatedData = $relatedResponse->json();
+                    
+                    if (isset($relatedData['data']['blogs']) && is_array($relatedData['data']['blogs'])) {
+                        
+                        $relatedBlogs = collect($relatedData['data']['blogs'])
+                            ->filter(function($item) use ($slug) {
+                                return $item['slug'] != $slug;
+                            })
+                            ->take(3)
+                            ->values()
+                            ->toArray();
+                    }
+                }
+            }
+            
+            
+            if (count($relatedBlogs) < 3) {
+                $neededMore = 3 - count($relatedBlogs);
+                
+                $randomResponse = Http::get('https://sinergi.dev.ybgee.my.id/api/blog', [
+                    'limit' => 10, 
+                    'order_by' => 'random' 
+                ]);
+                
+                if ($randomResponse->successful()) {
+                    
+                    $randomData = $randomResponse->json();
+                    
+                    if (isset($randomData['data']['blogs']) && is_array($randomData['data']['blogs'])) {
+                        
+                        $existingIds = array_column($relatedBlogs, 'blog_id');
+                        
+                        
+                        $additionalBlogs = collect($randomData['data']['blogs'])
+                            ->filter(function($item) use ($slug, $existingIds) {
+                                return $item['slug'] != $slug && !in_array($item['blog_id'], $existingIds);
+                            })
+                            ->take($neededMore)
+                            ->values()
+                            ->toArray();
+                        
+                        
+                        $relatedBlogs = array_merge($relatedBlogs, $additionalBlogs);
+                    }
+                }
+            }
+            
+            return view('pages.user.blog-detail', compact('blog', 'relatedBlogs'));
+        } else {
+            Log::info('Blog Detail API unsuccessful response', [
                 'slug' => $slug,
                 'status' => $response->status(),
-                'successful' => $response->successful(),
-                'body' => $response->body(),
-                'json' => json_encode($response->json())
+                'body' => $response->body()
             ]);
-
-            if ($response->successful()) {
-                // dd($response->json());
-                $data = $response->json();
-
-                $blog = $data['data'];
-                return view('pages.user.blog-detail', compact('blog'));
-            } else {
-                Log::info('Blog Detail API unsuccessful response', [
-                    'slug' => $slug,
-                    'status' => $response->status(),
-                    'body' => $response->body()
-                ]);
-            }
-        } catch (\Exception $e) {
-            Log::info('Blog Detail API exception', [
-                'slug' => $slug,
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
-            ]);
-            
+            return redirect()->route('blog')->with('error', 'Blog tidak ditemukan');
         }
+    } catch (\Exception $e) {
+        Log::info('Blog Detail API exception', [
+            'slug' => $slug,
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]);
+        return redirect()->route('blog')->with('error', 'Terjadi kesalahan saat memuat blog');
     }
+}
+
 
     public function productsDetail($id)
     {
@@ -147,9 +209,10 @@ class PagesController extends Controller
             return view('pages.user.products.detail.web-development');
         } elseif ($id == "c4eecf19-cb1c-485f-af64-560e0f8dd3de") {
             return view('pages.user.products.detail.game-development');
-        } elseif ($id == "c9dba626-9db5-4817-b3c7-3fc88b69df15") {
-            return view('pages.user.products.detail.mobile-development');
         }
+        
+        
+        
     }
     public function servicesDetail($id)
     {
@@ -165,6 +228,47 @@ class PagesController extends Controller
             return view('pages.user.services.detail.game-development', compact('products'));
         } elseif ($id == "d78cd3cd-3f0c-4f72-bc39-d3a90fca12cc") {
             return view('pages.user.services.detail.mobile-development', compact('products'));
+        }
+    }
+
+    public function relatedBlog($slug){
+        try{
+            $response = Http::get('https://sinergi.dev.ybgee.my.id/api/blog/{$slug}');
+            if($response->successful()){
+                $data = $response->json()['data'];
+                $currentCategory = $data['category_name'];
+                $currentBlogId = $data['blog_id'];
+
+                $allBlogsResponse = Http::get('https://sinergi.dev.ybgee.my.id/api/blog');
+                $allBlogs = $allBlogsResponse->json()['data'];
+                $sameCategoryBlogs = collect($allBlogs)->filter(function ($item) use ($currentBlogId, $currentCategory){
+                    return $item['category_name'] == $currentCategory && $item['blog_id'] != $currentBlogId;
+                })->take(3)->toArray();
+
+                $needBlogs = 3 - count($sameCategoryBlogs);
+                $otherBlogs = [];
+                if($needBlogs > 0){
+                    $otherBlogs = collect($allBlogs)->filter(function ($item) use ($currentCategory, $currentBlogId, $sameCategoryBlogs){
+                        return $item['category_name'] != $currentCategory && $item['blog_id'] != $currentBlogId && !in_array($item['blog_id'], collect($sameCategoryBlogs)->pluck('blog_id')->toArray());
+                    })->take($needBlogs)->toArray();
+                }
+
+                $relatedBlogs = array_merge($sameCategoryBlogs, $otherBlogs);
+
+                return view('pages.user.blog-detail', [
+                    'blog' => $data,
+                    'relatedBlogs' => $relatedBlogs
+                ]);
+            }
+            return redirect()->route('blog.index')->with('error', 'Blog not found');
+        } catch (\Exception $e){
+            Log::info('Related Blog API exception', [
+                'slug' => $slug,
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+            return redirect()->route('blog.index')->with('error', 'Failed to load related blogs. Please try again later.');
         }
     }
 }

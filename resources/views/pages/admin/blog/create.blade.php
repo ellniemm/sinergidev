@@ -1,6 +1,5 @@
 @extends('pages.layouts.layout')
-@section('title', 'Create Blog')
-
+@section('title', (isset($blog) ? 'Edit' : 'Create') . ' Blog - Sinergi Studio')
 <!-- Trumbowyg CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css">
 
@@ -211,11 +210,19 @@
 @section('main')
 <div class="bg-gray-50 min-h-screen justify-center">
     <div class="text-black bg-white rounded-md shadow-md mx-auto p-6 w-full max-w-7xl">
-        <h1 class="text-2xl font-bold mb-6 text-center md:text-left">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+        <h1 class="text-2xl font-bold mb-4 md:mb-0 text-center md:text-left">
             {{ isset($blog) ? 'Update' : 'Create' }} Blog Post
         </h1>
+        <a href="{{ route('blog.index') }}" class="btn btn-outline btn-sm md:btn-md text-black hover:bg-gray-100 hover:text-black border-gray-300 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back
+        </a>
+    </div>
 
-        <!-- Alert Messages -->
+        
         @if(session('success'))
         <div class="alert alert-success bg-green-100 text-green-800 px-4 py-2 rounded-lg mb-4 flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current mr-2" fill="none"
@@ -331,7 +338,6 @@
 
             <!-- Buttons -->
             <div class="flex justify-end space-x-2 mt-6">
-                <a href="{{ route('blog.index') }}" class="btn btn-ghost">Cancel</a>
                 <button type="submit" class="btn {{ isset($blog) ? 'btn-warning' : 'btn-primary' }} text-white">
                     {{ isset($blog) ? 'Update' : 'Create' }} Blog
                 </button>
@@ -405,7 +411,7 @@
             console.error("Trumbowyg belum dimuat!");
             return;
         }
-        // Initialize Trumbowyg
+        
         $("#blog_desc").trumbowyg({
             btnsDef: {
                 image: {
@@ -434,16 +440,16 @@
             ],
             plugins: {
                 upload: {
-                    serverPath: "/upload-image", // Ganti dengan endpoint API Anda
-                    fileFieldName: "image", // Nama field untuk file gambar
+                    serverPath: "/upload-image", 
+                    fileFieldName: "image", 
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                             "content",
                         ),
-                        Authorization: "Bearer " + getCookie("authToken"), // Sertakan token
+                        Authorization: "Bearer " + getCookie("authToken"), 
                         Accept: "application/json",
                     },
-                    urlPropertyName: "url", // Properti di response JSON yang berisi URL gambar
+                    urlPropertyName: "url", 
                     dropZone: true,
                     pasteImage: true,
                     xhrFields: {
@@ -477,25 +483,25 @@
             imageWidthModalEdit: true,
             defaultLinkTarget: "_blank",
             emoji: true,
-            // upload: {
-            //     serverPath: "/upload-image",
-            //     fileFieldName: "image",
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     },
-            //     urlPropertyName: "url",
-            //     dropZone: true,
-            //     pasteImage: true,
-            // },
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             tabToIndent: true,
         });
     
-        // Add word counter
+        
         $(".trumbowyg-box").append(
             '<div class="word-counter">Words: <span>0</span></div>',
         );
     
-        // Add counter styles
+        
         $("<style>")
             .text(
                 `
@@ -510,7 +516,7 @@
             )
             .appendTo("head");
     
-        // Initial word count
+        
         function countWords() {
             var text = $("#blog_desc").trumbowyg("html");
             var tempDiv = document.createElement("div");
@@ -530,10 +536,10 @@
             $(".word-counter span").text(wordCount);
         }
     
-        // Count words on load
+        
         countWords();
     
-        // Count words on changes
+        
         $("#blog_desc").on("tbwchange tbwpaste input keyup", countWords);
     
         function wrapAndAlignImages() {
@@ -640,10 +646,10 @@
         }
         </style>
         `;
-        // Tambahkan styles ke head
+        
         $("head").append(previewStyles);
     
-        // Event listeners untuk update real-time
+        
         $("#blog_name").on("input", function () {
             $("#preview-title").text($(this).val());
         });
@@ -659,7 +665,7 @@
                     let base64Data = img.attr("src");
     
                     let blobURL = base64ToBlobURL(base64Data);
-                    img.attr("src", blobURL); // Ganti Base64 dengan Blob URL
+                    img.attr("src", blobURL); 
                 });
             });
     
@@ -668,75 +674,6 @@
             fixImageAlignment();
             fixTableStyles();
             $("#preview-content").html($(this).trumbowyg("html"));
-            //         const previewStyles = `
-            // <style>
-            // .blog-content p {
-            //     lineheight: 1.7;
-            //     width: 100%;
-            //     max-width: inherit;
-            //     word-wrap: break-word;
-            // }
-            //     .blog-content h1 {
-            //         font-size: 2em;
-            //         font-weight: bold;
-            //         margin: 0.67em 0;
-            //     }
-    
-            //     .blog-content h2 {
-            //         font-size: 1.5em;
-            //         font-weight: bold;
-            //         margin: 0.83em 0;
-            //     }
-    
-            //     .blog-content h3 {
-            //         font-size: 1.17em;
-            //         font-weight: bold;
-            //         margin: 1em 0;
-            //     }
-    
-            //     .blog-content blockquote {
-            //         margin: 1em 40px;
-            //         padding-left: 15px;
-            //         border-left: 3px solid #ccc;
-            //     }
-            //     .blog-content ul {
-            //         list-style-type: disc;
-            //         margin: 1em 0;
-            //         padding-left: 40px;
-            //     }
-    
-            //     .blog-content ol {
-            //         list-style-type: decimal;
-            //         margin: 1em 0;
-            //         padding-left: 40px;
-            //     }
-    
-            //     .blog-content li {
-            //         display: list-item;
-            //         margin: 0.5em 0;
-            //     }
-    
-            //     .blog-content img {
-            //         display: inline-block;
-            //         vertical-align: middle;
-            //         max-width: 100%;
-            //         height: auto;
-            //     }
-    
-            //     .blog-content table {
-            //         width: 100%;
-            //         border-collapse: collapse;
-            //     }
-    
-            //     .blog-content th,
-            //     .blog-content td {
-            //         padding: 10px;
-            //         border: 1px solid #ddd;
-            //     }
-            //     </style>
-            //     `;
-            //     // Tambahkan styles ke head
-            //     $("head").append(previewStyles);
         });
     
         function applyAlignment(alignment) {
@@ -754,11 +691,12 @@
         function fixTableStyles() {
             $(".trumbowyg-editor table")
                 .css({
+
                     width: "100%",
                     "border-collapse": "collapse",
                 })
                 .each(function () {
-                    // Add colgroup if not exists
+                    
                     if (!$(this).find("colgroup").length) {
                         var colCount = $(this).find(
                             "tr:first td, tr:first th",
@@ -796,7 +734,7 @@
             const reader = new FileReader();
     
             reader.onload = function (e) {
-                // Preview kecil di bawah input
+                
                 if (!image) {
                     image = document.createElement("img");
                     image.id = "previewImg";
@@ -807,7 +745,7 @@
                 image.src = e.target.result;
                 preview.classList.remove("hidden");
     
-                // Preview di bagian preview blog
+                
                 previewBlog.innerHTML = `
                     <img src="${e.target.result}" 
                         class="rounded-xl md:rounded-3xl w-[300px] h-[150px] md:w-[800px] md:h-[400px] 2xl:w-[1000px] 2xl:h-[500px] mt-12 2xl:mt-20 z-10 object-cover"

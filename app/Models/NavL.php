@@ -22,9 +22,11 @@ class NavL extends Model
             ['id' => 1, 'name' => 'Dashboard', 'href' => 'dashboard'],
         ['id' => 2, 'name' => 'Products', 'href' => 'product.index'],
         ['id' => 3, 'name' => 'Services', 'href' => 'service.index'],
-        ['id' => 4, 'name' => 'Blog', 'href' => 'blog.index'],
-        ['id' => 5, 'name' => 'User', 'href' => 'user.index'],
-        ['id' => 6, 'name' => 'Category', 'href' => 'category.index'],
+        ['id' => 4, 'name' => 'FQ', 'href' => 'faq.index'],
+        ['id' => 5, 'name' => 'Category', 'href' => 'category.index'],
+        ['id' => 6, 'name' => 'Blog', 'href' => 'blog.index'],
+        ['id' => 7, 'name' => 'User', 'href' => 'user.index'],
+        ['id' => 8 ,'name' => 'REG','href' => 'register'],
         ];
     }
 }

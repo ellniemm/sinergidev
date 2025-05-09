@@ -1,6 +1,6 @@
 @extends('pages.layouts.layout')
 
-@section('title', 'Login')
+@section('title', 'Register - Sinergi Studio')
 
 @section('main')
 <div class="flex flex-col items-center justify-center h-screen px-4 2xl:px-0">
@@ -52,10 +52,7 @@
             </button>
         </form>
 
-        <p class="text-center mt-4 text-xs 2xl:text-lg">
-            Already have an account? 
-            <a href="/login" class="text-blue-500 hover:underline">Login</a>
-        </p>
+        
     </div>
 </div>
 
