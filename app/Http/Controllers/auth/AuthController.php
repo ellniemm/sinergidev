@@ -29,8 +29,8 @@ class AuthController extends Controller
         $email = $request->query('email');
 
         try{
-            $response = Http::post('http://localhost:8000/api/verify-email', [
-            // $response = Http::post('https://sinergi.dev.ybgee.my.id/api/verify-email', [
+            
+            $response = Http::post('https://sinergi.dev.ybgee.my.id/api/verify-email', [
                 'token' => $token,
                 'email' => $email,
             ]);
@@ -51,4 +51,114 @@ class AuthController extends Controller
             ]);
         }
     }
+
+    public function resendVerificationEmail(){
+        return view('pages.auth.resendVerificationEmail');
+    }
+    public function resendVerificationEmailPost(Request $request) {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+        
+        try {
+            
+            
+            $response = Http::post('https://sinergi.dev.ybgee.my.id/api/email/resend', [
+                'email' => $request->email,
+            ]);
+            
+            if ($response->successful()) {
+                return response()->json([
+                    'status' => '200',
+                    'message' => 'Verification email has been sent'
+                ]);
+            }
+            
+            return response()->json([
+                'status' => '400',
+                'message' => $response->json()['message'] ?? 'Failed to send verification email'
+            ], 400);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => '500',
+                'message' => 'Server error: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function forgotPassword(){
+        return view('pages.auth.forgotPassword');
+    }
+    public function forgotPasswordPost(Request $request) {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+        
+        try {
+            
+            $response = Http::post('https://sinergi.dev.ybgee.my.id/api/forgot-password', [
+                'email' => $request->email,
+            ]);
+            
+            if ($response->successful()) {
+                return response()->json([
+                    'status' => '200',
+                    'message' => 'Password reset link has been sent to your email'
+                ]);
+            }
+            
+            return response()->json([
+                'status' => '400',
+                'message' => $response->json()['message'] ?? 'Failed to send password reset link'
+            ], 400);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => '500',
+                'message' => 'Server error: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    public function resetPassword() {
+        return view('pages.auth.resetPassword');
+    }
+    
+    public function resetPasswordPost(Request $request) {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+        
+        try {
+            
+            $response = Http::post('https://sinergi.dev.ybgee.my.id/api/reset-password', [
+                'token' => $request->token,
+                'email' => $request->email,
+                'password' => $request->password,
+                'password_confirmation' => $request->password_confirmation,
+            ]);
+            
+            if ($response->successful()) {
+                return response()->json([
+                    'status' => '200',
+                    'message' => 'Password has been reset successfully'
+                ]);
+            }
+            
+            return response()->json([
+                'status' => '400',
+                'message' => $response->json()['message'] ?? 'Failed to reset password'
+            ], 400);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => '500',
+                'message' => 'Server error: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
 }
