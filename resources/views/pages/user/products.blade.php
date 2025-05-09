@@ -1,10 +1,11 @@
 @extends('pages.layouts.user')
+@section('title', 'Products - Sinergi Studio')
 
 @section('content')
 <header class="bg-[#0D192F] relative">
     <div class=" flex justify-between  ">
         <div class="text-white pt-28 pb-20 2xl:pt-44 px-10 2xl:px-20">
-            <h1 class="text-2xl md:text-5xl 2xl:text-8xl md:w-3/4 2xl:w-8/9 font-bold mb-7 2xl:mb-11">Temukan Produk
+            <h1 class="text-2xl md:text-5xl 2xl:text-7xl md:w-3/4 2xl:w-8/9 font-bold mb-7 2xl:mb-11">Temukan Produk
                 Terbaik Kami
             </h1>
             <div
@@ -99,7 +100,7 @@
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
                     <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[0]['product_name'] }}
                     </h3>
-                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
+                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-base 2xl:text-xl">
                         {{ $products[0]['product_desc'] }}
                     </div>
                     <a href="{{ route('products.detail', $products[0]['product_id'])}}"
@@ -124,34 +125,13 @@
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0">
                     <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[1]['product_name'] }}
                     </h3>
-                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
+                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-base 2xl:text-xl">
                         {{ $products[1]['product_desc'] }}
                     </div>
                     <a href="{{ route('products.detail', $products[1]['product_id'])}}"
                         class="2xl:text-lg border-2 border-black text-sm rounded-full px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
                         Full Story
                     </a>
-                </div>
-            </div>
-            @endif
-
-            @if(isset($products[2]))
-            {{-- === Project Card 3 === --}}
-            <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-                <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
-                    <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[2]['product_name'] }}
-                    </h3>
-                    <div class="text-gray-500 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
-                        {{ $products[2]['product_desc'] }}
-                    </div>
-                    <a href="{{ route('products.detail', $products[2]['product_id'])}}"
-                        class="2xl:text-lg border-2 border-black text-sm rounded-full px-5 py-2 text-black font-medium hover:bg-black hover:text-white transition duration-200">
-                        View More
-                    </a>
-                </div>
-                <div class="w-full lg:w-auto order-1 lg:order-none">
-                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[2]['product_img'] }}"
-                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] shadow-2xl mx-auto">
                 </div>
             </div>
             @endif
