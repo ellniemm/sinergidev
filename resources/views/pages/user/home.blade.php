@@ -1,4 +1,5 @@
 @extends('pages.layouts.user')
+@section('title', 'Home - Sinergi Studio')
 
 @section('content')
 <!-- === Hero Section === -->
@@ -15,7 +16,7 @@
                 mobile, pengembangan game, dan pemasaran digital yang dirancang
                 khusus untuk membantu bisnis Anda berkembang.
             </div>
-            <a href="#"
+            <a href="#layanankami"
                 class="inline-flex items-center text-sm 2xl:text-2xl text-white font-semibold bg-gray-400 bg-opacity-20 py-2 2xl:py-4 px-4 2xl:px-10 rounded-xl gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-[30px] [h-30px] 2xl:w-[40px] 2xl:h-[40px] text-white"
                     viewBox="0 0 24 24">
@@ -54,15 +55,15 @@
         </h1>
         <div class="flex flex-col space-y-8 py-8">
             @if(isset($products[0]))
-            {{-- === Project Card 1 === --}}
+            
             <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
                     <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[0]['product_name'] }}</h3>
-                    <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
+                    <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-base 2xl:text-2xl">
                         {{ $products[0]['product_desc'] }}
                     </div>
                     <a href="{{ route('products.detail', $products[0]['product_id'])}}"
-                        class="2xl:text-lg border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
+                        class="2xl:text-base border-2 border-white text-xs rounded-full px-3 py-2 text-white font-normal hover:bg-white hover:text-[#1E2A38] transition duration-200">
                         View More
                     </a>
                 </div>
@@ -74,7 +75,7 @@
             @endif
 
             @if(isset($products[1]))
-            {{-- === Project Card 2 === --}}
+            
             <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
                 <div class="w-full lg:w-auto">
                     <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[1]['product_img'] }}"
@@ -82,33 +83,14 @@
                 </div>
                 <div class="w-full lg:w-1/2 mb-6 lg:mb-0">
                     <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[1]['product_name'] }}</h3>
-                    <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
+                    <div
+                        class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium md:text-base 2xl:text-2xl">
                         {{ $products[1]['product_desc'] }}
                     </div>
                     <a href="{{ route('products.detail', $products[1]['product_id'])}}"
-                        class="2xl:text-lg border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
+                        class="2xl:text-base border-2 border-white text-xs rounded-full px-4 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
                         Full Story
                     </a>
-                </div>
-            </div>
-            @endif
-
-            @if(isset($products[2]))
-            {{-- === Project Card 3 === --}}
-            <div class="w-full lg:w-3/4 2xl:w-5/6 mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-                <div class="w-full lg:w-1/2 mb-6 lg:mb-0 order-2 lg:order-none">
-                    <h3 class="text-lg 2xl:text-3xl font-semibold mb-4 2xl:mb-5">{{ $products[2]['product_name'] }}</h3>
-                    <div class="text-gray-400 mb-8 2xl:mb-10 md:whitespace-pre-line font-medium text-lg 2xl:text-2xl">
-                        {{ $products[2]['product_desc'] }}
-                    </div>
-                    <a href="{{ route('products.detail', $products[2]['product_id'])}}"
-                        class="2xl:text-lg border-2 border-white text-sm rounded-full px-5 py-2 text-white font-medium hover:bg-white hover:text-[#1E2A38] transition duration-200">
-                        View More
-                    </a>
-                </div>
-                <div class="w-full lg:w-auto order-1 lg:order-none">
-                    <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[2]['product_img'] }}"
-                        class="rounded-lg bg-gray-400 w-[300px] h-[300px] mx-auto">
                 </div>
             </div>
             @endif
@@ -118,14 +100,14 @@
     </div>
 </section>
 
-{{-- === Fakta section === --}}
+
 <section class="bg-white text-black w-full">
     <div class="w-3/4 mx-auto py-10">
         <h1 class="text-center py-20 font-bold text-3xl 2xl:text-6xl">
             Fakta <span class="text-[#4796A3]">Kami</span>
         </h1>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
-            {{-- Fakta 1 --}}
+            
             <div class="flex flex-col items-center">
                 <div class="flex items-center space-x-2">
                     <div class="text-6xl text-gray-400 mr-2">
@@ -146,7 +128,7 @@
                     Client and Patners
                 </p>
             </div>
-            {{-- Fakta 2 --}}
+            
             <div class="flex flex-col items-center">
                 <div class="flex items-center space-x-2">
                     <div class="text-6xl text-gray-400 mr-2">
@@ -163,7 +145,7 @@
                     Problem Solved
                 </p>
             </div>
-            {{-- Fakta 3 --}}
+            
             <div class="flex flex-col items-center">
                 <div class="flex items-center space-x-2">
                     <div class="text-6xl text-gray-400 mr-2">
@@ -183,7 +165,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 py-4 gap-8 mb-8 mx-auto sm:w-2/3">
-            {{-- Fakta 4 --}}
+            
             <div class="flex flex-col items-center">
                 <div class="flex items-center space-x-2">
                     <div class="text-6xl text-gray-400 mr-2">
@@ -198,7 +180,7 @@
                     Sinergi Talent
                 </p>
             </div>
-            {{-- Fakta 4 --}}
+            
             <div class="flex flex-col items-center">
                 <div class="flex items-center space-x-2">
                     <div class="text-6xl text-gray-400 mr-2">
@@ -220,8 +202,8 @@
     </div>
 </section>
 
-{{-- === Layanan Kami section === --}}
-<section class="bg-[#5D82AC] w-full  py-16 relative overflow-hidden">
+
+<section class="bg-[#5D82AC] w-full  py-16 relative overflow-hidden" id="layanankami">
     <div class="w-3/4 mx-auto container py-16 ">
         <h1 class="text-3xl 2xl:text-6xl font-bold text-white">
             Layanan
@@ -230,40 +212,44 @@
         </h1>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-4 2xl:gap-8 w-5/6 2xl:w-8/12 mx-auto justify-center ">
-        {{-- Card 1 - Left Side --}}
-        <div class="bg-[#0D192F] text-white p-6 rounded-xl shadow-lg lg:w-2/6 w-full py-16 z-10">
-            <div>
+    <div class="flex flex-col lg:flex-row gap-4 2xl:gap-8 w-11/12 md:w-5/6 2xl:w-8/12 mx-auto justify-center ">
+        
+        <div class="bg-[#0D192F] text-white p-6 rounded-xl shadow-lg lg:w-2/5 w-full py-5 md:py-16 z-10">
+            <div class="flex justify-between items-center gap-4">
                 <svg class="w-[50px] h-[50px] 2xl:w-[60px] 2xl:h-[60px]" viewBox="0 0 70 78" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M62.2221 0C64.2849 0 66.2632 0.819442 67.7218 2.27806C69.1804 3.73667 69.9999 5.71498 69.9999 7.77778V54.4445C69.9999 56.5072 69.1804 58.4856 67.7218 59.9442C66.2632 61.4028 64.2849 62.2222 62.2221 62.2222H7.77766C5.71486 62.2222 3.73655 61.4028 2.27794 59.9442C0.81932 58.4856 -0.00012207 56.5072 -0.00012207 54.4445V7.77778C-0.00012207 5.71498 0.81932 3.73667 2.27794 2.27806C3.73655 0.819442 5.71486 0 7.77766 0H62.2221ZM62.2221 23.3333H7.77766V50.5556C7.77778 51.5081 8.12748 52.4274 8.76044 53.1392C9.39339 53.851 10.2656 54.3058 11.2115 54.4172L11.6665 54.4445H58.3332C59.2857 54.4443 60.2051 54.0946 60.9169 53.4617C61.6287 52.8287 62.0834 51.9565 62.1949 51.0106L62.2221 50.5556V23.3333ZM11.6665 7.77778C10.6351 7.77778 9.64599 8.1875 8.91669 8.91681C8.18738 9.64612 7.77766 10.6353 7.77766 11.6667C7.77766 12.6981 8.18738 13.6872 8.91669 14.4165C9.64599 15.1458 10.6351 15.5556 11.6665 15.5556C12.6979 15.5556 13.6871 15.1458 14.4164 14.4165C15.1457 13.6872 15.5554 12.6981 15.5554 11.6667C15.5554 10.6353 15.1457 9.64612 14.4164 8.91681C13.6871 8.1875 12.6979 7.77778 11.6665 7.77778ZM23.3332 7.77778C22.3018 7.77778 21.3127 8.1875 20.5834 8.91681C19.854 9.64612 19.4443 10.6353 19.4443 11.6667C19.4443 12.6981 19.854 13.6872 20.5834 14.4165C21.3127 15.1458 22.3018 15.5556 23.3332 15.5556C24.3646 15.5556 25.3538 15.1458 26.0831 14.4165C26.8124 13.6872 27.2221 12.6981 27.2221 11.6667C27.2221 10.6353 26.8124 9.64612 26.0831 8.91681C25.3538 8.1875 24.3646 7.77778 23.3332 7.77778ZM34.9999 7.77778C33.9685 7.77778 32.9793 8.1875 32.25 8.91681C31.5207 9.64612 31.111 10.6353 31.111 11.6667C31.111 12.6981 31.5207 13.6872 32.25 14.4165C32.9793 15.1458 33.9685 15.5556 34.9999 15.5556C36.0313 15.5556 37.0204 15.1458 37.7497 14.4165C38.479 13.6872 38.8888 12.6981 38.8888 11.6667C38.8888 10.6353 38.479 9.64612 37.7497 8.91681C37.0204 8.1875 36.0313 7.77778 34.9999 7.77778Z"
                         fill="white" />
                 </svg>
+                <h3 class="block md:hidden text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">{{
+                    $services[0]['service_name']}}</h3>
             </div>
             @if (isset($services[0]))
 
-            <h3 class="text-2xl 2xl:text-4xl font-semibold mb-4 2xl:mb-7">{{ $services[0]['service_name']}}</h3>
-            <p class="text-gray-400 font-medium text-base 2xl:text-2xl mb-5 w-11/12 ">
+            <h3 class="hidden md:block text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">{{
+                $services[0]['service_name']}}</h3>
+            <p class="hidden md:block text-gray-400 font-medium text-sm md:text-base 2xl:text-xl mb-5 w-11/12 ">
                 Layanan ini mencakup berbagai aspek, mulai dari desain antarmuka pengguna (UI)
                 dan pengalaman pengguna (UX), pengembangan front-end dan back-end.
             </p>
-            <p class="text-gray-400 font-medium text-base 2xl:text-2xl mb-10 w-11/12 ">
+            <p class="text-gray-400 font-medium text-sm 2xl:text-xl mb-10 w-11/12 ">
                 {{ $services[0]['service_desc']}}
             </p>
-            <a href="#" class="text-white 2xl:text-xl font-semibold rounded-xl mt-5 c">
+            <a href="{{ route('services.detail', $services[0]['service_id'])}}"
+                class="text-white text-sm 2xl:text-lg font-semibold rounded-xl mt-5 c">
                 Learn More
             </a>
             @endif
         </div>
 
-        {{-- Right Side Container for Cards 2 & 3 --}}
+        
         <div class="flex flex-col gap-4 2xl:gap-8 lg:justify-center lg:w-1/2 2xl:w-2/4 w-full">
-            {{-- Card 2 --}}
-            @if (isset($services[2]))
+            
+            @if (isset($services[1]))
 
             <div class="bg-white text-[#0D192F] p-6 rounded-xl shadow-lg z-10">
-                <div>
+                <div class="flex justify-between items-center gap-4">
                     <svg class="w-[50px] h-[50px] 2xl:w-[60px] 2xl:h-[60px]" viewBox="0 0 70 70" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_536_104)">
@@ -286,43 +272,51 @@
                             </clipPath>
                         </defs>
                     </svg>
+                    <h3 class="block md:hidden text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
+                        {{$services[1]['service_name']}}
+                    </h3>
                 </div>
-                <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
+                <h3 class=" hidden md:block text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
                     {{$services[1]['service_name']}}
                 </h3>
-                <p class="font-medium text-base *:2xl:text-2xl mb-8">
+                <p class="font-medium text-base 2xl:text-xl mb-8">
                     Layanan ini mencakup berbagai aspek, mulai dari desain antarmuka pengguna (UI) dan pengalaman
                     pengguna (UX), pengembangan aplikasi untuk platform iOS dan Android, hingga pengujian dan penerapan.
                 </p>
-                <a href="" class="font-bold 2xl:text-xl">
+                <a href="{{ route('services.detail', $services[1]['service_id'])}}"
+                    class="text-sm font-semibold 2xl:text-lg">
                     Learn More
                 </a>
             </div>
             @endif
 
-            {{-- Card 3 --}}
+            
             @if (isset($services[2]))
 
             <div class="bg-white text-[#0D192F] p-6 rounded-xl shadow-lg z-10">
-                <div>
+                <div class="flex justify-between items-center gap-4">
                     <svg class="w-[50px] h-[50px] 2xl:w-[60px] 2xl:h-[60px]" viewBox="0 0 70 70" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M66.0529 33.5482C63.1531 20.4382 58.789 13.441 52.3154 11.5297C50.9546 11.1304 49.543 10.931 48.1249 10.9377C46.2505 10.9377 44.6181 11.3943 42.8913 11.8783C40.8105 12.4621 38.4466 13.1252 34.9999 13.1252C31.5533 13.1252 29.188 12.4634 27.1031 11.8797C25.3749 11.3943 23.7439 10.9377 21.8749 10.9377C20.4085 10.9325 18.9485 11.1313 17.5368 11.5283C11.0974 13.4314 6.73607 20.4259 3.79388 33.54C0.630208 47.6521 2.18743 56.5621 8.16068 58.6293C8.97945 58.9179 9.84095 59.0667 10.7091 59.0695C14.8011 59.0695 18.0824 55.6611 20.3245 52.8707C22.8579 49.7125 25.8234 48.1101 34.9999 48.1101C43.1962 48.1101 46.5882 49.2216 49.5181 52.8707C51.3597 55.1648 53.1001 56.7699 54.8365 57.7802C57.1456 59.1228 59.4535 59.4209 61.6943 58.6511C65.2243 57.4466 67.2478 54.2625 67.7099 49.1847C68.0613 45.291 67.5199 40.1763 66.0529 33.5482ZM28.4374 32.8127H24.0624V37.1877C24.0624 37.7678 23.832 38.3242 23.4217 38.7345C23.0115 39.1447 22.4551 39.3752 21.8749 39.3752C21.2948 39.3752 20.7384 39.1447 20.3281 38.7345C19.9179 38.3242 19.6874 37.7678 19.6874 37.1877V32.8127H15.3124C14.7323 32.8127 14.1759 32.5822 13.7656 32.172C13.3554 31.7617 13.1249 31.2053 13.1249 30.6252C13.1249 30.045 13.3554 29.4886 13.7656 29.0784C14.1759 28.6681 14.7323 28.4377 15.3124 28.4377H19.6874V24.0627C19.6874 23.4825 19.9179 22.9261 20.3281 22.5159C20.7384 22.1056 21.2948 21.8752 21.8749 21.8752C22.4551 21.8752 23.0115 22.1056 23.4217 22.5159C23.832 22.9261 24.0624 23.4825 24.0624 24.0627V28.4377H28.4374C29.0176 28.4377 29.574 28.6681 29.9842 29.0784C30.3945 29.4886 30.6249 30.045 30.6249 30.6252C30.6249 31.2053 30.3945 31.7617 29.9842 32.172C29.574 32.5822 29.0176 32.8127 28.4374 32.8127ZM39.9218 33.3595C39.381 33.3595 38.8523 33.1992 38.4027 32.8987C37.953 32.5983 37.6025 32.1712 37.3956 31.6716C37.1886 31.1719 37.1345 30.6221 37.24 30.0917C37.3455 29.5613 37.6059 29.0741 37.9883 28.6917C38.3707 28.3093 38.8579 28.0488 39.3884 27.9433C39.9188 27.8378 40.4686 27.892 40.9682 28.0989C41.4678 28.3059 41.8949 28.6564 42.1954 29.106C42.4958 29.5557 42.6562 30.0844 42.6562 30.6252C42.6562 31.3504 42.3681 32.0459 41.8553 32.5587C41.3425 33.0715 40.647 33.3595 39.9218 33.3595ZM45.9374 39.3752C45.3963 39.3752 44.8674 39.2146 44.4176 38.9139C43.9678 38.6131 43.6173 38.1856 43.4106 37.6856C43.2038 37.1856 43.1501 36.6354 43.2561 36.1048C43.3622 35.5742 43.6233 35.087 44.0064 34.7049C44.3895 34.3227 44.8773 34.0629 45.4082 33.9581C45.9391 33.8534 46.4891 33.9085 46.9886 34.1165C47.4881 34.3245 47.9147 34.6761 48.2143 35.1266C48.5139 35.5772 48.6732 36.1065 48.6718 36.6476C48.67 37.3716 48.3811 38.0654 47.8685 38.5767C47.3559 39.088 46.6615 39.3752 45.9374 39.3752ZM45.9374 27.3439C45.3966 27.3439 44.868 27.1835 44.4183 26.8831C43.9686 26.5826 43.6182 26.1556 43.4112 25.6559C43.2042 25.1563 43.1501 24.6065 43.2556 24.0761C43.3611 23.5457 43.6215 23.0584 44.0039 22.676C44.3863 22.2936 44.8736 22.0332 45.404 21.9277C45.9344 21.8222 46.4842 21.8763 46.9838 22.0833C47.4835 22.2903 47.9105 22.6407 48.211 23.0904C48.5114 23.5401 48.6718 24.0687 48.6718 24.6095C48.6718 25.3347 48.3837 26.0302 47.8709 26.543C47.3581 27.0558 46.6626 27.3439 45.9374 27.3439ZM51.9531 33.3595C51.4123 33.3595 50.8836 33.1992 50.4339 32.8987C49.9843 32.5983 49.6338 32.1712 49.4268 31.6716C49.2199 31.1719 49.1657 30.6221 49.2712 30.0917C49.3767 29.5613 49.6372 29.0741 50.0196 28.6917C50.402 28.3093 50.8892 28.0488 51.4196 27.9433C51.95 27.8378 52.4998 27.892 52.9995 28.0989C53.4991 28.3059 53.9262 28.6564 54.2266 29.106C54.5271 29.5557 54.6874 30.0844 54.6874 30.6252C54.6874 31.3504 54.3994 32.0459 53.8866 32.5587C53.3738 33.0715 52.6783 33.3595 51.9531 33.3595Z"
                             fill="#0D192F" />
                     </svg>
+                    <h3 class="block md:hidden text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
+                        {{$services[2]['service_name']}}
+                    </h3>
                 </div>
-                <h3 class="text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
+                <h3 class="hidden md:block text-2xl 2xl:text-3xl font-semibold mb-4 2xl:mb-7 mt-2 2xl:mt-4">
                     {{$services[2]['service_name']}}
                 </h3>
 
-                <p class="font-medium text-base 2xl:text-2xl mb-8">
+                <p class="font-medium text-base 2xl:text-xl mb-8">
                     Layanan ini mencakup proses pembuatan permainan video untuk berbagai platform, seperti komputer,
                     konsol, dan perangkat seluler dan berbagai aspek, mulai dari desain konsep permainan, pembuatan aset
                     grafis dan
                     suara, pemrograman permainan, hingga pengujian dan penerapan.
                 </p>
-                <a href="" class="font-bold 2xl:text-xl">
+                <a href="{{ route('services.detail', $services[2]['service_id'])}}"
+                    class="text-sm font-semibold 2xl:text-lg">
                     Learn More
                 </a>
             </div>
