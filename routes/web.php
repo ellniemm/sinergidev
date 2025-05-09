@@ -28,7 +28,7 @@ Route::get('/blogs', [UserPagesController::class, 'blog'])->name('blog.user');
 Route::get('/blogs/{slug}', [UserPagesController::class, 'blogDetail'])->name('blog.detail');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
+
 Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
 Route::get('/auth/password-reset', [AuthController::class, 'resetPassword'])->name('reset.password');
 Route::get('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verify.email');
@@ -36,14 +36,16 @@ Route::get('/auth/email/resend', [AuthController::class, 'resendVerificationEmai
 // Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
 
 Route::middleware(['checkToken'])->group(function () {
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::get('/dashboard', [PagesController::class, 'index'])->name('dashboard');
 
     Route::get('/product', [ProductController::class, 'product'])->name('product.index');
-    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
 
+
+    Route::get('/category', [CategoryController::class, 'category'])->name('category.index');
+    
     Route::get('/service', [ServiceController::class, 'service'])->name('service.index');
-    Route::get('/service/create', [ServiceController::class, 'serviceCreate'])->name('service.create');
-
+    
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
     Route::post('/blog/create', [BlogController::class, 'store'])->name('blog.store');
@@ -54,5 +56,8 @@ Route::middleware(['checkToken'])->group(function () {
 
     Route::get('/users', [UserController::class, 'user'])->name('user.index');
 
-    Route::get('/category', [CategoryController::class, 'category'])->name('category.index');
+    Route::get('/faq', [PagesController::class, 'faq'])->name('faq.index');
+    Route::get('/faq/{fqId}', [PagesController::class, 'faqDetail'])->name('admin.faq.detail');
+    Route::delete('/faq/{fqId}', [PagesController::class, 'faqDelete'])->name('admin.faq.delete');
+    Route::post('/faq/{fqId}/reply', [PagesController::class, 'faqReply'])->name('admin.faq.reply');
 });
