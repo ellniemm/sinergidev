@@ -15,6 +15,7 @@
                 <div>
                     <label class="block text-sm font-medium">Service Description</label>
                     <textarea class="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200"
+                    rows="5"
                         wire:model='serviceDescription'
                         wire:key="serviceDescription-{{ $updateData ? $service_id : now() }}"></textarea>
                 </div>
@@ -146,7 +147,7 @@
     let image = preview.querySelector('img'); 
 
     if (!image) {
-        // Jika img belum ada, buat elemen img baru
+        
         image = document.createElement('img');
         image.id = 'previewImg';
         image.className = 'max-w-[250px] h-auto object-cover rounded-lg mx-auto';
