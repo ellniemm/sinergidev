@@ -1,4 +1,5 @@
 @extends('pages.layouts.user')
+@section('title', 'Web Development - Sinergi Studio')
 
 @section('content')
 <header class="bg-[#0D192F] w-full">
@@ -42,12 +43,16 @@
             tujuan bisnis Anda.</div>
     </div>
 
-    {{-- =Image= --}}
+
     <div class="relative">
         <div class="absolute inset-0 bg-[#0D192F] opacity-50 z-10"></div>
         <img src="{{ asset('img/Web-Development.jpg')}}" alt="Web-Development"
             class="w-full h-[200px] md:h-auto  object-cover z-0 ">
+
     </div>
+    <p class="text-xs text-gray-500 mt-2 text-center">Photo by <a
+            href="https://stock.adobe.com/search?creator_id=207506740&filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aillustration%5D=1&filters%5Bcontent_type%3Azip_vector%5D=1&filters%5Bcontent_type%3Avideo%5D=1&filters%5Bcontent_type%3Atemplate%5D=1&filters%5Bcontent_type%3A3d%5D=1&filters%5Bfetch_excluded_assets%5D=1&filters%5Bcontent_type%3Aimage%5D=1&order=relevance&k=web&search_page=1&search_type=usertyped&acp=&aco=web&get_facets=0&asset_id=419269782"
+            target="_blank" class="underline hover:text-gray-700 transition-colors">SergeyBitos</a></p>>
 
 
     <div class="px-6 md:px-20 pt-10 md:pt-32 pb-10 md:pb-20 md:w-11/12">
@@ -91,7 +96,7 @@
         </p>
     </div>
 </section>
-{{-- <section class="bg-white text-black pt-10">
+<section class="bg-white text-black pt-10">
     <div>
         <h1 class="text-xl md:text-4xl font-semibold md:font-semibold text-center">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">
@@ -99,13 +104,7 @@
             </span>
         </h1>
         <div class=" py-16 grid grid-cols-1 md:grid-cols-3 w-5/6 gap-20 mx-auto justify-items-center">
-            <div class="flex flex-col gap-2">
-                <div class="bg-gray-400 rounded-2xl w-[300px] h-[200px]"></div>
-                <h1 class="text-2xl font-semibold mb-5">Lorem, ipsum.</h1>
-                <a href="#" class="text-sm  "></a>
-                Lihat Detail
-                </a>
-            </div>
+
             @if (isset($products[0]))
 
             <div class="flex flex-col gap-2">
@@ -117,14 +116,8 @@
                 </a>
             </div>
             @endif
-            <div class="flex flex-col gap-2">
-                <div class="bg-gray-400 rounded-2xl w-[300px] h-[200px]"></div>
-                <h1 class="text-2xl font-semibold mb-5">Lorem, ipsum.</h1>
-                <a href="#" class="text-sm  "></a>
-                Lihat Detail
-                </a>
-            </div>
+
         </div>
     </div>
-</section> --}}
+</section>
 @endsection

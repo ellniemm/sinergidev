@@ -1,4 +1,5 @@
 @extends('pages.layouts.user')
+@section('title', 'Mobile Development - Sinergi Studio')
 
 @section('content')
 <header class="bg-[#0D192F] w-full">
@@ -46,7 +47,11 @@
     <div class="relative">
         <div class="absolute inset-0 bg-[#0D192F] opacity-50 z-10"></div>
         <img src="{{ asset('img/mobiledev.png')}}" alt="Mobile-Development" class="w-full object-cover z-1 ">
+
     </div>
+    <p class="text-xs text-gray-500 mt-2 text-center">Photo by <a
+            href="https://cdn.axalize.vn/media/content/images/mobile-app-development-company_wsoXHkf.jpeg"
+            target="_blank" class="underline hover:text-gray-700 transition-colors">Axalize</a></p>>
 
     <div class="px-20 pt-32 pb-20 w-11/12">
         <h1 class="text-4xl font-bold mb-5">
@@ -104,7 +109,7 @@
         </p>
     </div>
 </section>
-<section class="bg-white text-black pt-10">
+{{-- <section class="bg-white text-black pt-10">
     <div>
         <h1 class="text-4xl font-semibold text-center">
             <span class="bg-gradient-to-r from-[#4796A3] to-[#0D192F] bg-clip-text text-transparent">
@@ -122,7 +127,8 @@
             @if (isset($products[2]))
 
             <div class="flex flex-col gap-2">
-                <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[2]['product_img'] }}" alt="" class="rounded-2xl w-[300px] h-[200px] object-cover">
+                <img src="https://sinergi.dev.ybgee.my.id/img/product/{{ $products[2]['product_img'] }}" alt=""
+                    class="rounded-2xl w-[300px] h-[200px] object-cover">
                 <h1 class="text-2xl font-semibold mb-5">{{$products[2]['product_name']}}</h1>
                 <a href="{{ route('products.detail', $products[2]['product_id'])}}" class="text-sm">
                     Lihat Detail
@@ -138,5 +144,5 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 @endsection
